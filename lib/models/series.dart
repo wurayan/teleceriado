@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Series {
-  final int? id;
+  final String id;
   final String nome;
   final Text descricao;
   final String? imagem;

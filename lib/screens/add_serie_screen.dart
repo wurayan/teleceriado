@@ -2,6 +2,7 @@
 import 'package:bloco_notas/database/dao/series_dao.dart';
 import 'package:bloco_notas/models/series.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 
 class SeriesForm extends StatefulWidget {
@@ -63,8 +64,9 @@ class _SeriesFormState extends State<SeriesForm> {
                         String nome = _nomeController.text;
                         Text descricao = _descricaoController.text as Text;
                         String imagem = _imagemController.toString();
+                        String id = const Uuid().v1();
                         final Series newSerie =
-                            Series(null, nome, descricao, imagem);
+                            Series(id, nome, descricao, imagem);
                         _dao.save(newSerie);
                         Navigator.pop(context, true);
                       },
