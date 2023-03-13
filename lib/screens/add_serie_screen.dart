@@ -1,9 +1,7 @@
-
 import 'package:bloco_notas/database/dao/series_dao.dart';
 import 'package:bloco_notas/models/series.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
-
 
 class SeriesForm extends StatefulWidget {
   const SeriesForm({super.key});
@@ -16,8 +14,15 @@ class _SeriesFormState extends State<SeriesForm> {
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _descricaoController = TextEditingController();
   final TextEditingController _imagemController = TextEditingController();
+ 
 
   final SeriesDao _dao = SeriesDao();
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _imagemController.text = 'https://unsplash.com/pt-br/fotografias/Vy2cHqm0mCs';
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +58,7 @@ class _SeriesFormState extends State<SeriesForm> {
                 keyboardType: TextInputType.url,
                 decoration: const InputDecoration(labelText: "Link da Imagem"),
                 style: const TextStyle(fontSize: 24),
+                
               ),
             ),
             Padding(
@@ -61,10 +67,15 @@ class _SeriesFormState extends State<SeriesForm> {
                   width: MediaQuery.of(context).size.width,
                   child: ElevatedButton(
                       onPressed: () {
+                        setState(() {
+                           if (_imagemController.text.isEmpty) {
+                          _imagemController.text = 'https://unsplash.com/pt-br/fotografias/Vy2cHqm0mCs';
+                        }
+                        });
                         String nome = _nomeController.text;
-                        Text descricao = _descricaoController.text as Text;
-                        String imagem = _imagemController.toString();
+                        String descricao = _descricaoController.text;
                         String id = const Uuid().v1();
+                        String imagem = _imagemController.text;
                         final Series newSerie =
                             Series(id, nome, descricao, imagem);
                         _dao.save(newSerie);

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
-class Series {
-  final String id;
+class Episodios {
+  final int id;
   final String nome;
+  final String? imagem;
   final String descricao;
-  final String imagem;
+  final String serieId;
 
-  Series(
+  Episodios(
     this.id,
     this.nome,
-    this.descricao, 
     this.imagem,
+    this.descricao,
+    this.serieId
   );
 }

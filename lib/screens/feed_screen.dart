@@ -19,7 +19,6 @@ class _FeedScreenState extends State<FeedScreen> {
         title: const Text('Suas Séries'),
       ),
       body: FutureBuilder<List<Series>>(
-          //initialdata retornna um valor default enquanto carrega o future
           initialData: const [],
           future: _dao.findAllSeries(),
           builder: (context, snapshot) {
@@ -34,6 +33,7 @@ class _FeedScreenState extends State<FeedScreen> {
               case ConnectionState.done:
                 final List<Series> seriesList =
                     snapshot.data as List<Series>;
+                print(seriesList.toString());
                 return ListView.builder(
                   itemBuilder: (context, int index) {
                     final Series serie = seriesList[index];
@@ -47,7 +47,7 @@ class _FeedScreenState extends State<FeedScreen> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-
+          Navigator.pushNamed(context, 'addSerie');
         },
         child: const Icon(Icons.add),
       ),
@@ -66,6 +66,9 @@ class _SeriesItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
+        onTap: (){
+          Navigator.pushNamed(context, 'addEpisodios', arguments: serie);
+        },
         leading: Image.network(serie.imagem.toString()),
         title: Text(
           serie.nome,
