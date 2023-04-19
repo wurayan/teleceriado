@@ -11,6 +11,7 @@ class Serie {
   String? descricao;
   String? imagemUrl;
   List<dynamic>? episodios;
+  List<dynamic>? imagens;
 
   Serie({
     required this.id,
@@ -24,7 +25,8 @@ class Serie {
     required this.thumbUrl,
     required this.descricao,
     required this.imagemUrl,
-    required this.episodios
+    required this.episodios,
+    required this.imagens,
   });
 
   Serie.fromMap(Map<String, dynamic> map)
@@ -38,9 +40,9 @@ class Serie {
         status = map['status'],
         thumbUrl = map['image_thumbnail_path'],
         descricao = map['description'],
-        /
-        imagemUrl = map['pictures']!=null ? map['pictures'] : map['image_path'],
-        episodios = map['episodes']
+        imagemUrl = map['image_path'],
+        episodios = map['episodes'],
+        imagens = map['pictures']
         ;
 
 

@@ -30,7 +30,6 @@ class EpisodateService {
         result.add(Serie.fromMap(map));
       }
     }
-    print('tamanaho da lista: ${result.length}');
     return result;
   }
 
