@@ -3,6 +3,7 @@ class Episodio {
   int temporada;
   String nome;
   String estreia;
+  String? imagem;
   String? descricao;
 
   Episodio({
@@ -10,6 +11,7 @@ class Episodio {
     required this.temporada,
     required this.nome,
     required this.estreia,
+    this.imagem,
     this.descricao,
   });
 

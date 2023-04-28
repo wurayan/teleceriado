@@ -1,10 +1,10 @@
 # teleceriado
 
-    Aplicativo de gerenciamento de episódios de séries que permite adicionar descrições individuais para cada episódios e compartilhá-las com seus amigos.
+Aplicativo de gerenciamento de episódios de séries que permite adicionar descrições individuais para cada episódios e compartilhá-las com seus amigos.
 
-## Versões   
-Versão 0.0.1  
-    - Criação do projeto e conexão com a API Episodate;
-    - Criação da tela inicial;
-    - Criação da tela de detalhes do episódio;
+## VERSÕES   
+## Versão 0.0.1  
+    - Criação do projeto e conexão com a API Episodate;  
+    - Criação da tela inicial;  
+    - Criação da tela de detalhes do episódio;  
     
