@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:teleceriado/screens/show_details.dart';
+import 'package:teleceriado/screens/serie/show_details.dart';
 import 'package:teleceriado/services/api_service.dart';
-
 import '../models/serie_model.dart';
 
 class SearchFeed extends StatefulWidget {
@@ -30,15 +28,19 @@ class _SearchFeedState extends State<SearchFeed> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.only(top: 15),
       child: seriesPopulares.isNotEmpty
           ? CustomScrollView(
               slivers: [
-                const SliverToBoxAdapter(
-                  child: Text(
-                    'Mais Populares',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                 SliverToBoxAdapter(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: width*0.02, bottom: width*0.01),
+                    child: const Text(
+                      'Mais Populares',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ),
                 _PopularList(items: seriesPopulares)
