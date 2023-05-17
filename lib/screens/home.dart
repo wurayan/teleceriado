@@ -31,6 +31,7 @@ class _HomeState extends State<Home> {
         ],
         centerTitle: true,
       ),
+      
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'SearchFeed'),

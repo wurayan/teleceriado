@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
@@ -6,6 +7,18 @@ class UserFeed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return CustomScrollView(
+      slivers: [
+        const SliverToBoxAdapter(
+          child: Text('Favoritos:'),
+        ),
+        // SliverList(delegate: 
+        // SliverChildBuilderDelegate(
+        //   childCount: 10,
+        //   (context, index) {
+        //     return 
+        //   } ))
+      ],
+    );
   }
 }

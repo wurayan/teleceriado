@@ -28,20 +28,33 @@ class _ShowDetailsState extends State<ShowDetails> {
     double height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          child: const Padding(
+            padding: EdgeInsets.only(top:3),
+            child: Icon(
+              Icons.favorite_border_rounded,
+              size: 40,
+            ),
+          ),
+        ),
         body: Stack(
           children: [
             CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
-                  child: SerieHeader(serie: _serie,)
-                ),
+                    child: SerieHeader(
+                  serie: _serie,
+                )),
                 SliverList(
                   delegate: SliverChildBuilderDelegate((context, index) {
                     Episodio episodio =
                         Episodio.fromMap(_serie.episodios![index]);
                     return _EpisodioItem(
-                        episodio: episodio,
-                        episodioImagem: _serie.imagens![index%_serie.imagens!.length],);
+                      episodio: episodio,
+                      episodioImagem:
+                          _serie.imagens![index % _serie.imagens!.length],
+                    );
                   }, childCount: _serie.episodios!.length),
                 ),
               ],
@@ -67,9 +80,8 @@ class _ShowDetailsState extends State<ShowDetails> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(width * 0.02),
-                    child: const OptionsButton()
-                  )
+                      padding: EdgeInsets.all(width * 0.02),
+                      child: const OptionsButton())
                 ],
               ),
             )
@@ -83,8 +95,7 @@ class _ShowDetailsState extends State<ShowDetails> {
 class _EpisodioItem extends StatelessWidget {
   final Episodio episodio;
   final String episodioImagem;
-  const _EpisodioItem(
-      {required this.episodio, required this.episodioImagem});
+  const _EpisodioItem({required this.episodio, required this.episodioImagem});
 
   @override
   Widget build(BuildContext context) {

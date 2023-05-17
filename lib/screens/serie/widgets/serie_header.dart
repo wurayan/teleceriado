@@ -16,35 +16,54 @@ class SerieHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        serie.imagens == null || serie.imagens!.isEmpty
-            ? const Center(
-                child: Text(
-                  'Imagem não encontrada ;-;',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
+        Stack(
+          children: [
+            serie.imagens == null || serie.imagens!.isEmpty
+                ? const Center(
+                    child: Text(
+                      'Imagem não encontrada ;-;',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  )
+                : Container(
+                    decoration: const BoxDecoration(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(15)),
+                    ),
+                    width: width,
+                    height: height * 0.2,
+                    clipBehavior: Clip.hardEdge,
+                    child: Image.network(
+                      serie.imagens![0],
+                      fit: BoxFit.cover,
+                      alignment: Alignment.topCenter,
+                    ),
                   ),
-                ),
-              )
-            : Container(
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-                ),
-                width: width,
-                height: height * 0.2,
-                clipBehavior: Clip.hardEdge,
-                child: Image.network(
-                  serie.imagens![0],
-                  fit: BoxFit.cover,
-                  alignment: Alignment.topCenter,
+            Container(
+              height: height*0.2,
+              width: width,
+              alignment: Alignment.bottomLeft,
+              decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                          Colors.transparent,
+                          Colors.grey.shade900
+                        ])),
+              child: Padding(
+                padding: EdgeInsets.only(left: width*0.02),
+                child: Text(
+                  serie.nome,
+                  style:
+                      const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                 ),
               ),
-        Padding(
-          padding: EdgeInsets.only(top: height * 0.01, left: width * 0.02),
-          child: Text(
-            serie.nome,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-          ),
+            ),
+          ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,

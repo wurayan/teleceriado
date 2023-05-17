@@ -42,4 +42,6 @@ class EpisodateService {
       Map resultMap = json.decode(response.body);
       return Serie.fromMap(resultMap['tvShow']);
   }
+
+  
 }

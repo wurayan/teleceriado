@@ -14,4 +14,5 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Alteração do método de apresentação das imagens dos episódios;
     - Criação do Dialog de opções na Tela de Detalhes da Série;
     - Refatoração da tela de Detalhes da Série;
+    
 
