@@ -3,7 +3,8 @@ import 'package:teleceriado/models/episodio.dart';
 import 'package:teleceriado/screens/serie/widgets/edit_episodio.dart';
 import 'package:teleceriado/screens/serie/widgets/options_dialog.dart';
 import 'package:teleceriado/screens/serie/widgets/serie_header.dart';
-import '../../models/serie_model.dart';
+import 'package:teleceriado/services/api_service.dart';
+import '../../models/serie.dart';
 
 class ShowDetails extends StatefulWidget {
   final Serie serie;
@@ -31,7 +32,7 @@ class _ShowDetailsState extends State<ShowDetails> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {},
           child: const Padding(
-            padding: EdgeInsets.only(top:3),
+            padding: EdgeInsets.only(top: 3),
             child: Icon(
               Icons.favorite_border_rounded,
               size: 40,
@@ -46,44 +47,29 @@ class _ShowDetailsState extends State<ShowDetails> {
                     child: SerieHeader(
                   serie: _serie,
                 )),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate((context, index) {
-                    Episodio episodio =
-                        Episodio.fromMap(_serie.episodios![index]);
-                    return _EpisodioItem(
-                      episodio: episodio,
-                      episodioImagem:
-                          _serie.imagens![index % _serie.imagens!.length],
-                    );
-                  }, childCount: _serie.episodios!.length),
-                ),
+                ListBuilder(idSerie: _serie.id!)
               ],
             ),
-            SizedBox(
-              // color: Colors.lime,
-              height: height * 0.1,
-              width: width,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: width * 0.01),
-                    child: IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(
-                        Icons.arrow_back_ios_rounded,
-                        size: 32,
-                      ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: width * 0.01),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back_ios_rounded,
+                      size: 32,
                     ),
                   ),
-                  Padding(
-                      padding: EdgeInsets.all(width * 0.02),
-                      child: const OptionsButton())
-                ],
-              ),
+                ),
+                Padding(
+                    padding: EdgeInsets.all(width * 0.02),
+                    child: const OptionsButton())
+              ],
             )
           ],
         ),
@@ -92,10 +78,46 @@ class _ShowDetailsState extends State<ShowDetails> {
   }
 }
 
+class ListBuilder extends StatefulWidget {
+  final int idSerie;
+  const ListBuilder({super.key, required this.idSerie});
+
+  @override
+  State<ListBuilder> createState() => _ListBuilderState();
+}
+
+class _ListBuilderState extends State<ListBuilder> {
+  List<Episodio> episodios = [];
+  final ApiService _api = ApiService();
+  @override
+  void initState() {
+    _api.getEpisodios(widget.idSerie, 1).then((value) {
+      episodios = value;
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return episodios.isEmpty
+        ? const SliverToBoxAdapter(
+          child: Center(child: CircularProgressIndicator(value: null)),
+        )
+        : SliverList(
+            delegate: SliverChildBuilderDelegate((context, index) {
+              Episodio episodio = episodios[index];
+              return _EpisodioItem(
+                  episodio: episodio);
+            }, childCount: episodios.length),
+          );
+  }
+}
+
 class _EpisodioItem extends StatelessWidget {
   final Episodio episodio;
-  final String episodioImagem;
-  const _EpisodioItem({required this.episodio, required this.episodioImagem});
+  _EpisodioItem({required this.episodio});
+  final ApiService _api = ApiService();
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +128,7 @@ class _EpisodioItem extends StatelessWidget {
         showDialog(
             context: context,
             builder: (context) =>
-                EditEpisodio(episodio: episodio, imagemUrl: episodioImagem));
+                EditEpisodio(episodio: episodio));
       },
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: height * 0.002),
@@ -121,7 +143,7 @@ class _EpisodioItem extends StatelessWidget {
           child: Row(
             children: [
               Image.network(
-                episodioImagem,
+                _api.getSeriePoster(episodio.imagem!),
                 fit: BoxFit.cover,
                 width: width * 0.3,
                 height: height * 0.15,
@@ -139,7 +161,7 @@ class _EpisodioItem extends StatelessWidget {
                       child: SizedBox(
                         width: width * 0.65,
                         child: Text(
-                          '${episodio.idEpisodio}. ${episodio.nome}',
+                          '${episodio.numero}. ${episodio.nome}',
                           style: const TextStyle(fontSize: 18),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -148,10 +170,8 @@ class _EpisodioItem extends StatelessWidget {
                     SizedBox(
                       width: width * 0.65,
                       height: height * 0.07,
-                      child: const Text('Add descrição...'),
+                      child: Text(episodio.descricao!, overflow: TextOverflow.fade, maxLines: 3,),
                     ),
-                    const Expanded(child: SizedBox()),
-                    Text('Estreia: ${episodio.estreia}')
                   ],
                 ),
               )

@@ -1,23 +1,21 @@
-class Episodio {
-  int idEpisodio;
-  int temporada;
-  String nome;
-  String estreia;
-  String? imagem;
-  String? descricao;
+import 'package:flutter/material.dart';
 
-  Episodio({
-    required this.idEpisodio,
-    required this.temporada,
-    required this.nome,
-    required this.estreia,
-    this.imagem,
-    this.descricao,
-  });
+class Episodio extends ChangeNotifier {
+  int? _id;
+  int? _numero;
+  String? _nome;
+  String? _descricao;
+  String? _imagem;
 
-  Episodio.fromMap(Map<String, dynamic> map)
-      : idEpisodio = map['episode'],
-        temporada = map['season'],
-        nome = map['name'],
-        estreia = map['air_date'];
+  int? get id => _id;
+  int? get numero => _numero;
+  String? get nome => _nome;
+  String? get descricao => _descricao;
+  String? get imagem => _imagem;
+
+  set id(int? value) => _id = value;
+  set numero(int? value) => _numero = value;
+  set nome(String? value) => _nome = value;
+  set descricao(String? value) => _descricao = value;
+  set imagem(String? value) => _imagem = value;
 }

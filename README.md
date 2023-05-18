@@ -15,4 +15,7 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Criação do Dialog de opções na Tela de Detalhes da Série;
     - Refatoração da tela de Detalhes da Série;
     
+## Versão 1.0.0  
+    - Troda de API utilizada pra o serviço da TMDB;
+    - Reestruturação do API_Service para comportar o modelo de request da API;
 

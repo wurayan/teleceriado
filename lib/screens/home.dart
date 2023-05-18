@@ -11,7 +11,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List pages = [
-    const SearchFeed(),
+    SearchFeed(),
     const UserFeed(),
   ];
   int _currentPage = 0;

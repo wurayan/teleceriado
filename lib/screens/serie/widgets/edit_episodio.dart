@@ -2,24 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:teleceriado/models/episodio.dart';
+import 'package:teleceriado/services/api_service.dart';
 
 class EditEpisodio extends StatefulWidget {
   final Episodio episodio;
-  final String imagemUrl;
   const EditEpisodio(
-      {super.key, required this.episodio, required this.imagemUrl});
+      {super.key, required this.episodio});
 
   @override
   State<EditEpisodio> createState() => _EditEpisodioState();
 }
 
 class _EditEpisodioState extends State<EditEpisodio> {
+  final ApiService _api = ApiService();
+  late Episodio episodio;
   bool isEditing = false;
   final TextEditingController _descricaoController = TextEditingController();
 
   final InputDecoration _descricaoDecoration = const InputDecoration(
       focusedBorder: UnderlineInputBorder(borderSide: BorderSide(width: 0)),
       enabledBorder: UnderlineInputBorder(borderSide: BorderSide(width: 0)));
+
+  @override
+  void initState() {
+    episodio = widget.episodio;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +49,7 @@ class _EditEpisodioState extends State<EditEpisodio> {
                   width: width * 0.9,
                   height: height * 0.2,
                   child: Image.network(
-                    widget.imagemUrl,
+                    _api.getSeriePoster(episodio.imagem!),
                     fit: BoxFit.cover,
                     alignment: Alignment.topCenter,
                   ),
@@ -71,11 +79,12 @@ class _EditEpisodioState extends State<EditEpisodio> {
                               maxLines: null,
                               decoration: _descricaoDecoration)
                           : Text(
-                              widget.episodio.descricao == null ||
-                                      widget.episodio.descricao!.isEmpty
+                              episodio.descricao == null ||
+                                      episodio.descricao!.isEmpty
                                   ? 'Adicionar Descrição...'
-                                  : widget.episodio.descricao!,
-                              style: const TextStyle(fontSize: 16)),
+                                  : episodio.descricao!,
+                              style: const TextStyle(fontSize: 16),
+                              overflow: TextOverflow.fade,),
                     ),
                   ),
                 ),
@@ -146,7 +155,7 @@ class _EditEpisodioState extends State<EditEpisodio> {
                     child: Padding(
                       padding: EdgeInsets.only(left: width * 0.02),
                       child: Text(
-                        '${widget.episodio.idEpisodio}. ${widget.episodio.nome}',
+                        '${episodio.numero}. ${episodio.nome}',
                         style: const TextStyle(fontSize: 20),
                       ),
                     ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:teleceriado/screens/serie/show_details.dart';
 import 'package:teleceriado/services/api_service.dart';
-import '../models/serie_model.dart';
+import '../models/serie.dart';
 
 class SearchFeed extends StatefulWidget {
   const SearchFeed({super.key});
@@ -11,18 +11,15 @@ class SearchFeed extends StatefulWidget {
 }
 
 class _SearchFeedState extends State<SearchFeed> {
-  final EpisodateService _db = EpisodateService();
-  // Map<String, String> seriesPopulares = {};
+  final ApiService _api = ApiService();
   List<Serie> seriesPopulares = [];
 
   @override
   void initState() {
-    _db.showDetailSerie(29560);
-    _db.getAllPopularSeries().then((value) {
+    _api.getTrending().then((value) {
       seriesPopulares = value;
       setState(() {});
     });
-
     super.initState();
   }
 
@@ -34,12 +31,14 @@ class _SearchFeedState extends State<SearchFeed> {
       child: seriesPopulares.isNotEmpty
           ? CustomScrollView(
               slivers: [
-                 SliverToBoxAdapter(
+                SliverToBoxAdapter(
                   child: Padding(
-                    padding: EdgeInsets.only(left: width*0.02, bottom: width*0.01),
+                    padding: EdgeInsets.only(
+                        left: width * 0.02, bottom: width * 0.01),
                     child: const Text(
-                      'Mais Populares',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                      'Trending',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
                   ),
                 ),
@@ -57,7 +56,7 @@ class _PopularList extends StatelessWidget {
   final List<Serie> items;
   _PopularList({required this.items});
   final double width = 150;
-  final EpisodateService _db = EpisodateService();
+  final ApiService _api = ApiService();
   @override
   Widget build(BuildContext context) {
     return SliverGrid(
@@ -67,44 +66,24 @@ class _PopularList extends StatelessWidget {
               border: Border.all(width: 0.5, color: Colors.blueGrey.shade700)),
           child: InkWell(
             onTap: () {
-              _db.showDetailSerie(items[index].id).then((value) {
+              _api.getSerie(items[index].id!, 1).then((value) {
                 Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ShowDetails(serie: value),
-                ),
-              );
-              });
-              
-            },
-            child: items[index].thumbUrl == 'https://static.episodate.com'
-                ? Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: Column(
-                      children: [
-                        const Expanded(child: SizedBox()),
-                        const Text(
-                          'Imagem não encontrada\n;-;',
-                          style: TextStyle(fontWeight: FontWeight.w500),
-                          textAlign: TextAlign.center,
-                        ),
-                        const Expanded(child: SizedBox()),
-                        Text(
-                          items[index].nome,
-                          style: const TextStyle(fontWeight: FontWeight.w600),
-                        )
-                      ],
-                    ),
-                  )
-                : Image.network(
-                    items[index].thumbUrl,
-                    fit: BoxFit.cover,
-                    width: width * 0.65,
-                    height: width,
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ShowDetails(serie: value),
                   ),
+                );
+              });
+            },
+            child: Image.network(
+              _api.getSeriePoster(items[index].poster!),
+              fit: BoxFit.cover,
+              width: width * 0.65,
+              height: width,
+            ),
           ),
         );
-      }, childCount: 100),
+      }, childCount: items.length),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 4,
           crossAxisSpacing: 3,
