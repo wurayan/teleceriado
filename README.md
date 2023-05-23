@@ -19,3 +19,8 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Troda de API utilizada pra o serviço da TMDB;
     - Reestruturação do API_Service para comportar o modelo de request da API;
 
+## Versão 1.0.1  
+    - Correção do código devido a atualização do Flutter;
+
+## Ideias Futuras  
+    - Criar uma lista de frases para serem exibidas enquanto as telas carregam;

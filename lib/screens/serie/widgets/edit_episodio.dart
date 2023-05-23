@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:teleceriado/models/episodio.dart';
 import 'package:teleceriado/services/api_service.dart';
 

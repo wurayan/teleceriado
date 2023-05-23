@@ -11,15 +11,13 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List pages = [
-    SearchFeed(),
+    const SearchFeed(),
     const UserFeed(),
   ];
   int _currentPage = 0;
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Teleceriado'),
