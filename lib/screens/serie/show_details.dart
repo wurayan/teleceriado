@@ -141,12 +141,20 @@ class _EpisodioItem extends StatelessWidget {
           clipBehavior: Clip.hardEdge,
           child: Row(
             children: [
+              episodio.imagem != null ? 
               Image.network(
                 _api.getSeriePoster(episodio.imagem!),
                 fit: BoxFit.cover,
                 width: width * 0.3,
                 height: height * 0.15,
                 alignment: Alignment.centerLeft,
+              ) : SizedBox(
+                width: width*0.3,
+                height: height*0.15,
+                child: const Center(
+                  child: Text('Imagem não encontrada ;-;',
+                  textAlign: TextAlign.center,),
+                ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
