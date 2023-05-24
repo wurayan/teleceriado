@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:teleceriado/screens/serie/show_details.dart';
+import 'package:teleceriado/services/api_service.dart';
+
+import '../models/serie.dart';
 
 class SearchFeed extends StatefulWidget {
   const SearchFeed({super.key});
@@ -8,28 +12,97 @@ class SearchFeed extends StatefulWidget {
 }
 
 class _SearchFeedState extends State<SearchFeed> {
+  final ApiService _api = ApiService();
+
   final TextEditingController _searchController = TextEditingController();
 
+  final UnderlineInputBorder _underline =
+      const UnderlineInputBorder(borderSide: BorderSide.none);
+
+  List<Serie>? serie;
+  reloadPage(String value) async {
+    serie = await _api.searchSerie(value);
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: TextFormField(
           controller: _searchController,
-          
+          decoration: InputDecoration(
+            hintText: 'Pesquisar...',
+            enabledBorder: _underline,
+            focusedBorder: _underline,
+          ),
+          onTapOutside: (event) =>
+              FocusManager.instance.primaryFocus!.unfocus(),
+              onChanged: (value) => reloadPage(value),
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 200,
-            height: 200,
-            color: Colors.amber,
+      body: CustomScrollView(
+        slivers: [
+          serie == null || serie!.isEmpty
+          ? SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.only(top: height*0.4),
+              child: const Center(
+                child: Text('Não encontramos nada...'),
+              ),
+            ),
           )
+          : _ResultGrid(
+              resultado: serie!,
+            ),
         ],
-      )
+      ) 
+      
+      
     );
+  }
+}
+
+class _ResultGrid extends StatelessWidget {
+  final List<Serie> resultado;
+  _ResultGrid({required this.resultado});
+  final ApiService _api = ApiService();
+  @override
+  Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    // double height = MediaQuery.of(context).size.height;
+    return SliverGrid(
+        delegate: SliverChildBuilderDelegate((context, index) {
+          Serie serie = resultado[index];
+          return Container(
+            decoration: BoxDecoration(
+                border:
+                    Border.all(width: 0.5, color: Colors.blueGrey.shade700)),
+            child: InkWell(
+              onTap: () {
+                _api.getSerie(serie.id!, 1).then((value) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ShowDetails(serie: value),
+                    ),
+                  );
+                });
+              },
+              child: Image.network(
+                _api.getSeriePoster(serie.poster!),
+                fit: BoxFit.cover,
+                width: width * 0.65,
+                height: width,
+              ),
+            ),
+          );
+        }, childCount: resultado.length),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4,
+            crossAxisSpacing: 3,
+            mainAxisSpacing: 3,
+            childAspectRatio: 0.7));
   }
 }

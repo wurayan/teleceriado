@@ -21,6 +21,8 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
 
 ## Versão 1.0.1  
     - Correção do código devido a atualização do Flutter;
+    - Implementação do método de busca por séries;
 
 ## Ideias Futuras  
     - Criar uma lista de frases para serem exibidas enquanto as telas carregam;
+    - Reduzir o tempo de demora para se carregar as imagens com o network;
