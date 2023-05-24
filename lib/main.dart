@@ -1,11 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:teleceriado/models/episodio.dart';
 import 'package:teleceriado/models/temporada.dart';
 import 'package:teleceriado/screens/home/home.dart';
+import 'package:teleceriado/wrapper.dart';
 import 'models/serie.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(
     MultiProvider(
       providers: [
@@ -26,7 +30,7 @@ class MainApp extends StatelessWidget {
       title: 'Teleceriado',
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: ThemeMode.dark,
-      home: const Home()
+      home: const Wrapper()
     );
   }
 }
