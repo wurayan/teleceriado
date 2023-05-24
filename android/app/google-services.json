@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "465613903148",
+    "project_id": "teleceriado",
+    "storage_bucket": "teleceriado.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:465613903148:android:bbed650fedbe99a3cc0889",
+        "android_client_info": {
+          "package_name": "com.example.teleceriado"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "465613903148-uedttgkkkrmka9bbaa9dhuc3kn78gjlo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtmB86qGIe58tKzkvlmnNpNavqc321qKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "465613903148-uedttgkkkrmka9bbaa9dhuc3kn78gjlo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -42,7 +42,6 @@ class ApiService {
   Future<List<Serie>> searchSerie(String value) async {
     // search/tv?query=game&language=pt-BR&page=1
     String query = value.replaceAll(' ', ',');
-    print(query);
     http.Response response = await client.get(getUri("search/tv?query=$query&language=pt-BR&page=1"),
     headers: {"Authorization": "Bearer $token"});
     Map body = json.decode(response.body);
