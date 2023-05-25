@@ -4,8 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:teleceriado/models/episodio.dart';
 import 'package:teleceriado/models/temporada.dart';
 import 'package:teleceriado/screens/home/home.dart';
+import 'package:teleceriado/services/auth.dart';
 import 'package:teleceriado/wrapper.dart';
 import 'models/serie.dart';
+import 'models/usuario.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,11 +28,18 @@ class MainApp extends StatelessWidget {
   const MainApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Teleceriado',
-      darkTheme: ThemeData(brightness: Brightness.dark),
-      themeMode: ThemeMode.dark,
-      home: const Wrapper()
+    return StreamProvider<Usuario?>.value
+      (
+      initialData: null,
+      value: AuthService().onAuthStateChanged,
+      builder: (context, snapshot) {
+        return MaterialApp(
+          title: 'Teleceriado',
+          darkTheme: ThemeData(brightness: Brightness.dark),
+          themeMode: ThemeMode.dark,
+          home: const Wrapper()
+        );
+      }
     );
   }
 }

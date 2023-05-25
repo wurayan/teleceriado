@@ -3,6 +3,8 @@ import 'package:teleceriado/screens/first_page.dart';
 import 'package:teleceriado/screens/home/widget/search.dart';
 import 'package:teleceriado/screens/user_feed.dart';
 
+import '../../services/auth.dart';
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -11,6 +13,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final AuthService _auth = AuthService(); 
+
   List pages = [
     const FisrtPage(),
     const UserFeed(),
@@ -43,6 +47,14 @@ class _HomeState extends State<Home> {
             _currentPage = index;
           });
         },
+      ),
+      drawer: Drawer(
+        child: TextButton(
+          onPressed: () async {
+            await _auth.signOut();
+          },
+          child: const Text('Log Out'),
+        ),
       ),
       body: 
       pages[_currentPage],

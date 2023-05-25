@@ -19,13 +19,11 @@ class _LoginState extends State<Login> {
       appBar: AppBar(
         title: const Text('Login'),
       ),
-      body: Container(
-        child: ElevatedButton(
-          onPressed: ()async{
-            dynamic result = await _authService.signInAnonymously();
-          }, 
-          child: const Text('Login')),
-      ),
+      body: ElevatedButton(
+        onPressed: ()async{
+          dynamic result = await _authService.signInAnonymously();
+        }, 
+        child: const Text('Login')),
     );
   }
 }
