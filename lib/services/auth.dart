@@ -33,4 +33,12 @@ class AuthService {
       throw Exception(e);
     }
   }
+
+  Future signIn (String email, String senha) async {
+    try {
+      return await _auth.signInWithEmailAndPassword(email: email, password: senha);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }

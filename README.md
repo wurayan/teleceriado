@@ -25,6 +25,7 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
 
 ## Versão 2.0.0-Dev  
     - Integração do Firebase ao Aplicativo;
+    - Criação da tela de login;
 
 ## Ideias Futuras  
     - Criar uma lista de frases para serem exibidas enquanto as telas carregam;
