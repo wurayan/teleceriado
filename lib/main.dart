@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:teleceriado/models/episodio.dart';
 import 'package:teleceriado/models/temporada.dart';
-import 'package:teleceriado/screens/home/home.dart';
 import 'package:teleceriado/services/auth.dart';
 import 'package:teleceriado/wrapper.dart';
 import 'models/serie.dart';

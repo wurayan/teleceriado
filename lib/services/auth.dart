@@ -41,4 +41,14 @@ class AuthService {
       throw Exception(e);
     }
   }
+
+  Future cadastro(String email, String senha) async {
+    try {
+      UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: senha);
+      User user = result.user!;
+      return _usuarioFromFirebase(user);
+    } catch (e) {
+      throw Exception(e);
+    }
+  } 
 }
