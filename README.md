@@ -27,6 +27,7 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Integração do Firebase ao Aplicativo;
     - Implementação do Login anônimo;
     - Criação das telas de login e Cadastro;
+    - Criação widget de Loading com package SpinKit
 
 ## Ideias Futuras  
     - Criar uma lista de frases para serem exibidas enquanto as telas carregam;

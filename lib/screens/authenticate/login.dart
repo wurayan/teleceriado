@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:teleceriado/components/loading.dart';
 import '../../services/auth.dart';
 
 class Login extends StatefulWidget {
@@ -16,11 +17,13 @@ class _LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();
 
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return Scaffold(
+    return isLoading ? const Loading() : Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
       ),
@@ -83,6 +86,9 @@ class _LoginState extends State<Login> {
                         child: ElevatedButton(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
+                              setState(() {
+                                isLoading = true;
+                              });
                               await AuthService().signIn(
                                   _emailController.text, _senhaController.text);
                             }
