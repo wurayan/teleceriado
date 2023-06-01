@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:teleceriado/screens/first_page.dart';
 import 'package:teleceriado/screens/home/widget/search.dart';
 import 'package:teleceriado/screens/user_feed.dart';
+import 'package:teleceriado/services/firebase_path.dart';
+import 'package:teleceriado/services/user_dao/user_collections.dart';
 
+import '../../models/colletion.dart';
 import '../../services/auth.dart';
 
 class Home extends StatefulWidget {
@@ -49,11 +52,33 @@ class _HomeState extends State<Home> {
         },
       ),
       drawer: Drawer(
-        child: TextButton(
-          onPressed: () async {
-            await _auth.signOut();
-          },
-          child: const Text('Log Out'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+              onPressed: () async {
+                await _auth.signOut();
+              },
+              child: const Text('Log Out'),
+            ),
+            TextButton(
+              onPressed: (){
+                FirebaseCollections db = FirebaseCollections();
+                Collection favoritos = Collection();
+                favoritos.nome = "favoritos";
+                favoritos.descricao = "primeira coleção";
+                favoritos.imagem = "umaUrl"; 
+                db.createCollection(favoritos);
+              }, 
+              child: const Text("Criar negocio")),
+            TextButton(
+              onPressed: (){
+                FirebaseCollections db = FirebaseCollections();
+                db.getFavorites();
+              },
+              child: Text("")
+            ),
+          ],
         ),
       ),
       body: 

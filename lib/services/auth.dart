@@ -1,12 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:teleceriado/services/prefs.dart';
 import '../models/usuario.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final Prefs _prefs = Prefs();
 
   Usuario? _usuarioFromFirebase(User? usuario){
     if (usuario!= null) {
-      return Usuario(usuario.uid);
+      Usuario user = Usuario(usuario.uid); 
+      // _prefs.saveUserId(user.uid);
+      return user;
     } else {
       return null;
     }
@@ -16,7 +20,9 @@ class AuthService {
     try {
       UserCredential result = await _auth.signInAnonymously();
       User? user = result.user;
-      return _usuarioFromFirebase(user);
+      Usuario? usuario = _usuarioFromFirebase(user);
+      _prefs.saveUserId(usuario!.uid);
+      return usuario;
     } catch (e) {
       throw Exception(e);
     }
@@ -28,6 +34,7 @@ class AuthService {
 
   Future signOut() async {
     try {
+      _prefs.deleteUsereId();
       return await _auth.signOut();
     } catch (e) {
       throw Exception(e);
@@ -36,7 +43,11 @@ class AuthService {
 
   Future signIn (String email, String senha) async {
     try {
-      return await _auth.signInWithEmailAndPassword(email: email, password: senha);
+      UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: senha);
+      User user = result.user!;
+      Usuario? usuario = _usuarioFromFirebase(user);
+      _prefs.saveUserId(usuario!.uid);
+      return usuario;
     } catch (e) {
       throw Exception(e);
     }
@@ -46,7 +57,9 @@ class AuthService {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: senha);
       User user = result.user!;
-      return _usuarioFromFirebase(user);
+      Usuario? usuario = _usuarioFromFirebase(user);
+      _prefs.saveUserId(usuario!.uid);
+      return usuario;
     } catch (e) {
       throw Exception(e);
     }

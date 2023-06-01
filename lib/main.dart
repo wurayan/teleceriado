@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:teleceriado/models/colletion.dart';
 import 'package:teleceriado/models/episodio.dart';
 import 'package:teleceriado/models/temporada.dart';
 import 'package:teleceriado/services/auth.dart';
@@ -16,7 +17,8 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => Serie()),
         ChangeNotifierProvider(create: (context)=> Episodio()),
-        ChangeNotifierProvider(create: (context)=> Temporada())
+        ChangeNotifierProvider(create: (context)=> Temporada()),
+        ChangeNotifierProvider(create: (context) => Collection())
       ],
       child: const MainApp(),
     )
