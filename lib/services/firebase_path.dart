@@ -4,7 +4,6 @@ import 'package:teleceriado/services/prefs.dart';
 
 class FirebasePaths {
   Prefs prefs = Prefs();
-  // DatabaseReference ref = FirebaseDatabase.instance.ref("/Usuários");
   FirebaseFirestore db = FirebaseFirestore.instance;
   String collection = "/usuarios";
   String favoritos = "favoritos";

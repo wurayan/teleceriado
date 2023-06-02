@@ -74,9 +74,9 @@ class _HomeState extends State<Home> {
             TextButton(
               onPressed: (){
                 FirebaseCollections db = FirebaseCollections();
-                db.getFavorites();
+                db.getCollectionInfo("favoritos");
               },
-              child: Text("")
+              child: const Text("pega favoritos")
             ),
           ],
         ),

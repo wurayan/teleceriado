@@ -22,7 +22,7 @@ class Collection extends ChangeNotifier {
     return "Nome: $nome\nDescricao: $descricao";
   }
 
-  Map toMap(){
+  Map<String, dynamic> toMap(){
     return {
       "nome": nome,
       "descricao": descricao,
