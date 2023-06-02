@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:teleceriado/screens/serie/widgets/action_buttons.dart';
 import 'package:teleceriado/services/api_service.dart';
 
 import '../../../models/serie.dart';
@@ -66,6 +67,7 @@ class SerieHeader extends StatelessWidget {
                 ),
               ),
             ),
+            ActionButtons(serie: serie),
             Padding(
               padding: EdgeInsets.symmetric(vertical: height * 0.01),
               child: const Divider(

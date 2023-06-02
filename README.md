@@ -29,7 +29,9 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Criação das telas de login e Cadastro;
     - Criação widget de Loading com package SpinKit;
     - Criação dos métodos de conexão com o Firebase;
+    - Implementação dos botões de salvar e favoritar Séries;
 
 ## Ideias Futuras  
     - Criar uma lista de frases para serem exibidas enquanto as telas carregam;
     - Reduzir o tempo de demora para se carregar as imagens com o network;
+    - Botao favoritar precisa ser responsivo e mostrar "Favorito" quando a série estiver na lista de favoritos

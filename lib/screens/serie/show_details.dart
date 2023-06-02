@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:teleceriado/models/episodio.dart';
+import 'package:teleceriado/screens/serie/widgets/action_buttons.dart';
 import 'package:teleceriado/screens/serie/widgets/edit_episodio.dart';
 import 'package:teleceriado/screens/serie/widgets/options_dialog.dart';
 import 'package:teleceriado/screens/serie/widgets/serie_header.dart';
@@ -28,16 +29,6 @@ class _ShowDetailsState extends State<ShowDetails> {
     double width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: const Padding(
-            padding: EdgeInsets.only(top: 3),
-            child: Icon(
-              Icons.favorite_border_rounded,
-              size: 40,
-            ),
-          ),
-        ),
         body: Stack(
           children: [
             CustomScrollView(

@@ -70,11 +70,21 @@ class _HomeState extends State<Home> {
                 favoritos.imagem = "umaUrl"; 
                 db.createCollection(favoritos);
               }, 
-              child: const Text("Criar negocio")),
+              child: const Text("Criar favoritos")),
             TextButton(
               onPressed: (){
                 FirebaseCollections db = FirebaseCollections();
-                db.getCollectionInfo("favoritos");
+                Collection colecao = Collection();
+                colecao.nome = "diabos";
+                colecao.descricao = "segunda coleção";
+                colecao.imagem = "outraUrl"; 
+                db.createCollection(colecao);
+              }, 
+              child: const Text("Criar diabos")),
+            TextButton(
+              onPressed: (){
+                FirebaseCollections db = FirebaseCollections();
+                db.getAllCollections();
               },
               child: const Text("pega favoritos")
             ),
