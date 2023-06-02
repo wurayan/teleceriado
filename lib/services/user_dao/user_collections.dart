@@ -45,9 +45,9 @@ class FirebaseCollections {
     return collection;
   }
 
-  getCollectionSeries(String collectionId) async {
+  Future<List<Serie>> getCollectionSeries(String collectionId) async {
     String? userUid = await prefs.getUserId();
-    List resultList = [];
+    List<Serie> resultList = [];
     var result = await db
         .collection(initialCollection)
         .doc("/$userUid")
@@ -55,9 +55,15 @@ class FirebaseCollections {
         .doc(doc)
         .collection(series)
         .get();
-    for (var serie in result.docs) {
+    for (var elemento in result.docs) {
+      Map serieMap = elemento.data();
+      Serie serie = Serie();
+      serie.id = int.parse(elemento.id);
+      serie.nome = serieMap["Nome"];
+      serie.poster = serieMap["Poster"];
       resultList.add(serie);
     }
+    return resultList;
   }
 
   createCollection(Collection collection) async {
