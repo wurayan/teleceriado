@@ -4,7 +4,7 @@ import 'package:teleceriado/screens/home/widget/search.dart';
 import 'package:teleceriado/screens/user_feed.dart';
 import 'package:teleceriado/services/user_dao/user_collections.dart';
 
-import '../../models/colletion.dart';
+import '../../models/collection.dart';
 import '../../services/auth.dart';
 
 class Home extends StatefulWidget {

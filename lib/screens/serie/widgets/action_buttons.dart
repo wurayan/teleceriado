@@ -20,7 +20,8 @@ class ActionButtons extends StatelessWidget {
                     (value) => ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         backgroundColor: Colors.black,
-                        content: Text("Série Favoritada!", style: TextStyle(color: Colors.white)),
+                        content: Text("Série Favoritada!",
+                            style: TextStyle(color: Colors.white)),
                       ),
                     ),
                   );
@@ -37,18 +38,13 @@ class ActionButtons extends StatelessWidget {
             List<String> collectionList =
                 await _collections.getAllCollections();
             // ignore: use_build_context_synchronously
-            String collectionId = await showDialog(
-                context: context,
-                builder: (context) => CollectionList(
-                      collectionList: collectionList,
-                    ));
-            _collections.saveInCollection(collectionId, serie).then(
-                  (value) => ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text("Série salva em $collectionId!"),
-                    ),
-                  ),
-                );
+            showDialog(
+              context: context,
+              builder: (context) => CollectionList(
+                collectionList: collectionList,
+                serie: serie,
+              ),
+            );
           },
           style: TextButton.styleFrom(iconColor: Colors.grey),
           child: const Column(

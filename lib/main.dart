@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:teleceriado/models/colletion.dart';
+import 'package:teleceriado/models/collection.dart';
 import 'package:teleceriado/models/episodio.dart';
 import 'package:teleceriado/models/temporada.dart';
 import 'package:teleceriado/services/auth.dart';

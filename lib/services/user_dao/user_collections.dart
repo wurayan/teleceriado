@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../models/colletion.dart';
+import '../../models/collection.dart';
 import '../../models/serie.dart';
 import '../prefs.dart';
 
