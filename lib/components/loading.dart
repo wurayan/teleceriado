@@ -7,10 +7,10 @@ class Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: SpinKitSquareCircle(
+      child: SpinKitFoldingCube(
         color: Colors.amber[700],
-        size: 50,
-      ),
+        size:50
+      ), 
     );
   }
 }

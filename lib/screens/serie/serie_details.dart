@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/models/episodio.dart';
 import 'package:teleceriado/screens/serie/widgets/edit_episodio.dart';
 import 'package:teleceriado/screens/serie/widgets/options_dialog.dart';
@@ -90,8 +91,11 @@ class _ListBuilderState extends State<ListBuilder> {
   @override
   Widget build(BuildContext context) {
     return episodios.isEmpty
-        ? const SliverToBoxAdapter(
-          child: Center(child: CircularProgressIndicator(value: null)),
+        ? SliverToBoxAdapter(
+          child: Padding(
+            padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height*0.15),
+            child: const Loading(),
+          )
         )
         : SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {

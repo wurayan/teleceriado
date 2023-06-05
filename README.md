@@ -36,9 +36,10 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Implementação do SnackBarGlobal;
     - Implementação da criação de Coleções;
     - Criação da tela de detalhes de Coleções;
+    - Redesign dos Widgets de Loading com adição de frases engraçadas;
 
 ## Ideias Futuras  
-    - Criar uma lista de frases para serem exibidas enquanto as telas carregam;
     - Reduzir o tempo de demora para se carregar as imagens com o network;
     - Botao favoritar precisa ser responsivo e mostrar "Favorito" quando a série estiver na lista de favoritos;
     - usar o AutomaticKeepAliveClientMixin para manter os estado da página após sua navegação (assim não teremos que dar reload na página toda vez que abrirmos ela, usar com as páginas de trending, e na de usuário com uma verificação para atualizar a página somente quando há alterações?)
+    - Os itens de coleções ao salvar uma série podem exibir a imagem da coleção no fundo de seus cards com opacidade da esquerda para direita

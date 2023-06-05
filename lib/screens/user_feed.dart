@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/screens/collections/collection_details.dart';
 import 'package:teleceriado/screens/serie/serie_details.dart';
 import 'package:teleceriado/services/user_dao/user_collections.dart';
+import 'package:teleceriado/utils/utils.dart';
 
 import '../models/serie.dart';
 import '../services/api_service.dart';
@@ -18,6 +21,7 @@ class _UserFeedState extends State<UserFeed>
     with AutomaticKeepAliveClientMixin {
   final FirebaseCollections _collections = FirebaseCollections();
   List<Map<String, List<Serie>>> colecoes = [];
+  String loadingFrase = getLoadingFrase();
 
   @override
   void initState() {
@@ -28,6 +32,11 @@ class _UserFeedState extends State<UserFeed>
       }
       setState(() {});
     });
+    Timer.periodic(const Duration(seconds: 2), (timer) {
+      setState(() {
+        loadingFrase = getLoadingFrase();
+      });
+    });
     super.initState();
   }
 
@@ -37,11 +46,14 @@ class _UserFeedState extends State<UserFeed>
     return CustomScrollView(
       slivers: [
         colecoes.isEmpty
-            ? const SliverToBoxAdapter(
+            ? SliverToBoxAdapter(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Loading(),
+                    Padding(
+                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.4),
+                      child: const Loading(),
+                    ),
                   ],
                 ),
               )

@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/screens/serie/serie_details.dart';
 import 'package:teleceriado/services/api_service.dart';
+import 'package:teleceriado/utils/utils.dart';
 import '../models/serie.dart';
 
 class FisrtPage extends StatefulWidget {
@@ -13,12 +17,22 @@ class FisrtPage extends StatefulWidget {
 class _FisrtPageState extends State<FisrtPage> with  AutomaticKeepAliveClientMixin{
   final ApiService _api = ApiService();
   List<Serie> seriesPopulares = [];
+  String loadingFrase = getLoadingFrase();
 
   @override
   void initState() {
     _api.getTrending().then((value) {
       seriesPopulares = value;
       setState(() {});
+    });
+    Timer.periodic(const Duration(seconds: 2), (timer) {
+      if (seriesPopulares.isEmpty) {
+        setState(() {
+          loadingFrase = getLoadingFrase();
+        });
+      } else {
+        timer.cancel();
+      }
     });
     super.initState();
   }
@@ -46,9 +60,18 @@ class _FisrtPageState extends State<FisrtPage> with  AutomaticKeepAliveClientMix
                 _PopularList(items: seriesPopulares)
               ],
             )
-          : const Center(
-              child: CircularProgressIndicator(value: null),
-            ),
+          : Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Center(
+                  child: Loading(),
+                ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Text(loadingFrase, style: const TextStyle(fontSize: 18),),
+              )
+            ],
+          ),
     );
   }
   
