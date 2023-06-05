@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:teleceriado/components/loading.dart';
-import 'package:teleceriado/screens/serie/show_details.dart';
+import 'package:teleceriado/screens/collections/collection_details.dart';
+import 'package:teleceriado/screens/serie/serie_details.dart';
 import 'package:teleceriado/services/user_dao/user_collections.dart';
 
 import '../models/serie.dart';
@@ -13,7 +14,8 @@ class UserFeed extends StatefulWidget {
   State<UserFeed> createState() => _UserFeedState();
 }
 
-class _UserFeedState extends State<UserFeed> with AutomaticKeepAliveClientMixin{
+class _UserFeedState extends State<UserFeed>
+    with AutomaticKeepAliveClientMixin {
   final FirebaseCollections _collections = FirebaseCollections();
   List<Map<String, List<Serie>>> colecoes = [];
 
@@ -21,7 +23,6 @@ class _UserFeedState extends State<UserFeed> with AutomaticKeepAliveClientMixin{
   void initState() {
     _collections.getAllCollections().then((collectionList) async {
       for (String collection in collectionList) {
-        print("Coleção: $collection");
         List<Serie> series = await _collections.getCollectionSeries(collection);
         colecoes.add({collection: series});
       }
@@ -37,7 +38,12 @@ class _UserFeedState extends State<UserFeed> with AutomaticKeepAliveClientMixin{
       slivers: [
         colecoes.isEmpty
             ? const SliverToBoxAdapter(
-                child: Loading(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Loading(),
+                  ],
+                ),
               )
             : _CollectionList(
                 collectionList: colecoes,
@@ -45,14 +51,14 @@ class _UserFeedState extends State<UserFeed> with AutomaticKeepAliveClientMixin{
       ],
     );
   }
-  
+
   @override
   bool get wantKeepAlive => true;
 }
 
 class _CollectionList extends StatelessWidget {
   final List collectionList;
-  const _CollectionList({super.key, required this.collectionList});
+  const _CollectionList({required this.collectionList});
 
   @override
   Widget build(BuildContext context) {
@@ -72,10 +78,38 @@ class _CollectionList extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.only(top: height*0.02, left: width*0.02, bottom: height*0.01),
-              child: Text(titulo ?? "ué", style: const TextStyle(
-                fontSize: 18,
-              )),
+              padding: EdgeInsets.only(
+                  top: height * 0.02,
+                  left: width * 0.02,
+                  bottom: height * 0.01),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(titulo!,
+                      style: const TextStyle(
+                        fontSize: 18,
+                      )),
+                  Padding(
+                    padding: EdgeInsets.only(right: width * 0.05),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                CollectionDetails(collectionId: titulo!),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        "MAIS",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
             SizedBox(
               height: height * 0.2,
@@ -85,7 +119,9 @@ class _CollectionList extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return series != null
                       ? _CollectionItem(serie: series![index])
-                      : const Center(child: Text("Algo deu errado"));
+                      : const Center(
+                          child: Text("(◞‸◟) Não encontramos nenhuma série..."),
+                        );
                 },
               ),
             )

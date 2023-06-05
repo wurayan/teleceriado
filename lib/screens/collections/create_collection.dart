@@ -4,12 +4,14 @@ import 'package:teleceriado/services/user_dao/user_collections.dart';
 
 import '../../models/collection.dart';
 import '../../models/serie.dart';
+import '../../services/api_service.dart';
 
 class CreateCollection extends StatelessWidget {
   final Serie? serie;
   CreateCollection({super.key, this.serie});
 
   final FirebaseCollections _collections = FirebaseCollections();
+  final ApiService _api = ApiService();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _tituloController = TextEditingController();
@@ -134,12 +136,17 @@ class CreateCollection extends StatelessWidget {
   Future _salvar() async {
     String? imagemUrl = _imagemController.text.isNotEmpty
         ? _imagemController.text
-        : serie?.poster;
+        : serie!.poster!=null ?
+        _api.getSeriePoster(serie!.poster!) 
+        : null;
+    //TODO TALVEZ POSSAMOS COLOCAR UMA IMAGEM PLACEHOLDER DE SERIES AQUI
     Collection collection = Collection();
     collection.nome = _tituloController.text;
     collection.imagem = imagemUrl;
     collection.descricao = _descricaoController.text;
     await _collections.createCollection(collection);
-    return serie!=null ? _collections.saveInCollection(collection.nome!, serie!) : true;
+    return serie != null
+        ? _collections.saveInCollection(collection.nome!, serie!)
+        : true;
   }
 }

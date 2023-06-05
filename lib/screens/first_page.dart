@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:teleceriado/screens/serie/show_details.dart';
+import 'package:teleceriado/screens/serie/serie_details.dart';
 import 'package:teleceriado/services/api_service.dart';
 import '../models/serie.dart';
 
