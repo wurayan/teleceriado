@@ -7,6 +7,7 @@ import 'package:teleceriado/models/temporada.dart';
 import 'package:teleceriado/services/auth.dart';
 import 'package:teleceriado/wrapper.dart';
 import 'models/serie.dart';
+import 'models/snackbar.dart';
 import 'models/usuario.dart';
 
 void main() async {
@@ -35,6 +36,7 @@ class MainApp extends StatelessWidget {
       value: AuthService().onAuthStateChanged,
       builder: (context, snapshot) {
         return MaterialApp(
+          scaffoldMessengerKey: SnackbarGlobal.key,
           title: 'Teleceriado',
           darkTheme: ThemeData(brightness: Brightness.dark),
           themeMode: ThemeMode.dark,
