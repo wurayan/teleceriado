@@ -35,4 +35,5 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
 ## Ideias Futuras  
     - Criar uma lista de frases para serem exibidas enquanto as telas carregam;
     - Reduzir o tempo de demora para se carregar as imagens com o network;
-    - Botao favoritar precisa ser responsivo e mostrar "Favorito" quando a série estiver na lista de favoritos
+    - Botao favoritar precisa ser responsivo e mostrar "Favorito" quando a série estiver na lista de favoritos;
+    - usar o AutomaticKeepAliveClientMixin para manter os estado da página após sua navegação (assim não teremos que dar reload na página toda vez que abrirmos ela, usar com as páginas de trending, e na de usuário com uma verificação para atualizar a página somente quando há alterações?)

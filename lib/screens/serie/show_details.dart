@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:teleceriado/models/episodio.dart';
-import 'package:teleceriado/screens/serie/widgets/action_buttons.dart';
 import 'package:teleceriado/screens/serie/widgets/edit_episodio.dart';
 import 'package:teleceriado/screens/serie/widgets/options_dialog.dart';
 import 'package:teleceriado/screens/serie/widgets/serie_header.dart';

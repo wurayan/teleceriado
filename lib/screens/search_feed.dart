@@ -90,11 +90,16 @@ class _ResultGrid extends StatelessWidget {
                   );
                 });
               },
-              child: Image.network(
+              child: serie.poster != null ?  
+              Image.network(
                 _api.getSeriePoster(serie.poster!),
                 fit: BoxFit.cover,
                 width: width * 0.65,
                 height: width,
+              )
+              : Container(
+                alignment: Alignment.center,
+                child: const Text("Imagem não Encontrada", textAlign: TextAlign.center,),
               ),
             ),
           );

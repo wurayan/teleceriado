@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/screens/serie/show_details.dart';
-import 'package:teleceriado/screens/serie/widgets/collection_list.dart';
 import 'package:teleceriado/services/user_dao/user_collections.dart';
 
 import '../models/serie.dart';
@@ -14,7 +13,7 @@ class UserFeed extends StatefulWidget {
   State<UserFeed> createState() => _UserFeedState();
 }
 
-class _UserFeedState extends State<UserFeed> {
+class _UserFeedState extends State<UserFeed> with AutomaticKeepAliveClientMixin{
   final FirebaseCollections _collections = FirebaseCollections();
   List<Map<String, List<Serie>>> colecoes = [];
 
@@ -22,7 +21,7 @@ class _UserFeedState extends State<UserFeed> {
   void initState() {
     _collections.getAllCollections().then((collectionList) async {
       for (String collection in collectionList) {
-        print("Coleção: ${collection}");
+        print("Coleção: $collection");
         List<Serie> series = await _collections.getCollectionSeries(collection);
         colecoes.add({collection: series});
       }
@@ -33,6 +32,7 @@ class _UserFeedState extends State<UserFeed> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return CustomScrollView(
       slivers: [
         colecoes.isEmpty
@@ -45,6 +45,9 @@ class _UserFeedState extends State<UserFeed> {
       ],
     );
   }
+  
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class _CollectionList extends StatelessWidget {

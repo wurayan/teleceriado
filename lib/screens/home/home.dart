@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:teleceriado/screens/first_page.dart';
 import 'package:teleceriado/screens/home/widget/search.dart';
 import 'package:teleceriado/screens/user_feed.dart';
-import 'package:teleceriado/services/firebase_path.dart';
 import 'package:teleceriado/services/user_dao/user_collections.dart';
 
 import '../../models/colletion.dart';

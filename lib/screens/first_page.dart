@@ -10,7 +10,7 @@ class FisrtPage extends StatefulWidget {
   State<FisrtPage> createState() => _FisrtPageState();
 }
 
-class _FisrtPageState extends State<FisrtPage> {
+class _FisrtPageState extends State<FisrtPage> with  AutomaticKeepAliveClientMixin{
   final ApiService _api = ApiService();
   List<Serie> seriesPopulares = [];
 
@@ -25,6 +25,7 @@ class _FisrtPageState extends State<FisrtPage> {
 
   @override
   Widget build(context) {
+    super.build(context);
     double width = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.only(top: 15),
@@ -50,6 +51,9 @@ class _FisrtPageState extends State<FisrtPage> {
             ),
     );
   }
+  
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class _PopularList extends StatelessWidget {

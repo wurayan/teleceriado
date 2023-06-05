@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:teleceriado/screens/serie/widgets/collection_list.dart';
 
 import '../../../models/serie.dart';
