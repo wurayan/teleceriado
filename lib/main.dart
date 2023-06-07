@@ -5,6 +5,7 @@ import 'package:teleceriado/models/collection.dart';
 import 'package:teleceriado/models/episodio.dart';
 import 'package:teleceriado/models/temporada.dart';
 import 'package:teleceriado/services/auth.dart';
+import 'package:teleceriado/utils/theme.dart';
 import 'package:teleceriado/wrapper.dart';
 import 'models/serie.dart';
 import 'models/snackbar.dart';
@@ -38,7 +39,8 @@ class MainApp extends StatelessWidget {
         return MaterialApp(
           scaffoldMessengerKey: SnackbarGlobal.key,
           title: 'Teleceriado',
-          darkTheme: ThemeData(brightness: Brightness.dark),
+          darkTheme: theme, 
+          // ThemeData(brightness: Brightness.dark),
           themeMode: ThemeMode.dark,
           home: const Wrapper()
         );

@@ -18,6 +18,7 @@ class _FisrtPageState extends State<FisrtPage> with  AutomaticKeepAliveClientMix
   final ApiService _api = ApiService();
   List<Serie> seriesPopulares = [];
   String loadingFrase = getLoadingFrase();
+  Timer? timer;
 
   @override
   void initState() {
@@ -25,7 +26,7 @@ class _FisrtPageState extends State<FisrtPage> with  AutomaticKeepAliveClientMix
       seriesPopulares = value;
       setState(() {});
     });
-    Timer.periodic(const Duration(seconds: 2), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 2), (timer) {
       if (seriesPopulares.isEmpty) {
         setState(() {
           loadingFrase = getLoadingFrase();
@@ -35,6 +36,18 @@ class _FisrtPageState extends State<FisrtPage> with  AutomaticKeepAliveClientMix
       }
     });
     super.initState();
+  }
+
+  cancelTimer(){
+    if (timer!=null) {
+      timer!.cancel();
+    }
+  }
+
+  @override
+  void dispose() {
+    cancelTimer(); 
+    super.dispose();
   }
 
   @override

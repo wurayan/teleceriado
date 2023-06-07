@@ -58,7 +58,7 @@ class CollectionList extends StatelessWidget {
                         serie: serie,
                       ),
                     ),
-                  );
+                  ).then((value) => value==true ? Navigator.pop(context) : null);
                 },
                 child: Card(
                   child: Container(

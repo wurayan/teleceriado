@@ -1,11 +1,8 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/models/collection.dart';
 import 'package:teleceriado/services/api_service.dart';
 import 'package:teleceriado/services/user_dao/user_collections.dart';
-
 import '../../models/serie.dart';
 import '../serie/serie_details.dart';
 
@@ -37,22 +34,32 @@ class _CollectionDetailsState extends State<CollectionDetails> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SafeArea(
         child: series == null
             ? const Loading()
-            : series!.isEmpty
-                ? const Text("T-T Não tem séries nessa coleção ainda")
-                : CustomScrollView(
-                    slivers: [
-                      SliverToBoxAdapter(
-                        child: _Header(
-                          collection: collection!,
-                        ),
-                      ),
-                      _Body(series: series!)
-                    ],
+            : CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: _Header(
+                      collection: collection!,
+                    ),
                   ),
+                  series!.isEmpty
+                      ? SliverToBoxAdapter(
+                          child: Padding(
+                            padding: EdgeInsets.only(top: height * 0.1),
+                            child: const Center(
+                              child: Text(
+                                "T-T Não tem séries nessa coleção ainda",
+                              ),
+                            ),
+                          ),
+                        )
+                      : _Body(series: series!)
+                ],
+              ),
       ),
     );
   }
@@ -88,52 +95,58 @@ class _Header extends StatelessWidget {
                   colors: [Colors.transparent, Colors.blueGrey[900]!])),
         ),
         Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.only(left: width*0.02, right:width*0.02, top: height*0.01),
+              padding: EdgeInsets.only(
+                  left: width * 0.02, right: width * 0.02, top: height * 0.01),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    onTap: (){
+                    onTap: () {
                       Navigator.pop(context);
                     },
                     child: const CircleAvatar(
                       backgroundColor: Colors.white24,
-                      child: Icon(Icons.arrow_back_ios_rounded,
+                      child: Icon(
+                        Icons.arrow_back_ios_rounded,
                       ),
                     ),
                   ),
                   InkWell(
                     onTap: () {
-                      showDialog(context: context, builder: (context)=> const Dialog(
-                        child: Text("Nada Ainda"),
-                      ));
+                      showDialog(
+                        context: context,
+                        builder: (context) => const Dialog(
+                          child: Text("Nada Ainda"),
+                        ),
+                      );
                     },
                     child: const CircleAvatar(
                       backgroundColor: Colors.white24,
-                      child: Icon(Icons.edit_rounded)),
+                      child: Icon(Icons.edit_rounded),
+                    ),
                   )
                 ],
               ),
             ),
             Padding(
               padding: EdgeInsets.only(
-                  top: height * 0.1,
-                  bottom: height * 0.02,
-                  left: width * 0.05),
-              child: Text(collection.nome!,
-                  style: const TextStyle(
-                      fontSize: 22,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500)),
+                  top: height * 0.1, bottom: height * 0.02, left: width * 0.05),
+              child: Text(
+                collection.nome!,
+                style: const TextStyle(
+                    fontSize: 22,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500),
+              ),
             ),
-            Padding(
-              padding: EdgeInsets.only(left: width * 0.02),
-              child: SizedBox(
-                width: width,
-                height: height * 0.2,
+            Flexible(
+              child: Padding(
+                padding:
+                    EdgeInsets.only(left: width * 0.03, bottom: height * 0.03),
                 child: Text(collection.descricao ?? "Sem descrição...."),
               ),
             ),

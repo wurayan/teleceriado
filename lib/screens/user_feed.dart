@@ -22,6 +22,7 @@ class _UserFeedState extends State<UserFeed>
   final FirebaseCollections _collections = FirebaseCollections();
   List<Map<String, List<Serie>>> colecoes = [];
   String loadingFrase = getLoadingFrase();
+  Timer? timer;
 
   @override
   void initState() {
@@ -32,12 +33,24 @@ class _UserFeedState extends State<UserFeed>
       }
       setState(() {});
     });
-    Timer.periodic(const Duration(seconds: 2), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 2), (timer) {
       setState(() {
         loadingFrase = getLoadingFrase();
       });
     });
     super.initState();
+  }
+
+  cancelTimer(){
+    if (timer!=null) {
+      timer!.cancel();
+    }
+  }
+
+  @override
+  void dispose() {
+    cancelTimer();
+    super.dispose();
   }
 
   @override

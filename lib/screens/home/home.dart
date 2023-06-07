@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:teleceriado/screens/first_page.dart';
+import 'package:teleceriado/screens/home/widget/new_collection.dart';
 import 'package:teleceriado/screens/home/widget/search.dart';
 import 'package:teleceriado/screens/user_feed.dart';
 import 'package:teleceriado/services/user_dao/user_collections.dart';
@@ -21,6 +22,12 @@ class _HomeState extends State<Home> {
     const FisrtPage(),
     const UserFeed(),
   ];
+
+  List icons = [
+    const Search(),
+    const NewCollection()
+  ];
+
   int _currentPage = 0;
 
   @override
@@ -28,10 +35,10 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Teleceriado'),
-        actions: const [
+        actions: [
           Padding(
-            padding: EdgeInsets.only(right: 5),
-            child: Search()
+            padding: const EdgeInsets.only(right: 5),
+            child: icons[_currentPage]
           )
         ],
         centerTitle: true,

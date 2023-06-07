@@ -32,14 +32,22 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Implementação dos botões de salvar e favoritar Séries;
     - Apresentação das coleções do usuário na UserScreen;
 
-## Versão 2.0.1
+## Versão 2.0.1  
     - Implementação do SnackBarGlobal;
     - Implementação da criação de Coleções;
     - Criação da tela de detalhes de Coleções;
     - Redesign dos Widgets de Loading com adição de frases engraçadas;
+    - Adição da mensagem de séries não encontradas na tela de Coleções;
+    - Criação do arquivo theme;
+    - Resize Automático da descrição das coleções;
+    - Uso de imagens aleatórias para coleções que são criadas sem link para Imagem;
+
+
+
+
 
 ## Ideias Futuras  
     - Reduzir o tempo de demora para se carregar as imagens com o network;
     - Botao favoritar precisa ser responsivo e mostrar "Favorito" quando a série estiver na lista de favoritos;
     - Os itens de coleções ao salvar uma série podem exibir a imagem da coleção no fundo de seus cards com opacidade da esquerda para direita
-    - Adição da mensagem de séries não encontradas na tela de Coleções;
+    

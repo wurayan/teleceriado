@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:teleceriado/models/snackbar.dart';
 import 'package:teleceriado/services/user_dao/user_collections.dart';
+import 'package:teleceriado/utils/utils.dart';
 
 import '../../models/collection.dart';
 import '../../models/serie.dart';
@@ -104,8 +105,7 @@ class CreateCollection extends StatelessWidget {
                             _salvar().then((value) {
                               SnackbarGlobal.show(
                                   "Série salva em ${_tituloController.text}!");
-                              Navigator.pop(context);
-                              Navigator.pop(context);
+                              Navigator.pop(context,true);
                             });
                           }
                         },
@@ -136,9 +136,9 @@ class CreateCollection extends StatelessWidget {
   Future _salvar() async {
     String? imagemUrl = _imagemController.text.isNotEmpty
         ? _imagemController.text
-        : serie!.poster!=null ?
+        : serie?.poster!=null ?
         _api.getSeriePoster(serie!.poster!) 
-        : null;
+        : loremPicsum;
     //TODO TALVEZ POSSAMOS COLOCAR UMA IMAGEM PLACEHOLDER DE SERIES AQUI
     Collection collection = Collection();
     collection.nome = _tituloController.text;
