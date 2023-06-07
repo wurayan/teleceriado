@@ -41,5 +41,5 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
 ## Ideias Futuras  
     - Reduzir o tempo de demora para se carregar as imagens com o network;
     - Botao favoritar precisa ser responsivo e mostrar "Favorito" quando a série estiver na lista de favoritos;
-    - usar o AutomaticKeepAliveClientMixin para manter os estado da página após sua navegação (assim não teremos que dar reload na página toda vez que abrirmos ela, usar com as páginas de trending, e na de usuário com uma verificação para atualizar a página somente quando há alterações?)
     - Os itens de coleções ao salvar uma série podem exibir a imagem da coleção no fundo de seus cards com opacidade da esquerda para direita
+    - Adição da mensagem de séries não encontradas na tela de Coleções;

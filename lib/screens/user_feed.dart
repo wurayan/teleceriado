@@ -51,9 +51,17 @@ class _UserFeedState extends State<UserFeed>
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.4),
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0.4),
                       child: const Loading(),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Text(
+                        loadingFrase,
+                        style: const TextStyle(fontSize: 18),
+                      ),
+                    )
                   ],
                 ),
               )
@@ -123,20 +131,31 @@ class _CollectionList extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
-              height: height * 0.2,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: series?.length ?? 0,
-                itemBuilder: (context, index) {
-                  return series != null
-                      ? _CollectionItem(serie: series![index])
-                      : const Center(
-                          child: Text("(◞‸◟) Não encontramos nenhuma série..."),
-                        );
-                },
-              ),
-            )
+            series == null || series!.isEmpty
+                ? Padding(
+                  padding: EdgeInsets.only(top: height*0.05),
+                  child: const Center(
+                      child: Text(
+                        "(◞‸◟) Não encontramos nenhuma série...",
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                )
+                : SizedBox(
+                    height: height * 0.2,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: series?.length ?? 0,
+                      itemBuilder: (context, index) {
+                        return series != null || series!.isNotEmpty
+                            ? _CollectionItem(serie: series![index])
+                            : const Center(
+                                child: Text(
+                                    "(◞‸◟) Não encontramos nenhuma série..."),
+                              );
+                      },
+                    ),
+                  )
           ],
         );
       },

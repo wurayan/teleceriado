@@ -8,7 +8,8 @@ List<String> loadingFrases = [
   "Toretto pilotando o Optimus Prime",
   "Já assistiu Boku no Pico?",
   "Entra no robô Shinji",
-  "Série do Super Man do mal"
+  "Série do Super Man do mal",
+  "Qual a velocidade de uma andorinha em voo?"
 ];
 
 String getLoadingFrase(){
