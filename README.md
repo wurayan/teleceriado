@@ -41,6 +41,10 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Criação do arquivo theme;
     - Resize Automático da descrição das coleções;
     - Uso de imagens aleatórias para coleções que são criadas sem link para Imagem;
+    - Criação do Drawer;
+
+## Versão 2.0.2  
+    - Lista de coleções agora são salvas como array no banco de dados;
 
 
 

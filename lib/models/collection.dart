@@ -29,4 +29,9 @@ class Collection extends ChangeNotifier {
       "imagemUrl":imagem
     };
   }
+
+  @override
+  void notifyListeners() {
+    super.notifyListeners();
+  }
 }

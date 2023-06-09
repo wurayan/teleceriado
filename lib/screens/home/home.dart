@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:teleceriado/screens/first_page.dart';
+import 'package:teleceriado/screens/home/widget/drawer.dart';
 import 'package:teleceriado/screens/home/widget/new_collection.dart';
 import 'package:teleceriado/screens/home/widget/search.dart';
 import 'package:teleceriado/screens/user_feed.dart';
-import 'package:teleceriado/services/user_dao/user_collections.dart';
-
-import '../../models/collection.dart';
-import '../../services/auth.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -16,17 +13,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final AuthService _auth = AuthService(); 
 
   List pages = [
     const FisrtPage(),
     const UserFeed(),
   ];
 
-  List icons = [
-    const Search(),
-    const NewCollection()
-  ];
+  List icons = [const Search(), const NewCollection()];
 
   int _currentPage = 0;
 
@@ -37,9 +30,8 @@ class _HomeState extends State<Home> {
         title: const Text('Teleceriado'),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 5),
-            child: icons[_currentPage]
-          )
+              padding: const EdgeInsets.only(right: 5),
+              child: icons[_currentPage])
         ],
         centerTitle: true,
       ),
@@ -47,7 +39,7 @@ class _HomeState extends State<Home> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'FirstScreen'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.star_border_outlined), label: 'UserScreen'),
+              icon: Icon(Icons.bookmark_rounded), label: 'UserScreen'),
         ],
         selectedItemColor: Colors.grey,
         currentIndex: _currentPage,
@@ -57,48 +49,8 @@ class _HomeState extends State<Home> {
           });
         },
       ),
-      drawer: Drawer(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextButton(
-              onPressed: () async {
-                await _auth.signOut();
-              },
-              child: const Text('Log Out'),
-            ),
-            TextButton(
-              onPressed: (){
-                FirebaseCollections db = FirebaseCollections();
-                Collection favoritos = Collection();
-                favoritos.nome = "favoritos";
-                favoritos.descricao = "primeira coleção";
-                favoritos.imagem = "umaUrl"; 
-                db.createCollection(favoritos);
-              }, 
-              child: const Text("Criar favoritos")),
-            TextButton(
-              onPressed: (){
-                FirebaseCollections db = FirebaseCollections();
-                Collection colecao = Collection();
-                colecao.nome = "diabos";
-                colecao.descricao = "segunda coleção";
-                colecao.imagem = "outraUrl"; 
-                db.createCollection(colecao);
-              }, 
-              child: const Text("Criar diabos")),
-            TextButton(
-              onPressed: (){
-                FirebaseCollections db = FirebaseCollections();
-                db.getCollectionSeries("Favoritos");
-              },
-              child: const Text("pega esse danado")
-            ),
-          ],
-        ),
-      ),
-      body: 
-      pages[_currentPage],
+      drawer: HomeDrawer(),
+      body: pages[_currentPage],
     );
   }
 }

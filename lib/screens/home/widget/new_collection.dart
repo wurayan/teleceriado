@@ -13,7 +13,7 @@ class NewCollection extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => CreateCollection(),
           ),
-        );
+        ).then((value) => null);
       },
       icon: const Icon(Icons.add_rounded, size: 35),
     );

@@ -6,7 +6,6 @@ import '../prefs.dart';
 class FirebaseCollections {
   Prefs prefs = Prefs();
   FirebaseFirestore db = FirebaseFirestore.instance;
-
   String initialCollection = "/usuarios";
   String favoritos = "/favoritos";
   String series = "/series";
@@ -19,11 +18,11 @@ class FirebaseCollections {
         .doc("/$userUid")
         .get()
         .catchError((e) => throw Exception(e));
-    List<String> listaColecoes = [];
+
     Map<String, dynamic> resultMap = result.data()!;
-    resultMap.forEach((key, value) {
-      listaColecoes.add(key);
-    });
+    List<String> listaColecoes =
+        List<String>.from(resultMap["colecoes"] as List);
+    // List<String> categoriesList = List<String>.from(map['categories'] as List);
     return listaColecoes;
   }
 
@@ -70,13 +69,31 @@ class FirebaseCollections {
     String? userUid = await prefs.getUserId();
     assert(userUid != null);
     var path = db.collection(initialCollection).doc("/$userUid");
-    path.set(
-        {"${collection.nome}": "${collection.nome}"}, SetOptions(merge: true));
+    path.set({
+      "colecoes": FieldValue.arrayUnion(["${collection.nome}"])
+    }, SetOptions(merge: true));
     path
         .collection("/${collection.nome}")
         .doc(doc)
         .set(collection.toMap())
         .then((value) {
+      print("Coleção foi criada com sucesso!");
+    }).catchError((e) => throw Exception(e));
+  }
+
+  createFavorites() async {
+    String? userUid = await prefs.getUserId();
+    assert(userUid != null);
+    var path = db.collection(initialCollection).doc("/$userUid");
+    path.set({
+      "colecoes": FieldValue.arrayUnion(["Favoritos"])
+    }, SetOptions(merge: true));
+    path.collection("/Favoritos").doc(doc).set({
+      "nome": "Favoritos",
+      "descricao": "Uma coleção só para suas séries favoritas!",
+      "imagemUrl":
+          "https://images.unsplash.com/photo-1593361351718-6b853f7b3431?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80"
+    }).then((value) {
       print("Coleção foi criada com sucesso!");
     }).catchError((e) => throw Exception(e));
   }
@@ -87,7 +104,6 @@ class FirebaseCollections {
       "Nome": "${serie.nome}",
       "Poster": "${serie.poster}",
     };
-    print("coleção: $collectionId\nserie: $serieMap");
     db
         .collection(initialCollection)
         .doc("/$userUid")
@@ -95,43 +111,44 @@ class FirebaseCollections {
         .doc(doc)
         .collection(series)
         .doc("/${serie.id}")
-        .set(serieMap).catchError((e) => throw Exception(e));
+        .set(serieMap)
+        .catchError((e) => throw Exception(e));
     return true;
   }
-  // saveTest(String collectionId) async {
-  //   String? userUid = await prefs.getUserId();
-  //   Map<String, dynamic> serieMap = {
-  //     "Nome": serie.nome,
-  //     "Poster": serie.poster,
-  //   };
-  //   db
-  //       .collection(initialCollection)
-  //       .doc("/$userUid")
-  //       .collection("/$collectionId")
-  //       .doc(doc)
-  //       .collection(series)
-  //       .doc("/${serie.id}")
-  //       .set(serieMap).then((value) => print("SALVOU AEHOPOO E TRETATTAAAAA"));
-  // }
 
-  docsToSerie() {}
+  getData() async {
+    var result = await db.collection(initialCollection).doc("/WuRayan").get();
+    Map<String, dynamic> resultMap = result.data()!;
+    print("resultado: $resultMap");
+    List<dynamic> colecoes = resultMap["colecoes"];
+    print(colecoes);
+  }
 
-  createFavorites() async {
+  setData() async {
+    var result = await db.collection(initialCollection).doc("/WuRayan").set({
+      "colecoes": FieldValue.arrayUnion(["Favoritos", "odiados"])
+    }, SetOptions(merge: true));
+  }
+
+  addData() async {
+    var result = await db.collection(initialCollection).doc("/WuRayan").set({
+      "colecoes": FieldValue.arrayUnion(["outra lista", "teste"])
+    }, SetOptions(merge: true));
+  }
+
+  removeData() async {
+    var result = await db.collection(initialCollection).doc("/WuRayan").update(
+      {
+        "colecoes": FieldValue.arrayRemove(["Favoritos", "teste"])
+      },
+    );
+  }
+
+  updateUi(Function reload) async {
     String? userUid = await prefs.getUserId();
-    assert(userUid != null);
-    var path = db.collection(initialCollection).doc("/$userUid");
-    path.set(
-        {"Favoritos": "Favoritos"}, SetOptions(merge: true));
-    path
-        .collection("/Favoritos")
-        .doc(doc)
-        .set({
-          "nome":"Favoritos",
-          "descricao":"Uma coleção só para suas séries favoritas!",
-          "imagemUrl":"https://images.unsplash.com/photo-1593361351718-6b853f7b3431?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80"
-        })
-        .then((value) {
-      print("Coleção foi criada com sucesso!");
-    }).catchError((e) => throw Exception(e));
+    db.collection(initialCollection).doc("/$userUid").snapshots().listen(
+        (event) {
+      reload();
+    }, onError: (e) => throw Exception(e));
   }
 }

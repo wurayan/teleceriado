@@ -11,6 +11,8 @@ List<String> loadingFrases = [
   "Série do Super Man do mal",
   "Qual a velocidade de uma andorinha em voo?",
   "Voltando no tempo",
+  "Ned Stark morre",
+  "Homofobia nos olhos",
 ];
 
 String getLoadingFrase(){

@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/screens/collections/collection_details.dart';
@@ -24,8 +23,9 @@ class _UserFeedState extends State<UserFeed>
   String loadingFrase = getLoadingFrase();
   Timer? timer;
 
-  @override
-  void initState() {
+
+//TODO TALVEZ TENHAMOS QUE USAR O OUTRO METODO DE CONSTRUIR LIST COM FUTURE, PARA ASSIM A LISTA SER ATUALIZADA CONFORME É ALTERADA
+  getCollections(){
     _collections.getAllCollections().then((collectionList) async {
       for (String collection in collectionList) {
         List<Serie> series = await _collections.getCollectionSeries(collection);
@@ -33,6 +33,11 @@ class _UserFeedState extends State<UserFeed>
       }
       setState(() {});
     });
+  }
+
+  @override
+  void initState() {
+    getCollections();
     timer = Timer.periodic(const Duration(seconds: 2), (timer) {
       setState(() {
         loadingFrase = getLoadingFrase();
@@ -56,6 +61,9 @@ class _UserFeedState extends State<UserFeed>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    // _collections.updateUi(
+    //   getCollections
+    // );
     return CustomScrollView(
       slivers: [
         colecoes.isEmpty

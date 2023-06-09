@@ -1,0 +1,36 @@
+getData() async {
+    var result = await db
+      .collection(initialCollection)
+      .doc("/WuRayan")
+      .get();
+    Map<String, dynamic> resultMap = result.data()!;
+    print("resultado: $resultMap");
+    List<dynamic> colecoes = resultMap["colecoes"];
+    print(colecoes);
+  }
+  setData() async {
+    var result = await db
+    .collection(initialCollection)
+    .doc("/WuRayan")
+    .set(
+      {"colecoes": FieldValue.arrayUnion(["Favoritos", "odiados"])},
+      SetOptions(merge: true)
+    );
+  }
+  addData() async {
+    var result = await db
+    .collection(initialCollection)
+    .doc("/WuRayan")
+    .set(
+      {"colecoes": FieldValue.arrayUnion(["outra lista", "teste"])},
+      SetOptions(merge: true)
+    );
+  }
+  removeData() async {
+    var result = await db
+    .collection(initialCollection)
+    .doc("/WuRayan")
+    .update(
+      {"colecoes": FieldValue.arrayRemove(["Favoritos", "teste"])},
+    );
+  }
