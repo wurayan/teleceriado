@@ -46,6 +46,7 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
 ## Versão 2.0.2  
     - Lista de coleções agora são salvas como array no banco de dados;
     - Implementado a edição de Username;
+    - Redesign da lista de coleções ao salvar série;
 
 
 

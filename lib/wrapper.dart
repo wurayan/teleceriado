@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:teleceriado/screens/authenticate/auth.dart';
 import 'package:teleceriado/screens/home/home.dart';
-
 import 'models/usuario.dart';
 
 class Wrapper extends StatelessWidget {

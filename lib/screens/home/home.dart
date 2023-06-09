@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:teleceriado/screens/first_page.dart';
-import 'package:teleceriado/screens/home/widget/choose_username.dart';
 import 'package:teleceriado/screens/home/widget/drawer.dart';
 import 'package:teleceriado/screens/home/widget/new_collection.dart';
 import 'package:teleceriado/screens/home/widget/search.dart';
