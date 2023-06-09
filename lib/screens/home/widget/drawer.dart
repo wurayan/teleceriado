@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:teleceriado/screens/home/widget/choose_username.dart';
 import 'package:teleceriado/services/user_dao/user_collections.dart';
 import '../../../models/usuario.dart';
 import '../../../services/auth.dart';
@@ -40,6 +41,25 @@ class HomeDrawer extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: height * 0.01, right: width * 0.01),
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: InkWell(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => ChooseUsername(),
+                            );
+                          },
+                          child: const Icon(
+                            Icons.edit_rounded,
+                            size: 30,
+                          ),
+                        ),
+                      ),
+                    ),
                     const Expanded(child: SizedBox(width: null, height: null)),
                     Text(
                       Provider.of<Usuario?>(context)!.uid,
@@ -66,7 +86,8 @@ class HomeDrawer extends StatelessWidget {
                   child: Row(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(left: width*0.02, right: width*0.04),
+                        padding: EdgeInsets.only(
+                            left: width * 0.02, right: width * 0.04),
                         child: const Icon(Icons.view_carousel_rounded),
                       ),
                       const Text(
@@ -81,29 +102,29 @@ class HomeDrawer extends StatelessWidget {
               ),
             ),
             TextButton(
-              onPressed: () async {
-                final FirebaseCollections _col = FirebaseCollections();
-                await _col.getData();
-              }, 
-              child: Text("busca array")),
-              TextButton(
-              onPressed: () async {
-                final FirebaseCollections _col = FirebaseCollections();
-                await _col.setData();
-              }, 
-              child: Text("bota array")),
-              TextButton(
-              onPressed: () async {
-                final FirebaseCollections _col = FirebaseCollections();
-                await _col.addData();
-              }, 
-              child: Text("bota mais")),
-              TextButton(
-              onPressed: () async {
-                final FirebaseCollections _col = FirebaseCollections();
-                await _col.removeData();
-              }, 
-              child: Text("tira array")),
+                onPressed: () async {
+                  final FirebaseCollections _col = FirebaseCollections();
+                  await _col.getData();
+                },
+                child: Text("busca array")),
+            TextButton(
+                onPressed: () async {
+                  final FirebaseCollections _col = FirebaseCollections();
+                  await _col.setData();
+                },
+                child: Text("bota array")),
+            TextButton(
+                onPressed: () async {
+                  final FirebaseCollections _col = FirebaseCollections();
+                  await _col.addData();
+                },
+                child: Text("bota mais")),
+            TextButton(
+                onPressed: () async {
+                  final FirebaseCollections _col = FirebaseCollections();
+                  await _col.removeData();
+                },
+                child: Text("tira array")),
             TextButton(
               onPressed: () async {
                 await _auth.signOut();

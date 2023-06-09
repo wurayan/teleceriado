@@ -8,9 +8,9 @@ class AuthService {
   final Prefs _prefs = Prefs();
   final FirebaseCollections _collection = FirebaseCollections();
 
-  Usuario? _usuarioFromFirebase(User? usuario){
+  Usuario? _usuarioFromFirebase(User? usuario, bool firstTime){
     if (usuario!= null) {
-      Usuario user = Usuario(usuario.uid); 
+      Usuario user = Usuario(usuario.uid, usuario.uid, firstTime); 
       // _prefs.saveUserId(user.uid);
       return user;
     } else {
@@ -22,7 +22,7 @@ class AuthService {
     try {
       UserCredential result = await _auth.signInAnonymously();
       User? user = result.user;
-      Usuario? usuario = _usuarioFromFirebase(user);
+      Usuario? usuario = _usuarioFromFirebase(user, true);
       await _prefs.saveUserId(usuario!.uid);
       _collection.createFavorites();
       return usuario;
@@ -32,7 +32,7 @@ class AuthService {
   }
 
   Stream<Usuario?> get onAuthStateChanged{
-    return _auth.authStateChanges().map((User? user) => _usuarioFromFirebase(user));
+    return _auth.authStateChanges().map((User? user) => _usuarioFromFirebase(user, true));
   }
 
   Future signOut() async {
@@ -48,7 +48,7 @@ class AuthService {
     try {
       UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: senha);
       User user = result.user!;
-      Usuario? usuario = _usuarioFromFirebase(user);
+      Usuario? usuario = _usuarioFromFirebase(user, false);
       _prefs.saveUserId(usuario!.uid);
       return usuario;
     } catch (e) {
@@ -60,7 +60,7 @@ class AuthService {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: senha);
       User user = result.user!;
-      Usuario? usuario = _usuarioFromFirebase(user);
+      Usuario? usuario = _usuarioFromFirebase(user, true);
       await _prefs.saveUserId(usuario!.uid);
       _collection.createFavorites();
       return usuario;

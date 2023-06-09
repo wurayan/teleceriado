@@ -1,5 +1,7 @@
 class Usuario {
   String uid;
+  String username;
+  bool firstTime;
 
-  Usuario( this.uid);
+  Usuario( this.uid, this.username, this.firstTime);
 }

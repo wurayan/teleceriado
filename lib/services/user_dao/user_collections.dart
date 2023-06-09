@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:teleceriado/models/snackbar.dart';
 import '../../models/collection.dart';
 import '../../models/serie.dart';
 import '../prefs.dart';
@@ -86,7 +87,8 @@ class FirebaseCollections {
     assert(userUid != null);
     var path = db.collection(initialCollection).doc("/$userUid");
     path.set({
-      "colecoes": FieldValue.arrayUnion(["Favoritos"])
+      "colecoes": FieldValue.arrayUnion(["Favoritos"]),
+      "username": userUid,
     }, SetOptions(merge: true));
     path.collection("/Favoritos").doc(doc).set({
       "nome": "Favoritos",
@@ -114,6 +116,18 @@ class FirebaseCollections {
         .set(serieMap)
         .catchError((e) => throw Exception(e));
     return true;
+  }
+
+  updateUsername(String username) async {
+    String? userUid = await prefs.getUserId();
+    assert(userUid != null);
+    var path = db.collection(initialCollection).doc("/$userUid");
+    path.update(
+      {"username":username}
+    ).onError((error, stackTrace) {
+      SnackbarGlobal.show(error.toString());
+      throw Exception(error);
+    });
   }
 
   getData() async {
