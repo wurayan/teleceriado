@@ -62,7 +62,8 @@ class HomeDrawer extends StatelessWidget {
                     ),
                     const Expanded(child: SizedBox(width: null, height: null)),
                     Text(
-                      Provider.of<Usuario?>(context)!.uid,
+                      Provider.of<Usuario?>(context)!.username
+                       ?? Provider.of<Usuario?>(context)!.uid,
                       style: const TextStyle(fontSize: 18, color: Colors.white),
                       maxLines: 1,
                       overflow: TextOverflow.clip,

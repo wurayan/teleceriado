@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:teleceriado/models/snackbar.dart';
+import 'package:teleceriado/models/usuario.dart';
 import '../../models/collection.dart';
 import '../../models/serie.dart';
 import '../prefs.dart';
@@ -11,6 +12,18 @@ class FirebaseCollections {
   String favoritos = "/favoritos";
   String series = "/series";
   String doc = "/doc";
+
+  Future<String> getUsername() async {
+    String? userUid = await prefs.getUserId();
+    DocumentSnapshot<Map<String, dynamic>> result = await db
+        .collection(initialCollection)
+        .doc("/$userUid")
+        .get()
+        .catchError((e) => throw Exception(e));
+    Map<String, dynamic> resultMap = result.data()!;
+    return  resultMap["username"];
+
+  }
 
   Future<List<String>> getAllCollections() async {
     String? userUid = await prefs.getUserId();
@@ -116,6 +129,10 @@ class FirebaseCollections {
         .set(serieMap)
         .catchError((e) => throw Exception(e));
     return true;
+  }
+
+  editSerie() async {
+
   }
 
   updateUsername(String username) async {

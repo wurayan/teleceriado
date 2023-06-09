@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:teleceriado/models/usuario.dart';
 import 'package:teleceriado/screens/first_page.dart';
 import 'package:teleceriado/screens/home/widget/drawer.dart';
 import 'package:teleceriado/screens/home/widget/new_collection.dart';
 import 'package:teleceriado/screens/home/widget/search.dart';
 import 'package:teleceriado/screens/user_feed.dart';
+
+import '../../services/user_dao/user_collections.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -13,6 +17,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final FirebaseCollections _collections = FirebaseCollections();
+
   List pages = [
     const FisrtPage(),
     const UserFeed(),
@@ -21,9 +27,24 @@ class _HomeState extends State<Home> {
   List icons = [const Search(), const NewCollection()];
 
   int _currentPage = 0;
+  String? username;
+
+  getUsername() async {
+    String user = await _collections.getUsername();
+    setState(() {
+      username = user;
+    });
+  }
+
+  @override
+  void initState() {
+    getUsername();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    username!= null ? Provider.of<Usuario>(context).username = username : null;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Teleceriado'),

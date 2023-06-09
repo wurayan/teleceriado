@@ -56,4 +56,5 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Reduzir o tempo de demora para se carregar as imagens com o network;
     - Botao favoritar precisa ser responsivo e mostrar "Favorito" quando a série estiver na lista de favoritos;
     - Os itens de coleções ao salvar uma série podem exibir a imagem da coleção no fundo de seus cards com opacidade da esquerda para direita
+    - Existe uma opção de display name no usuário do firebase, entáo nao precisamos salvar nos docs, só precisamos aprender como altera-la
     

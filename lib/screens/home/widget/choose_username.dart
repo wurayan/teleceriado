@@ -15,7 +15,7 @@ class ChooseUsername extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<Usuario>(context).firstTime = false;
+    Provider.of<Usuario>(context,listen: false).firstTime = false;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Dialog(
@@ -59,8 +59,9 @@ class ChooseUsername extends StatelessWidget {
                       height: height * 0.05,
                       child: ElevatedButton(
                         onPressed: (){
-                          Provider.of<Usuario>(context).username = _usernameController.text;
+                          Provider.of<Usuario>(context, listen: false).username = _usernameController.text;
                           _collections.updateUsername(_usernameController.text);
+                          Navigator.pop(context);
                         }, 
                         child: const Text("Salvar")),
                     )
