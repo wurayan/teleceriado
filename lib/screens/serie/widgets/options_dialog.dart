@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:teleceriado/screens/serie/widgets/edit_serie.dart';
 
 class OptionsButton extends StatefulWidget {
-  const OptionsButton({super.key});
+  final int serieId;
+  const OptionsButton({super.key, required this.serieId});
 
   @override
   State<OptionsButton> createState() => _OptionsButtonState();
@@ -15,11 +17,11 @@ class _OptionsButtonState extends State<OptionsButton> {
     return InkWell(
       onTap: () {
         setState(() {
-          isTapped= !isTapped;
+          isTapped = !isTapped;
         });
         showDialog(
             context: context,
-            builder: (context) => const OptionsDialog()).then((value) {
+            builder: (context) => OptionsDialog(serieId: widget.serieId,)).then((value) {
           setState(() {
             isTapped = !isTapped;
           });
@@ -43,7 +45,8 @@ class _OptionsButtonState extends State<OptionsButton> {
 }
 
 class OptionsDialog extends StatelessWidget {
-  const OptionsDialog({super.key});
+  final int serieId;
+  const OptionsDialog({super.key, required this.serieId});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +61,7 @@ class OptionsDialog extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(top: height * 0.01, right: width * 0.02),
               child: Container(
-                width: width*0.33,
+                width: width * 0.33,
                 // height: height*0.2,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
@@ -66,17 +69,40 @@ class OptionsDialog extends StatelessWidget {
                 child: Column(
                   children: [
                     TextButton(
-                      onPressed: (){}, 
-                      child: const Text('Editar imagem', style:TextStyle(color: Colors.black))),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        showDialog(
+                          context: context,
+                          builder: (context) => EditSerie(isDescription: false, serieId: serieId,),
+                        );
+                        },
+                        child: const Text('Editar imagem',
+                            style: TextStyle(color: Colors.black))),
                     const Divider(
                       height: 3,
                       color: Colors.black,
                     ),
-                    TextButton(onPressed: (){}, child: const Text('Editar Descrição', style:TextStyle(color: Colors.black))),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        showDialog(
+                          context: context,
+                          builder: (context) => EditSerie(isDescription: true, serieId: serieId,),
+                        );
+                      },
+                      child: const Text(
+                        'Editar Descrição',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
                     const Divider(
                       height: 3,
-                      color: Colors.black,),
-                    TextButton(onPressed: (){}, child: const Text('Compartilhar',  style:TextStyle(color: Colors.black)))
+                      color: Colors.black,
+                    ),
+                    TextButton(
+                        onPressed: () {},
+                        child: const Text('Compartilhar',
+                            style: TextStyle(color: Colors.black)))
                   ],
                 ),
               ),

@@ -21,8 +21,7 @@ class FirebaseCollections {
         .get()
         .catchError((e) => throw Exception(e));
     Map<String, dynamic> resultMap = result.data()!;
-    return  resultMap["username"];
-
+    return resultMap["username"];
   }
 
   Future<List<String>> getAllCollections() async {
@@ -131,17 +130,29 @@ class FirebaseCollections {
     return true;
   }
 
-  editSerie() async {
-
+  editSerie(Serie serie) async {
+    String? userUid = await prefs.getUserId();
+    db
+        .collection(initialCollection)
+        .doc("/$userUid")
+        .collection("/editados")
+        .doc("/${serie.id}")
+        .set(
+          serie.descricao==null
+          ? {
+           "poster": serie.poster,
+           }
+          :{
+           "descricao": serie.descricao
+          },
+        SetOptions(merge: true));
   }
 
   updateUsername(String username) async {
     String? userUid = await prefs.getUserId();
     assert(userUid != null);
     var path = db.collection(initialCollection).doc("/$userUid");
-    path.update(
-      {"username":username}
-    ).onError((error, stackTrace) {
+    path.update({"username": username}).onError((error, stackTrace) {
       SnackbarGlobal.show(error.toString());
       throw Exception(error);
     });

@@ -58,7 +58,7 @@ class _ShowDetailsState extends State<ShowDetails> {
                 ),
                 Padding(
                     padding: EdgeInsets.all(width * 0.02),
-                    child: const OptionsButton())
+                    child: OptionsButton(serieId: _serie.id!,))
               ],
             )
           ],
