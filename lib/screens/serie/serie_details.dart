@@ -5,7 +5,9 @@ import 'package:teleceriado/screens/serie/widgets/edit_episodio.dart';
 import 'package:teleceriado/screens/serie/widgets/options_dialog.dart';
 import 'package:teleceriado/screens/serie/widgets/serie_header.dart';
 import 'package:teleceriado/services/api_service.dart';
+import 'package:teleceriado/utils/utils.dart';
 import '../../models/serie.dart';
+import '../../services/user_dao/user_collections.dart';
 
 class ShowDetails extends StatefulWidget {
   final Serie serie;
@@ -16,11 +18,34 @@ class ShowDetails extends StatefulWidget {
 }
 
 class _ShowDetailsState extends State<ShowDetails> {
+  final FirebaseCollections _collection = FirebaseCollections();
+
   late Serie _serie;
+  bool backdropEdited = false;
+
+  getEdited(Serie serie) async {
+    Map? map = await _collection.getEdited(serie.id!);
+    if (map != null) {
+      if (map["descricao"] != null && map["backdrop"]!=null) {
+        serie.descricao = map["descricao"];
+        serie.backdrop = map["backdrop"];
+        backdropEdited = true;
+      }
+      else if (map["backdrop"] != null) {
+        backdropEdited = true;
+        serie.backdrop = map["backdrop"];
+      } 
+      else {
+        serie.descricao = map["descricao"];
+      }
+      setState(() {});
+    }
+  }
 
   @override
   void initState() {
     _serie = widget.serie;
+    getEdited(_serie);
     super.initState();
   }
 
@@ -35,7 +60,8 @@ class _ShowDetailsState extends State<ShowDetails> {
               slivers: [
                 SliverToBoxAdapter(
                     child: SerieHeader(
-                  serie: _serie,
+                  serie: _serie, 
+                  backdropEdited: backdropEdited,
                 )),
                 ListBuilder(idSerie: _serie.id!)
               ],
@@ -58,7 +84,9 @@ class _ShowDetailsState extends State<ShowDetails> {
                 ),
                 Padding(
                     padding: EdgeInsets.all(width * 0.02),
-                    child: OptionsButton(serieId: _serie.id!,))
+                    child: OptionsButton(
+                      serieId: _serie.id!,
+                    ))
               ],
             )
           ],
@@ -92,16 +120,15 @@ class _ListBuilderState extends State<ListBuilder> {
   Widget build(BuildContext context) {
     return episodios.isEmpty
         ? SliverToBoxAdapter(
-          child: Padding(
-            padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height*0.15),
+            child: Padding(
+            padding:
+                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.15),
             child: const Loading(),
-          )
-        )
+          ))
         : SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {
               Episodio episodio = episodios[index];
-              return _EpisodioItem(
-                  episodio: episodio);
+              return _EpisodioItem(episodio: episodio);
             }, childCount: episodios.length),
           );
   }
@@ -120,8 +147,7 @@ class _EpisodioItem extends StatelessWidget {
       onTap: () {
         showDialog(
             context: context,
-            builder: (context) =>
-                EditEpisodio(episodio: episodio));
+            builder: (context) => EditEpisodio(episodio: episodio));
       },
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: height * 0.002),
@@ -135,21 +161,24 @@ class _EpisodioItem extends StatelessWidget {
           clipBehavior: Clip.hardEdge,
           child: Row(
             children: [
-              episodio.imagem != null ? 
-              Image.network(
-                _api.getSeriePoster(episodio.imagem!),
-                fit: BoxFit.cover,
-                width: width * 0.3,
-                height: height * 0.15,
-                alignment: Alignment.centerLeft,
-              ) : SizedBox(
-                width: width*0.3,
-                height: height*0.15,
-                child: const Center(
-                  child: Text('Imagem não encontrada ;-;',
-                  textAlign: TextAlign.center,),
-                ),
-              ),
+              episodio.imagem != null
+                  ? Image.network(
+                      _api.getSeriePoster(episodio.imagem!),
+                      fit: BoxFit.cover,
+                      width: width * 0.3,
+                      height: height * 0.15,
+                      alignment: Alignment.centerLeft,
+                    )
+                  : SizedBox(
+                      width: width * 0.3,
+                      height: height * 0.15,
+                      child: const Center(
+                        child: Text(
+                          'Imagem não encontrada ;-;',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
               Padding(
                 padding: EdgeInsets.symmetric(
                     vertical: height * 0.01, horizontal: width * 0.02),
@@ -171,7 +200,11 @@ class _EpisodioItem extends StatelessWidget {
                     SizedBox(
                       width: width * 0.65,
                       height: height * 0.07,
-                      child: Text(episodio.descricao!, overflow: TextOverflow.fade, maxLines: 3,),
+                      child: Text(
+                        episodio.descricao!,
+                        overflow: TextOverflow.fade,
+                        maxLines: 3,
+                      ),
                     ),
                   ],
                 ),

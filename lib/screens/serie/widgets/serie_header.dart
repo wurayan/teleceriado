@@ -6,7 +6,8 @@ import '../../../models/serie.dart';
 
 class SerieHeader extends StatelessWidget {
   final Serie serie;
-  SerieHeader({super.key, required this.serie});
+  final bool backdropEdited; 
+  SerieHeader({super.key, required this.serie, required this.backdropEdited});
   final ApiService _api = ApiService();
 
   @override
@@ -23,7 +24,9 @@ class SerieHeader extends StatelessWidget {
           height: height * 0.25,
           clipBehavior: Clip.hardEdge,
           child: Image.network(
-            _api.getSeriePoster(serie.backdrop!),
+            backdropEdited
+            ? serie.backdrop!
+            : _api.getSeriePoster(serie.backdrop!),
             fit: BoxFit.cover,
             alignment: Alignment.topCenter,
           ),

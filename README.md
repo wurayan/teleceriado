@@ -48,6 +48,7 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Implementado a edição de Username;
     - Redesign da lista de coleções ao salvar série;
     - Implementação da edição de Detalhes da Série;
+    - Tela de Detalhes da Série apresenta as modificações do usuário;
 
 
 

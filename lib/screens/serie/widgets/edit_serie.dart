@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:teleceriado/models/snackbar.dart';
+import 'package:teleceriado/utils/utils.dart';
 
 import '../../../models/serie.dart';
 import '../../../services/user_dao/user_collections.dart';
@@ -51,6 +53,7 @@ class EditSerie extends StatelessWidget {
               child: TextFormField(
                 controller: _controller,
                 onTapOutside: (event) => FocusManager.instance.primaryFocus!.unfocus(),
+                keyboardType: TextInputType.url,
               ),
             ),
             Padding(
@@ -64,14 +67,23 @@ class EditSerie extends StatelessWidget {
                     }, 
                     child: const Text("Cancelar")),
                     TextButton(
-                      onPressed: (){
+                      onPressed: () async {
                         if (_controller.text.isNotEmpty) {
+                          bool isValid;
                           Serie serie = Serie();
-                          serie.id = serieId;
-                          isDescription ?
-                          serie.descricao = _controller.text :
-                          serie.poster = _controller.text;
-                          _collection.editSerie(serie);                         
+                          if (isDescription) {
+                            serie.descricao = _controller.text;
+                            _collection.editSerie(serie); 
+                          }
+                          else if (!isDescription) {
+                            isValid = await validateImage(_controller.text);
+                            if (isValid) {
+                              serie.backdrop = _controller.text;
+                              _collection.editSerie(serie); 
+                            } else {
+                              SnackbarGlobal.show("Link inválido!");
+                            } 
+                          }                      
                         }
                         Navigator.pop(context);
                       },

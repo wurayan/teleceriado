@@ -140,12 +140,23 @@ class FirebaseCollections {
         .set(
           serie.descricao==null
           ? {
-           "poster": serie.poster,
+           "backdrop": serie.backdrop,
            }
           :{
            "descricao": serie.descricao
           },
         SetOptions(merge: true));
+  }
+
+  Future<Map?> getEdited(int serieId) async {
+    String? userUid = await prefs.getUserId();
+    var res = await db
+        .collection(initialCollection)
+        .doc("/$userUid")
+        .collection("/editados")
+        .doc("/$serieId")
+        .get();
+    return res.data();
   }
 
   updateUsername(String username) async {

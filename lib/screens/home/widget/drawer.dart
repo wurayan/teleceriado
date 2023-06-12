@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:teleceriado/screens/home/widget/choose_username.dart';
 import 'package:teleceriado/services/user_dao/user_collections.dart';
+import 'package:teleceriado/utils/utils.dart';
 import '../../../models/usuario.dart';
 import '../../../services/auth.dart';
 
@@ -103,29 +104,12 @@ class HomeDrawer extends StatelessWidget {
               ),
             ),
             TextButton(
-                onPressed: () async {
-                  final FirebaseCollections _col = FirebaseCollections();
-                  await _col.getData();
-                },
-                child: Text("busca array")),
-            TextButton(
-                onPressed: () async {
-                  final FirebaseCollections _col = FirebaseCollections();
-                  await _col.setData();
-                },
-                child: Text("bota array")),
-            TextButton(
-                onPressed: () async {
-                  final FirebaseCollections _col = FirebaseCollections();
-                  await _col.addData();
-                },
-                child: Text("bota mais")),
-            TextButton(
-                onPressed: () async {
-                  final FirebaseCollections _col = FirebaseCollections();
-                  await _col.removeData();
-                },
-                child: Text("tira array")),
+              onPressed: ()async{
+                bool val = await validateImage("https://picsum.photos/300/200");
+                print("verificação do link imagem, : $val");
+              },
+              child: const Text("validate image"),
+            ),
             TextButton(
               onPressed: () async {
                 await _auth.signOut();
