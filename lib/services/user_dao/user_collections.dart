@@ -167,13 +167,10 @@ class FirebaseCollections {
         .doc("/$userUid")
         .collection("/editados")
         .doc("/${episodio.serieId}")
-        .collection("/episodios")
-        .doc("/${episodio.id}")
+        .collection("/${episodio.temporada}")
+        .doc("/${episodio.numero}")
         .set(
           {
-            "numero": episodio.numero,
-            "temporada": episodio.temporada,
-            "nome": episodio.nome,
             "imagem": episodio.imagem,
             "descricao": episodio.descricao,
           },
@@ -183,17 +180,25 @@ class FirebaseCollections {
         );
   }
 
-  Future<Map?> getEditedEpisodio(Episodio episodio) async {
+  Future<Map?> getEditedEpisodio(int serieId, int temporada) async {
     String? userUid = await prefs.getUserId();
     var res = await db
         .collection(initialCollection)
         .doc("/$userUid")
         .collection("/editados")
-        .doc("/${episodio.serieId}")
-        .collection("/episodios")
-        .doc("/${episodio.id}")
+        .doc("/$serieId")
+        .collection("/$temporada")
         .get();
-    return res.data();
+    for (var element in res.docs) {
+      Map elementMap = element.data();
+      if (elementMap["descricao"]!=null || elementMap["imagem"]!=null) {
+        Episodio episodio = Episodio();
+        episodio.id = int.parse(element.id);
+        episodio.nome = elementMap["nome"];
+        episodio.numero = elementMap["numero"];
+
+      }
+    }
   }
 
   updateUsername(String username) async {

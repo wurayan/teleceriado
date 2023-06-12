@@ -83,10 +83,8 @@ class EditEpisodio extends StatelessWidget {
                           _descricaoController.text.isNotEmpty) {
                         Episodio newEpisodio = Episodio();
                         newEpisodio.serieId = episodio.serieId;
-                        newEpisodio.id = episodio.id;
-                        newEpisodio.nome = episodio.nome;
                         newEpisodio.temporada = episodio.temporada;
-                        newEpisodio.numero = episodio.temporada;
+                        newEpisodio.numero = episodio.numero;
                         bool isValid =
                             await validateImage(_imagemController.text);
                         newEpisodio.descricao =
@@ -95,7 +93,12 @@ class EditEpisodio extends StatelessWidget {
                                 : null;
                         newEpisodio.imagem =
                             isValid ? _imagemController.text : null;
-                        _collection.editEpisodio(newEpisodio);
+                        //Se NÃO for valido e a descrição estiver vazia
+                        if (!isValid && _descricaoController.text.isEmpty) {
+                          SnackbarGlobal.show("Link Inválido!!");
+                        } else {
+                          _collection.editEpisodio(newEpisodio);
+                        }
                       }
                       reload();
                     },

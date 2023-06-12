@@ -14,8 +14,6 @@ class EpisodioDetails extends StatefulWidget {
 class _EpisodioDetailsState extends State<EpisodioDetails> {
   final ApiService _api = ApiService();
 
-  final TextEditingController _imagemController = TextEditingController();
-  final TextEditingController _descricaoController = TextEditingController();
   late Episodio episodio;
   bool isEditing = false;
 
