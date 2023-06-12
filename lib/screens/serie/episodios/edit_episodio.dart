@@ -79,30 +79,22 @@ class EditEpisodio extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () async {
                       //TODO PARANDO PARA PENSAR, SE EU VOU SALVAR OS DOIS PARAMETROS DEPOIS DE QUALQUER MODO, EU NÃO PRECISO VERIFICAR NADA ALEM DA VALIDADE DO LINK
-                      Episodio newEpisodio = Episodio();
-                      newEpisodio.serieId = episodio.serieId;
-                      newEpisodio.id = episodio.id;
-                      newEpisodio.nome = episodio.nome;
-                      newEpisodio.temporada = episodio.temporada;
-                      newEpisodio.numero = episodio.temporada;
-                      bool isValid = await validateImage(_imagemController.text);
-                      if (_imagemController.text.isNotEmpty && _descricaoController.text.isNotEmpty) {
-                        if (isValid) {
-                          newEpisodio.imagem = _imagemController.text;
-                        }
-                        newEpisodio.descricao = _descricaoController.text;
-                        _collection.editEpisodio(newEpisodio);
-                      }
-                      else if (_imagemController.text.isNotEmpty){
-                        if (isValid) {
-                          newEpisodio.imagem = _imagemController.text;
-                          _collection.editEpisodio(newEpisodio);
-                        } else {
-                          SnackbarGlobal.show("Link inválido!");
-                        }
-                      }
-                      else if (_descricaoController.text.isNotEmpty){
-                        newEpisodio.descricao = _descricaoController.text;
+                      if (_imagemController.text.isNotEmpty ||
+                          _descricaoController.text.isNotEmpty) {
+                        Episodio newEpisodio = Episodio();
+                        newEpisodio.serieId = episodio.serieId;
+                        newEpisodio.id = episodio.id;
+                        newEpisodio.nome = episodio.nome;
+                        newEpisodio.temporada = episodio.temporada;
+                        newEpisodio.numero = episodio.temporada;
+                        bool isValid =
+                            await validateImage(_imagemController.text);
+                        newEpisodio.descricao =
+                            _descricaoController.text.isNotEmpty
+                                ? _descricaoController.text
+                                : null;
+                        newEpisodio.imagem =
+                            isValid ? _imagemController.text : null;
                         _collection.editEpisodio(newEpisodio);
                       }
                       reload();
