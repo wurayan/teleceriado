@@ -97,6 +97,8 @@ class EditEpisodio extends StatelessWidget {
                         if (!isValid && _descricaoController.text.isEmpty) {
                           SnackbarGlobal.show("Link Inválido!!");
                         } else {
+                          episodio.descricao = newEpisodio.descricao??episodio.descricao;
+                          episodio.imagem = newEpisodio.imagem??episodio.imagem;
                           _collection.editEpisodio(newEpisodio);
                         }
                       }

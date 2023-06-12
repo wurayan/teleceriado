@@ -139,14 +139,12 @@ class FirebaseCollections {
         .collection("/editados")
         .doc("/${serie.id}")
         .set(
-          serie.descricao==null
-          ? {
-           "backdrop": serie.backdrop,
-           }
-          :{
-           "descricao": serie.descricao
-          },
-        SetOptions(merge: true));
+            serie.descricao == null
+                ? {
+                    "backdrop": serie.backdrop,
+                  }
+                : {"descricao": serie.descricao},
+            SetOptions(merge: true));
   }
 
   Future<Map?> getEditedSerie(int serieId) async {
@@ -162,6 +160,9 @@ class FirebaseCollections {
 
   editEpisodio(Episodio episodio) async {
     String? userUid = await prefs.getUserId();
+    Map<String, dynamic> editado = {};
+    episodio.imagem!=null ? editado["imagem"]=episodio.imagem:null;
+    episodio.descricao!=null ? editado["descricao"]=episodio.descricao:null;
     var res = await db
         .collection(initialCollection)
         .doc("/$userUid")
@@ -170,18 +171,14 @@ class FirebaseCollections {
         .collection("/${episodio.temporada}")
         .doc("/${episodio.numero}")
         .set(
-          {
-            "imagem": episodio.imagem,
-            "descricao": episodio.descricao,
-          },
-          SetOptions(
-            merge: true
-          )
-        );
+            editado,
+            SetOptions(merge: true));
   }
 
-  Future<Map?> getEditedEpisodio(int serieId, int temporada) async {
+  Future<Map<int, Episodio>?> getEditedEpisodio(
+      int serieId, int temporada) async {
     String? userUid = await prefs.getUserId();
+    Map<int, Episodio> episodios = {};
     var res = await db
         .collection(initialCollection)
         .doc("/$userUid")
@@ -190,15 +187,12 @@ class FirebaseCollections {
         .collection("/$temporada")
         .get();
     for (var element in res.docs) {
-      Map elementMap = element.data();
-      if (elementMap["descricao"]!=null || elementMap["imagem"]!=null) {
-        Episodio episodio = Episodio();
-        episodio.id = int.parse(element.id);
-        episodio.nome = elementMap["nome"];
-        episodio.numero = elementMap["numero"];
-
-      }
+      Episodio episodio = Episodio();
+      episodio.imagem = element.data()["imagem"];
+      episodio.descricao = element.data()["descricao"];
+      episodios[int.parse(element.id)] = episodio;
     }
+    return episodios;
   }
 
   updateUsername(String username) async {

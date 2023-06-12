@@ -10,6 +10,7 @@ class Episodio extends ChangeNotifier {
   String? _nome;
   String? _descricao;
   String? _imagem;
+  bool? _wasEdited;
 
   int? get id => _id;
   int? get serieId => _serieId;
@@ -18,6 +19,7 @@ class Episodio extends ChangeNotifier {
   String? get nome => _nome;
   String? get descricao => _descricao;
   String? get imagem => _imagem;
+  bool? get wasEdited => _wasEdited;
 
   set id(int? value) => _id = value;
   set serieId(int? value) => _serieId = value;
@@ -26,4 +28,5 @@ class Episodio extends ChangeNotifier {
   set nome(String? value) => _nome = value;
   set descricao(String? value) => _descricao = value;
   set imagem(String? value) => _imagem = value;
+  set wasEdited(bool? value) => _wasEdited = value;
 }

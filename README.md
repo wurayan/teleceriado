@@ -50,6 +50,7 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Implementação da edição de Detalhes da Série;
     - Tela de Detalhes da Série apresenta as modificações do usuário;
     - Implementação da edição de Detalhes do Episódio;
+    - Detalhes dos Episódios apresentam as alterações realizadas pelo usuário;
 
 
 

@@ -25,16 +25,14 @@ class _ShowDetailsState extends State<ShowDetails> {
   getEdited(Serie serie) async {
     Map? map = await _collection.getEditedSerie(serie.id!);
     if (map != null) {
-      if (map["descricao"] != null && map["backdrop"]!=null) {
+      if (map["descricao"] != null && map["backdrop"] != null) {
         serie.descricao = map["descricao"];
         serie.backdrop = map["backdrop"];
         backdropEdited = true;
-      }
-      else if (map["backdrop"] != null) {
+      } else if (map["backdrop"] != null) {
         backdropEdited = true;
         serie.backdrop = map["backdrop"];
-      } 
-      else {
+      } else {
         serie.descricao = map["descricao"];
       }
       setState(() {});
@@ -59,7 +57,7 @@ class _ShowDetailsState extends State<ShowDetails> {
               slivers: [
                 SliverToBoxAdapter(
                     child: SerieHeader(
-                  serie: _serie, 
+                  serie: _serie,
                   backdropEdited: backdropEdited,
                 )),
                 ListBuilder(idSerie: _serie.id!)
@@ -105,21 +103,31 @@ class ListBuilder extends StatefulWidget {
 
 class _ListBuilderState extends State<ListBuilder> {
   List<Episodio> episodios = [];
-  List<Episodio> editados = [];
+  Map<int, Episodio>? editados;
   final ApiService _api = ApiService();
-  final FirebaseCollections _collection = FirebaseCollections(); 
+  final FirebaseCollections _collection = FirebaseCollections();
 
-  _getEpisodios(int serieId, int temporada)async{
+  _getEpisodios(int serieId, int temporada) async {
     episodios = await _api.getEpisodios(serieId, temporada);
-    // editados = _collection.getEditedEpisodio(episodio)
+    editados = await _collection.getEditedEpisodio(serieId, temporada);
+    if (editados != null) {
+      editados!.forEach((key, value) {
+        Episodio ep = episodios[key - 1];
+        value.descricao!=null ? ep.descricao=value.descricao : null;
+        if (value.imagem!=null) {
+          ep.imagem = value.imagem;
+          ep.wasEdited = true;
+        }
+      });
+    }
+    setState(() {
+      
+    });
   }
 
   @override
   void initState() {
-    _api.getEpisodios(widget.idSerie, 1).then((value) {
-      episodios = value;
-      setState(() {});
-    });
+    _getEpisodios(widget.idSerie, 1);
     super.initState();
   }
 
@@ -135,7 +143,7 @@ class _ListBuilderState extends State<ListBuilder> {
         : SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {
               Episodio episodio = episodios[index];
-              
+
               return _EpisodioItem(episodio: episodio);
             }, childCount: episodios.length),
           );
@@ -171,7 +179,9 @@ class _EpisodioItem extends StatelessWidget {
             children: [
               episodio.imagem != null
                   ? Image.network(
-                      _api.getSeriePoster(episodio.imagem!),
+                    episodio.wasEdited==true
+                      ? episodio.imagem!
+                      : _api.getSeriePoster(episodio.imagem!),
                       fit: BoxFit.cover,
                       width: width * 0.3,
                       height: height * 0.15,

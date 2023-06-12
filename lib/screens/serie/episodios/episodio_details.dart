@@ -39,10 +39,9 @@ class _EpisodioDetailsState extends State<EpisodioDetails> {
       child: SingleChildScrollView(
         child: SizedBox(
           width: width * 0.9,
-          height: isEditing 
-          ? height * 0.6
-          : height *0.4,
+          height: isEditing ? height * 0.6 : height * 0.4,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Stack(
                 children: [
@@ -51,7 +50,9 @@ class _EpisodioDetailsState extends State<EpisodioDetails> {
                     height: height * 0.2,
                     child: episodio.imagem != null
                         ? Image.network(
-                            _api.getSeriePoster(episodio.imagem!),
+                            episodio.wasEdited == true
+                                ? episodio.imagem!
+                                : _api.getSeriePoster(episodio.imagem!),
                             fit: BoxFit.cover,
                             alignment: Alignment.topCenter,
                           )
