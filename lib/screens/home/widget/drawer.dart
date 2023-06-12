@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:teleceriado/models/episodio.dart';
 import 'package:teleceriado/screens/home/widget/choose_username.dart';
 import 'package:teleceriado/services/user_dao/user_collections.dart';
 import 'package:teleceriado/utils/utils.dart';
@@ -103,13 +104,18 @@ class HomeDrawer extends StatelessWidget {
                 ),
               ),
             ),
-            TextButton(
-              onPressed: ()async{
-                bool val = await validateImage("https://picsum.photos/300/200");
-                print("verificação do link imagem, : $val");
-              },
-              child: const Text("validate image"),
-            ),
+            // TextButton(
+            //   onPressed: ()async{
+            //     FirebaseCollections col = FirebaseCollections();
+            //     Episodio episodio = Episodio();
+            //     episodio
+            //     Map? map = await col.getEditedEpisodio(
+
+            //     );
+            //     print("verificação do link imagem, : $val");
+            //   },
+            //   child: const Text("validate image"),
+            // ),
             TextButton(
               onPressed: () async {
                 await _auth.signOut();

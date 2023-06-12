@@ -116,6 +116,8 @@ class ApiService {
       episodio.nome = episodioDetails['name'];
       episodio.imagem = episodioDetails['still_path'];
       episodio.descricao = episodioDetails['overview'];
+      episodio.serieId = episodioDetails['show_id'];
+      episodio.temporada = episodioDetails['season_number'];
       episodios.add(episodio);
     }
     return episodios;

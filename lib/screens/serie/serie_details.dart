@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/models/episodio.dart';
-import 'package:teleceriado/screens/serie/widgets/edit_episodio.dart';
+import 'package:teleceriado/screens/serie/episodios/episodio_details.dart';
 import 'package:teleceriado/screens/serie/widgets/options_dialog.dart';
 import 'package:teleceriado/screens/serie/widgets/serie_header.dart';
 import 'package:teleceriado/services/api_service.dart';
-import 'package:teleceriado/utils/utils.dart';
 import '../../models/serie.dart';
 import '../../services/user_dao/user_collections.dart';
 
@@ -24,7 +23,7 @@ class _ShowDetailsState extends State<ShowDetails> {
   bool backdropEdited = false;
 
   getEdited(Serie serie) async {
-    Map? map = await _collection.getEdited(serie.id!);
+    Map? map = await _collection.getEditedSerie(serie.id!);
     if (map != null) {
       if (map["descricao"] != null && map["backdrop"]!=null) {
         serie.descricao = map["descricao"];
@@ -106,7 +105,15 @@ class ListBuilder extends StatefulWidget {
 
 class _ListBuilderState extends State<ListBuilder> {
   List<Episodio> episodios = [];
+  List<Episodio> editados = [];
   final ApiService _api = ApiService();
+  final FirebaseCollections _collection = FirebaseCollections(); 
+
+  _getEpisodios(int serieId, int temporada)async{
+    episodios = await _api.getEpisodios(serieId, temporada);
+    // editados = _collection.getEditedEpisodio(episodio)
+  }
+
   @override
   void initState() {
     _api.getEpisodios(widget.idSerie, 1).then((value) {
@@ -128,6 +135,7 @@ class _ListBuilderState extends State<ListBuilder> {
         : SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {
               Episodio episodio = episodios[index];
+              
               return _EpisodioItem(episodio: episodio);
             }, childCount: episodios.length),
           );
@@ -147,7 +155,7 @@ class _EpisodioItem extends StatelessWidget {
       onTap: () {
         showDialog(
             context: context,
-            builder: (context) => EditEpisodio(episodio: episodio));
+            builder: (context) => EpisodioDetails(episodio: episodio));
       },
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: height * 0.002),

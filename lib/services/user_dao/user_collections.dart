@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:teleceriado/models/snackbar.dart';
 import 'package:teleceriado/models/usuario.dart';
 import '../../models/collection.dart';
+import '../../models/episodio.dart';
 import '../../models/serie.dart';
 import '../prefs.dart';
 
@@ -148,13 +149,49 @@ class FirebaseCollections {
         SetOptions(merge: true));
   }
 
-  Future<Map?> getEdited(int serieId) async {
+  Future<Map?> getEditedSerie(int serieId) async {
     String? userUid = await prefs.getUserId();
     var res = await db
         .collection(initialCollection)
         .doc("/$userUid")
         .collection("/editados")
         .doc("/$serieId")
+        .get();
+    return res.data();
+  }
+
+  editEpisodio(Episodio episodio) async {
+    String? userUid = await prefs.getUserId();
+    var res = await db
+        .collection(initialCollection)
+        .doc("/$userUid")
+        .collection("/editados")
+        .doc("/${episodio.serieId}")
+        .collection("/episodios")
+        .doc("/${episodio.id}")
+        .set(
+          {
+            "numero": episodio.numero,
+            "temporada": episodio.temporada,
+            "nome": episodio.nome,
+            "imagem": episodio.imagem,
+            "descricao": episodio.descricao,
+          },
+          SetOptions(
+            merge: true
+          )
+        );
+  }
+
+  Future<Map?> getEditedEpisodio(Episodio episodio) async {
+    String? userUid = await prefs.getUserId();
+    var res = await db
+        .collection(initialCollection)
+        .doc("/$userUid")
+        .collection("/editados")
+        .doc("/${episodio.serieId}")
+        .collection("/episodios")
+        .doc("/${episodio.id}")
         .get();
     return res.data();
   }
