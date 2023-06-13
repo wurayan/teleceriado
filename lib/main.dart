@@ -20,7 +20,8 @@ void main() async {
         ChangeNotifierProvider(create: (context) => Serie()),
         ChangeNotifierProvider(create: (context)=> Episodio()),
         ChangeNotifierProvider(create: (context)=> Temporada()),
-        ChangeNotifierProvider(create: (context) => Collection())
+        ChangeNotifierProvider(create: (context) => Collection()),
+        ChangeNotifierProvider(create: (context) => Usuario())
       ],
       child: const MainApp(),
     )

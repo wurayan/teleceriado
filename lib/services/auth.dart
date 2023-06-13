@@ -10,7 +10,9 @@ class AuthService {
 
   Usuario? _usuarioFromFirebase(User? usuario) {
     if (usuario!= null) {
-      Usuario user = Usuario(usuario.uid);
+      Usuario user = Usuario();
+      user.uid = usuario.uid;
+      // _collection.getUserdata(usuario.uid);
       // _prefs.saveUserId(user.uid);
       return user;
     } else {
@@ -23,7 +25,7 @@ class AuthService {
       UserCredential result = await _auth.signInAnonymously();
       User? user = result.user;
       Usuario? usuario = _usuarioFromFirebase(user);
-      await _prefs.saveUserId(usuario!.uid);
+      await _prefs.saveUserId(usuario!.uid!);
       _collection.createFavorites();
       return usuario;
     } catch (e) {
@@ -49,7 +51,7 @@ class AuthService {
       UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: senha);
       User user = result.user!;
       Usuario? usuario = _usuarioFromFirebase(user);
-      _prefs.saveUserId(usuario!.uid);
+      _prefs.saveUserId(usuario!.uid!);
       
       return usuario;
     } catch (e) {
@@ -62,7 +64,7 @@ class AuthService {
       UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: senha);
       User user = result.user!;
       Usuario? usuario = _usuarioFromFirebase(user);
-      await _prefs.saveUserId(usuario!.uid);
+      await _prefs.saveUserId(usuario!.uid!);
       _collection.createFavorites();
       return usuario;
     } catch (e) {

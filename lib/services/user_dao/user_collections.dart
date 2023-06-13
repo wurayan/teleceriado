@@ -14,7 +14,7 @@ class FirebaseCollections {
   String series = "/series";
   String doc = "/doc";
 
-  Future<String> getUsername() async {
+  Future<Usuario> getUserdata() async {
     String? userUid = await prefs.getUserId();
     DocumentSnapshot<Map<String, dynamic>> result = await db
         .collection(initialCollection)
@@ -22,7 +22,11 @@ class FirebaseCollections {
         .get()
         .catchError((e) => throw Exception(e));
     Map<String, dynamic> resultMap = result.data()!;
-    return resultMap["username"];
+    return Usuario(
+      uid: userUid,
+      username: resultMap["username"],
+      avatar: resultMap["avatar"],
+      );
   }
 
   Future<List<String>> getAllCollections() async {
@@ -164,7 +168,7 @@ class FirebaseCollections {
     episodio.imagem!=null ? editado["imagem"]=episodio.imagem:null;
     episodio.descricao!=null ? editado["descricao"]=episodio.descricao:null;
     episodio.nome!=null ? editado["nome"]=episodio.nome : null;
-    var res = await db
+    await db
         .collection(initialCollection)
         .doc("/$userUid")
         .collection("/editados")
@@ -207,31 +211,31 @@ class FirebaseCollections {
     });
   }
 
-  getData() async {
-    var result = await db.collection(initialCollection).doc("/WuRayan").get();
-    Map<String, dynamic> resultMap = result.data()!;
-    print("resultado: $resultMap");
-    List<dynamic> colecoes = resultMap["colecoes"];
-    print(colecoes);
-  }
+  // getData() async {
+  //   var result = await db.collection(initialCollection).doc("/WuRayan").get();
+  //   Map<String, dynamic> resultMap = result.data()!;
+  //   print("resultado: $resultMap");
+  //   List<dynamic> colecoes = resultMap["colecoes"];
+  //   print(colecoes);
+  // }
 
-  setData() async {
-    var result = await db.collection(initialCollection).doc("/WuRayan").set({
-      "colecoes": FieldValue.arrayUnion(["Favoritos", "odiados"])
-    }, SetOptions(merge: true));
-  }
+  // setData() async {
+  //   var result = await db.collection(initialCollection).doc("/WuRayan").set({
+  //     "colecoes": FieldValue.arrayUnion(["Favoritos", "odiados"])
+  //   }, SetOptions(merge: true));
+  // }
 
-  addData() async {
-    var result = await db.collection(initialCollection).doc("/WuRayan").set({
-      "colecoes": FieldValue.arrayUnion(["outra lista", "teste"])
-    }, SetOptions(merge: true));
-  }
+  // addData() async {
+  //   var result = await db.collection(initialCollection).doc("/WuRayan").set({
+  //     "colecoes": FieldValue.arrayUnion(["outra lista", "teste"])
+  //   }, SetOptions(merge: true));
+  // }
 
-  removeData() async {
-    var result = await db.collection(initialCollection).doc("/WuRayan").update(
-      {
-        "colecoes": FieldValue.arrayRemove(["Favoritos", "teste"])
-      },
-    );
-  }
+  // removeData() async {
+  //   var result = await db.collection(initialCollection).doc("/WuRayan").update(
+  //     {
+  //       "colecoes": FieldValue.arrayRemove(["Favoritos", "teste"])
+  //     },
+  //   );
+  // }
 }

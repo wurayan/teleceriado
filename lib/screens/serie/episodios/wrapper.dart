@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:teleceriado/screens/serie/episodios/edit_episodio.dart';
-import 'package:teleceriado/screens/serie/episodios/episodio_details2.dart';
-
 import '../../../models/episodio.dart';
 import 'episodio_details.dart';
 

@@ -18,6 +18,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final FirebaseCollections _collections = FirebaseCollections();
+  Usuario? usuario;
 
   List pages = [
     const FisrtPage(),
@@ -27,24 +28,31 @@ class _HomeState extends State<Home> {
   List icons = [const Search(), const NewCollection()];
 
   int _currentPage = 0;
-  String? username;
 
-  getUsername() async {
-    String user = await _collections.getUsername();
+  getUserdata() async {
+    usuario = await _collections.getUserdata();
     setState(() {
-      username = user;
     });
+  }
+
+  saveUserdata(context, Usuario usuario){
+    Usuario provider =  Provider.of<Usuario>(context);
+    provider.uid = usuario.uid;
+    provider.username = usuario.username;
+    provider.avatar = usuario.avatar; 
   }
 
   @override
   void initState() {
-    getUsername();
+    getUserdata();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    username!= null ? Provider.of<Usuario>(context).username = username : null;
+    if (usuario!=null) {
+      saveUserdata(context, usuario!);
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Teleceriado'),
