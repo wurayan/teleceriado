@@ -163,6 +163,7 @@ class FirebaseCollections {
     Map<String, dynamic> editado = {};
     episodio.imagem!=null ? editado["imagem"]=episodio.imagem:null;
     episodio.descricao!=null ? editado["descricao"]=episodio.descricao:null;
+    episodio.nome!=null ? editado["nome"]=episodio.nome : null;
     var res = await db
         .collection(initialCollection)
         .doc("/$userUid")
@@ -190,6 +191,7 @@ class FirebaseCollections {
       Episodio episodio = Episodio();
       episodio.imagem = element.data()["imagem"];
       episodio.descricao = element.data()["descricao"];
+      episodio.nome = element.data()["nome"];
       episodios[int.parse(element.id)] = episodio;
     }
     return episodios;
@@ -231,13 +233,5 @@ class FirebaseCollections {
         "colecoes": FieldValue.arrayRemove(["Favoritos", "teste"])
       },
     );
-  }
-
-  updateUi(Function reload) async {
-    String? userUid = await prefs.getUserId();
-    db.collection(initialCollection).doc("/$userUid").snapshots().listen(
-        (event) {
-      reload();
-    }, onError: (e) => throw Exception(e));
   }
 }

@@ -21,5 +21,14 @@ ThemeData theme = ThemeData(
       textStyle: const TextStyle(fontSize: 16),
     ),
   ),
-  
+  snackBarTheme: const SnackBarThemeData(
+    backgroundColor:  Color.fromARGB(200, 71, 82, 89),
+    contentTextStyle: TextStyle(
+      fontSize: 16,
+      color: Colors.white
+    ),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(15))
+    )
+  )
 );

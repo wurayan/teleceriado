@@ -32,6 +32,7 @@ class SerieHeader extends StatelessWidget {
           ),
         ),
         Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Container(
               height: height * 0.25,
@@ -58,21 +59,17 @@ class SerieHeader extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.all(width * 0.02),
-              child: SizedBox(
-                height: height * 0.1,
-                width: width,
+            Flexible(
+              child: Padding(
+                padding: EdgeInsets.all(width * 0.02),
                 child: Text(
                   serie.descricao == null ? 'Sem descrição' : serie.descricao!,
-                  maxLines: 5,
-                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ),
             ActionButtons(serie: serie),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: height * 0.01),
+              padding: EdgeInsets.only(bottom: height * 0.01),
               child: const Divider(
                 color: Colors.black54,
                 thickness: 1,

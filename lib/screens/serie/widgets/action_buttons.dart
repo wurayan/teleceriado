@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:teleceriado/models/snackbar.dart';
 import 'package:teleceriado/screens/serie/widgets/collection_list.dart';
 
 import '../../../models/serie.dart';
@@ -17,13 +18,7 @@ class ActionButtons extends StatelessWidget {
         TextButton(
             onPressed: () {
               _collections.saveInCollection("Favoritos", serie).then(
-                    (value) => ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        backgroundColor: Colors.black,
-                        content: Text("Série Favoritada!",
-                            style: TextStyle(color: Colors.white)),
-                      ),
-                    ),
+                    (value) => SnackbarGlobal.show("Série Favoritada!")
                   );
             },
             style: TextButton.styleFrom(iconColor: Colors.grey),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/models/episodio.dart';
-import 'package:teleceriado/screens/serie/episodios/episodio_details.dart';
+import 'package:teleceriado/screens/serie/episodios/episodio_details2.dart';
+import 'package:teleceriado/screens/serie/episodios/wrapper.dart';
 import 'package:teleceriado/screens/serie/widgets/options_dialog.dart';
 import 'package:teleceriado/screens/serie/widgets/serie_header.dart';
 import 'package:teleceriado/services/api_service.dart';
@@ -113,16 +114,15 @@ class _ListBuilderState extends State<ListBuilder> {
     if (editados != null) {
       editados!.forEach((key, value) {
         Episodio ep = episodios[key - 1];
-        value.descricao!=null ? ep.descricao=value.descricao : null;
-        if (value.imagem!=null) {
+        value.descricao != null ? ep.descricao = value.descricao : null;
+        value.nome != null ? ep.nome = value.nome : null;
+        if (value.imagem != null) {
           ep.imagem = value.imagem;
           ep.wasEdited = true;
         }
       });
     }
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   @override
@@ -162,8 +162,9 @@ class _EpisodioItem extends StatelessWidget {
     return InkWell(
       onTap: () {
         showDialog(
-            context: context,
-            builder: (context) => EpisodioDetails(episodio: episodio));
+          context: context,
+          builder: (context) => EpisodioWrapper(episodio: episodio),
+        );
       },
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: height * 0.002),
@@ -179,9 +180,9 @@ class _EpisodioItem extends StatelessWidget {
             children: [
               episodio.imagem != null
                   ? Image.network(
-                    episodio.wasEdited==true
-                      ? episodio.imagem!
-                      : _api.getSeriePoster(episodio.imagem!),
+                      episodio.wasEdited == true
+                          ? episodio.imagem!
+                          : _api.getSeriePoster(episodio.imagem!),
                       fit: BoxFit.cover,
                       width: width * 0.3,
                       height: height * 0.15,
