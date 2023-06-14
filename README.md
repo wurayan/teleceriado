@@ -52,7 +52,8 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Implementação da edição de Detalhes do Episódio;
     - Detalhes dos Episódios apresentam as alterações realizadas pelo usuário;
 
-
+## Versão 2.0.3  
+    - Implementação da edição de nome e imagem de usuário;
 
 
 

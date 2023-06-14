@@ -26,7 +26,7 @@ class FirebaseCollections {
       uid: userUid,
       username: resultMap["username"],
       avatar: resultMap["avatar"],
-      );
+    );
   }
 
   Future<List<String>> getAllCollections() async {
@@ -165,9 +165,11 @@ class FirebaseCollections {
   editEpisodio(Episodio episodio) async {
     String? userUid = await prefs.getUserId();
     Map<String, dynamic> editado = {};
-    episodio.imagem!=null ? editado["imagem"]=episodio.imagem:null;
-    episodio.descricao!=null ? editado["descricao"]=episodio.descricao:null;
-    episodio.nome!=null ? editado["nome"]=episodio.nome : null;
+    episodio.imagem != null ? editado["imagem"] = episodio.imagem : null;
+    episodio.descricao != null
+        ? editado["descricao"] = episodio.descricao
+        : null;
+    episodio.nome != null ? editado["nome"] = episodio.nome : null;
     await db
         .collection(initialCollection)
         .doc("/$userUid")
@@ -175,9 +177,7 @@ class FirebaseCollections {
         .doc("/${episodio.serieId}")
         .collection("/${episodio.temporada}")
         .doc("/${episodio.numero}")
-        .set(
-            editado,
-            SetOptions(merge: true));
+        .set(editado, SetOptions(merge: true));
   }
 
   Future<Map<int, Episodio>?> getEditedEpisodio(
@@ -201,11 +201,14 @@ class FirebaseCollections {
     return episodios;
   }
 
-  updateUsername(String username) async {
+  updateUserdata({String? username, String? avatar}) async {
     String? userUid = await prefs.getUserId();
     assert(userUid != null);
+    Map<String, dynamic> map = {};
+    username!=null ? map["username"] = username : null;
+    avatar!=null ? map["avatar"] = avatar : null;
     var path = db.collection(initialCollection).doc("/$userUid");
-    path.update({"username": username}).onError((error, stackTrace) {
+    path.update(map).onError((error, stackTrace) {
       SnackbarGlobal.show(error.toString());
       throw Exception(error);
     });

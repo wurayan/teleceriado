@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../../models/usuario.dart';
+import 'package:teleceriado/screens/home/widget/drawer_header.dart';
 import '../../../services/auth.dart';
 
 class HomeDrawer extends StatelessWidget {
@@ -18,57 +17,7 @@ class HomeDrawer extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(
-              width: double.infinity,
-              height: height * 0.17,
-              decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Color.fromARGB(255, 46, 80, 143),
-                        Color.fromARGB(255, 7, 37, 119)
-                      ]),
-                 borderRadius:
-                      BorderRadius.only(bottomRight: Radius.circular(20)),
-                  ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: width*0.2,
-                    height: width*0.2,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        width: 1,
-                        color: Colors.grey[300]!
-                      )
-                    ),
-                    child: Provider.of<Usuario>(context).avatar!=null
-                    ? Image.network(
-                      Provider.of<Usuario>(context).avatar!,
-                      fit: BoxFit.cover,
-                    )
-                    : const Center(
-                      child: Text("Sem Imagem",
-                      textAlign: TextAlign.center,),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: height*0.01),
-                    child: Text(
-                      Provider.of<Usuario>(context).username ?? "Carregando...",
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500
-                      )
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            const DrawerHeaderInfo(),
             Padding(
               padding: EdgeInsets.only(top: height * 0.01),
               child: InkWell(
@@ -108,7 +57,7 @@ class HomeDrawer extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(bottom: height * 0.01),
               child: const Text(
-                "Versão 2.0.2",
+                "Versão 2.0.3",
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
               ),
             )

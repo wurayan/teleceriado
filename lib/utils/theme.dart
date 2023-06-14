@@ -22,13 +22,19 @@ ThemeData theme = ThemeData(
     ),
   ),
   snackBarTheme: const SnackBarThemeData(
-    backgroundColor:  Color.fromARGB(200, 71, 82, 89),
-    contentTextStyle: TextStyle(
-      fontSize: 16,
-      color: Colors.white
+      backgroundColor: Color.fromARGB(200, 71, 82, 89),
+      contentTextStyle: TextStyle(fontSize: 16, color: Colors.white),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(15)))),
+  outlinedButtonTheme: OutlinedButtonThemeData(
+    style: OutlinedButton.styleFrom(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      side:
+          const BorderSide(width: 1, color: Color.fromARGB(255, 243, 243, 243)),
+      textStyle: const TextStyle(fontSize: 16, color: Colors.white),
+      foregroundColor: Colors.white,
     ),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(15))
-    )
-  )
+  ),
 );
