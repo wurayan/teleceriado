@@ -29,8 +29,8 @@ class FirebaseCollections {
     );
   }
 
-  Future<List<String>> getAllCollections() async {
-    String? userUid = await prefs.getUserId();
+  Future<List<String>> getAllCollections({String? user}) async {
+    String? userUid = user ?? await prefs.getUserId();
     DocumentSnapshot<Map<String, dynamic>> result = await db
         .collection(initialCollection)
         .doc("/$userUid")

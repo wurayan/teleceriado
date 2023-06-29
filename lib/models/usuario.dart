@@ -5,6 +5,7 @@ class Usuario extends ChangeNotifier {
   String? username;
   bool? firstTime;
   String? avatar;
+  String? bio;
 
-  Usuario({this.uid, this.username, this.firstTime, this.avatar});
+  Usuario({this.uid, this.username, this.firstTime, this.avatar, this.bio});
 }

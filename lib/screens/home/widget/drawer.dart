@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:teleceriado/screens/comunidade/comunidade.dart';
 import 'package:teleceriado/screens/home/widget/drawer_header.dart';
+import 'package:teleceriado/services/user_dao/comunidade_dao.dart';
+import '../../../services/api_service.dart';
 import '../../../services/auth.dart';
 
 class HomeDrawer extends StatelessWidget {
@@ -22,7 +25,12 @@ class HomeDrawer extends StatelessWidget {
               padding: EdgeInsets.only(top: height * 0.01),
               child: InkWell(
                 onTap: () {
-                  //cONECTAR A TELA DE COMUNIDADE
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Comunidade(),
+                    ),
+                  );
                 },
                 child: Container(
                   width: double.infinity,
@@ -46,6 +54,13 @@ class HomeDrawer extends StatelessWidget {
                   ),
                 ),
               ),
+            ),
+            TextButton(
+              onPressed: (){
+                ApiService _api = ApiService();
+                _api.getRandomBackdrop();
+              },
+              child: Text("ARRIVA CHICO CARLITO")
             ),
             const Expanded(child: SizedBox(width: null, height: null)),
             TextButton(

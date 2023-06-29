@@ -54,6 +54,10 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
 
 ## Versão 2.0.3  
     - Implementação da edição de nome e imagem de usuário;
+    - Implementação do gerador de frases e gerador de emojis;
+    - Criação da tela de Comunidade;
+    - Implementação do método de Busca de Usuários;
+    - Criação da tela de usuários;
 
 
 

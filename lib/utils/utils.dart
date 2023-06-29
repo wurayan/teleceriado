@@ -16,6 +16,25 @@ List<String> loadingFrases = [
   "Você não é 'literalmente ele'"
 ];
 
+List<String> avatarPlaceholder = [
+  "(◉‿◉)",
+  "(ㆆ _ ㆆ)",
+  "☜(⌒▽⌒)",
+  "•`_´•",
+  "( •͡˘ _•͡˘)",
+  "(͡ ° ͜ʖ ͡ °)",
+  "( ✜︵✜ )",
+  "(╥﹏╥)",
+  "(｡◕‿‿◕｡)",
+  "(⩾﹏⩽)",
+  "(⌐⊙_⊙)",
+];
+
+String getAvatarPlaceholder(){
+  int index = Random().nextInt(avatarPlaceholder.length);
+  return avatarPlaceholder[index];
+}
+
 String getLoadingFrase() {
   int index = Random().nextInt(loadingFrases.length);
   return loadingFrases[index];

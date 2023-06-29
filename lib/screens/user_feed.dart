@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:teleceriado/components/loading.dart';
+import 'package:teleceriado/components/loading_frases.dart';
 import 'package:teleceriado/screens/collections/collection_details.dart';
 import 'package:teleceriado/screens/serie/serie_details.dart';
 import 'package:teleceriado/services/user_dao/user_collections.dart';
@@ -20,8 +21,6 @@ class _UserFeedState extends State<UserFeed>
     with AutomaticKeepAliveClientMixin {
   final FirebaseCollections _collections = FirebaseCollections();
   List<Map<String, List<Serie>>> colecoes = [];
-  String loadingFrase = getLoadingFrase();
-  Timer? timer;
 
 
 //TODO TALVEZ TENHAMOS QUE USAR O OUTRO METODO DE CONSTRUIR LIST COM FUTURE, PARA ASSIM A LISTA SER ATUALIZADA CONFORME É ALTERADA
@@ -38,24 +37,7 @@ class _UserFeedState extends State<UserFeed>
   @override
   void initState() {
     getCollections();
-    timer = Timer.periodic(const Duration(seconds: 2), (timer) {
-      setState(() {
-        loadingFrase = getLoadingFrase();
-      });
-    });
     super.initState();
-  }
-
-  cancelTimer(){
-    if (timer!=null) {
-      timer!.cancel();
-    }
-  }
-
-  @override
-  void dispose() {
-    cancelTimer();
-    super.dispose();
   }
 
   @override
@@ -78,10 +60,7 @@ class _UserFeedState extends State<UserFeed>
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
-                      child: Text(
-                        loadingFrase,
-                        style: const TextStyle(fontSize: 18),
-                      ),
+                      child: LoadingFrases(loading: colecoes.isEmpty)
                     )
                   ],
                 ),

@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:teleceriado/services/web_client.dart';
 import 'package:http/http.dart' as http;
@@ -16,8 +18,7 @@ class ApiService {
       "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzOThiNTViY2UzZGRhZDE3MmU0YWY2MGE0OTM2ZWQ0MCIsInN1YiI6IjY0NjYwZGU1ZDE4NTcyMDBlNWEyZDBiZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.XIf1WbVnJXN9ca838DTr53b0tMYnWng9MJasE6CtH90";
 
   static const String posterPrefix = "https://image.tmdb.org/t/p/w342";
-
-  
+  Map<String, String> header = {"Authorization": "Bearer $token"};
 
   Uri getUri(String endPoint) {
     return Uri.parse('$url$endPoint');
@@ -25,6 +26,30 @@ class ApiService {
 
   String getSeriePoster(String poster) {
     return '$posterPrefix$poster';
+  }
+
+  getRandomBackdrop() async {
+    int requests = 0;
+    List<dynamic> results = [];
+
+    http.Response response =
+        await client.get(getUri("tv/latest"), headers: header);
+    Map body = json.decode(response.body);
+    int random = Random().nextInt(body["id"]);
+    // https://api.themoviedb.org/3/tv/229276/images
+    response = await client.get(getUri("tv/$random/images"), headers: header);
+
+    while (results.isEmpty) {
+      requests += 1;
+      int random = Random().nextInt(body["id"]);
+      response = await client.get(getUri("tv/$random/images"), headers: header);
+      if (response.statusCode == 200) {
+        body = json.decode(response.body);
+        results = body["backdrops"];
+      }
+    }
+    print("QUANTIDADE DE REQUESTS ATE ACHAR UMA IMAGEM: $requests\n ID: $random");
+    return getSeriePoster(results[0]["file_path"]);
   }
 
   Future<List<Serie>> getTrending() async {
@@ -39,20 +64,22 @@ class ApiService {
     return trending;
     // return toList(resultados);
   }
+
   Future<List<Serie>> searchSerie(String value) async {
     // search/tv?query=game&language=pt-BR&page=1
     String query = value.replaceAll(' ', ',');
-    http.Response response = await client.get(getUri("search/tv?query=$query&language=pt-BR&page=1"),
-    headers: {"Authorization": "Bearer $token"});
+    http.Response response = await client.get(
+        getUri("search/tv?query=$query&language=pt-BR&page=1"),
+        headers: {"Authorization": "Bearer $token"});
     Map body = json.decode(response.body);
     List<dynamic> resultados = body['results'];
     return toList(resultados);
   }
 
   Future<Serie> getSerie(int id, int temporada) async {
-    http.Response response = await client.get(getUri(
-      "tv/$id?append_to_response=season%2F$temporada&language=pt-BR"
-    ), headers: {"Authorization": "Bearer $token"});
+    http.Response response = await client.get(
+        getUri("tv/$id?append_to_response=season%2F$temporada&language=pt-BR"),
+        headers: {"Authorization": "Bearer $token"});
     Map body = json.decode(response.body);
     // List<dynamic> resultados = body['results'];
     return toSerie(body, temporada);
@@ -60,36 +87,33 @@ class ApiService {
 
   Future<List<Episodio>> getEpisodios(int idSerie, int temporada) async {
     http.Response response = await client.get(
-      getUri(
-        "tv/$idSerie/season/$temporada?language=pt-BR"
-      ),
-      headers: {"Authorization": "Bearer $token"}
-    );
+        getUri("tv/$idSerie/season/$temporada?language=pt-BR"),
+        headers: {"Authorization": "Bearer $token"});
     Map body = json.decode(response.body);
     List<dynamic> resultados = body['episodes'];
     return episodiosToList(resultados);
   }
-    
 
-  Serie toSerie(Map resultado, int value){
-      Serie serie = Serie();
-      serie.id = resultado['id'];
-      serie.backdrop = resultado['backdrop_path'];
-      serie.generos = resultado['genres'];
-      serie.nome = resultado['name'];
-      serie.episodiosqtde = resultado['number_of_episodes'];
-      serie.temporadasqtde = resultado['number_of_seasons'];
-      serie.pais = resultado['origin_country'];
-      serie.descricao = resultado['overview'];
-      serie.poster = resultado['poster_path'];
-      serie.status = resultado['status'];
-      Map temporada = resultado['season/$value'];
-      serie.temporadas = getTemporada(resultado['seasons'], temporada['episodes'] );
+  Serie toSerie(Map resultado, int value) {
+    Serie serie = Serie();
+    serie.id = resultado['id'];
+    serie.backdrop = resultado['backdrop_path'];
+    serie.generos = resultado['genres'];
+    serie.nome = resultado['name'];
+    serie.episodiosqtde = resultado['number_of_episodes'];
+    serie.temporadasqtde = resultado['number_of_seasons'];
+    serie.pais = resultado['origin_country'];
+    serie.descricao = resultado['overview'];
+    serie.poster = resultado['poster_path'];
+    serie.status = resultado['status'];
+    Map temporada = resultado['season/$value'];
+    serie.temporadas =
+        getTemporada(resultado['seasons'], temporada['episodes']);
     return serie;
   }
 
-    List<Temporada> getTemporada(List<dynamic> value, List<dynamic> episodios) {
-    List<Temporada> temporadas =[];
+  List<Temporada> getTemporada(List<dynamic> value, List<dynamic> episodios) {
+    List<Temporada> temporadas = [];
     for (Map temporadaDetails in value) {
       Temporada temporada = Temporada();
       temporada.id = temporadaDetails['id'];
@@ -102,12 +126,7 @@ class ApiService {
     return temporadas;
   }
 
-
-
-
-
-
-  List<Episodio> episodiosToList(List<dynamic> value){
+  List<Episodio> episodiosToList(List<dynamic> value) {
     List<Episodio> episodios = [];
     for (Map episodioDetails in value) {
       Episodio episodio = Episodio();
@@ -122,7 +141,6 @@ class ApiService {
     }
     return episodios;
   }
-
 
   List<Serie> toList(List<dynamic> resultados) {
     List<Serie> series = [];

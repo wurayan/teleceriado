@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:teleceriado/components/loading.dart';
+import 'package:teleceriado/components/loading_frases.dart';
 import 'package:teleceriado/screens/serie/serie_details.dart';
 import 'package:teleceriado/services/api_service.dart';
 import 'package:teleceriado/utils/utils.dart';
@@ -17,8 +18,6 @@ class FisrtPage extends StatefulWidget {
 class _FisrtPageState extends State<FisrtPage> with  AutomaticKeepAliveClientMixin{
   final ApiService _api = ApiService();
   List<Serie> seriesPopulares = [];
-  String loadingFrase = getLoadingFrase();
-  Timer? timer;
 
   @override
   void initState() {
@@ -26,28 +25,7 @@ class _FisrtPageState extends State<FisrtPage> with  AutomaticKeepAliveClientMix
       seriesPopulares = value;
       setState(() {});
     });
-    timer = Timer.periodic(const Duration(seconds: 2), (timer) {
-      if (seriesPopulares.isEmpty) {
-        setState(() {
-          loadingFrase = getLoadingFrase();
-        });
-      } else {
-        timer.cancel();
-      }
-    });
     super.initState();
-  }
-
-  cancelTimer(){
-    if (timer!=null) {
-      timer!.cancel();
-    }
-  }
-
-  @override
-  void dispose() {
-    cancelTimer(); 
-    super.dispose();
   }
 
   @override
@@ -81,7 +59,7 @@ class _FisrtPageState extends State<FisrtPage> with  AutomaticKeepAliveClientMix
                 ),
               Padding(
                 padding: const EdgeInsets.only(top: 10),
-                child: Text(loadingFrase, style: const TextStyle(fontSize: 18),),
+                child: LoadingFrases(loading: seriesPopulares.isEmpty)
               )
             ],
           ),
