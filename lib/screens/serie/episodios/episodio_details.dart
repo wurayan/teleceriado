@@ -46,19 +46,22 @@ class EpisodioDetails extends StatelessWidget {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: InkWell(
-                  onTap: (){reload();},
+                  onTap: () {
+                    reload();
+                  },
                   child: Padding(
-                    padding: EdgeInsets.only(left: width*0.02),
+                    padding: EdgeInsets.only(left: width * 0.02),
                     child: RichText(
                       text: TextSpan(
-                          text: "${episodio.numero}. ${episodio.nome}",
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w500),
-                          children: const [
-                            WidgetSpan(
-                              child: Icon(Icons.edit_rounded, size: 20),
-                            ),
-                          ],),
+                        text: "${episodio.numero}. ${episodio.nome}",
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w500),
+                        children: const [
+                          WidgetSpan(
+                            child: Icon(Icons.edit_rounded, size: 20),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -67,33 +70,38 @@ class EpisodioDetails extends StatelessWidget {
           ],
         ),
         InkWell(
-          onTap: (){
+          onTap: () {
             reload();
           },
           child: Padding(
             padding: EdgeInsets.only(
-              left: width*0.02, right: width*0.03, top: height*0.01
-            ),
+                left: width * 0.02, right: width * 0.03, top: height * 0.01),
             child: RichText(
               text: TextSpan(
                 text: "  ",
-                style: const TextStyle(
-                  fontSize: 16
-                ),
+                style: const TextStyle(fontSize: 16),
                 children: [
                   TextSpan(
-                    text: episodio.descricao ?? "Toque para adicionar uma descrição..."
-                  ),
-                  const WidgetSpan(
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 10),
-                      child: Icon(
-                        Icons.edit_rounded,
-                        size: 20
-                      ),
-                    )
-                  )
-                ]
+                      text: episodio.descricao ??
+                          "Toque para adicionar uma descrição..."),
+                ],
+              ),
+            ),
+          ),
+        ),
+        const Expanded(child: SizedBox()),
+        Align(
+          alignment: Alignment.bottomRight,
+          child: Padding(
+            padding:
+                EdgeInsets.only(right: width * 0.03, bottom: height * 0.015),
+            child: InkWell(
+              onTap: () {
+                reload();
+              },
+              child: const Icon(
+                Icons.edit_rounded,
+                size: 25,
               ),
             ),
           ),

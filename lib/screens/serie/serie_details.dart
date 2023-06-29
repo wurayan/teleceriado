@@ -135,10 +135,11 @@ class _ListBuilderState extends State<ListBuilder> {
     return episodios.isEmpty
         ? SliverToBoxAdapter(
             child: Padding(
-            padding:
-                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.15),
-            child: const Loading(),
-          ))
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.15),
+              child: const Loading(),
+            ),
+          )
         : SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {
               Episodio episodio = episodios[index];
@@ -172,7 +173,7 @@ class _EpisodioItem extends StatelessWidget {
           height: height * 0.15,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: const Color.fromARGB(255, 57, 57, 58),
+            // color: const Color.fromARGB(255, 57, 57, 58),
           ),
           clipBehavior: Clip.hardEdge,
           child: Row(
@@ -220,7 +221,7 @@ class _EpisodioItem extends StatelessWidget {
                       height: height * 0.07,
                       child: Text(
                         episodio.descricao!,
-                        overflow: TextOverflow.fade,
+                        overflow: TextOverflow.clip,
                         maxLines: 3,
                       ),
                     ),
