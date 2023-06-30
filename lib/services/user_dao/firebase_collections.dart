@@ -21,7 +21,7 @@ class FirebaseCollections {
         .doc("/$userUid")
         .get()
         .catchError((e) => throw Exception(e));
-    Map<String, dynamic> resultMap = result.data()!;
+    Map<String, dynamic> resultMap = result.data()??{};
     return Usuario(
       uid: userUid,
       username: resultMap["username"],
@@ -44,8 +44,8 @@ class FirebaseCollections {
     return listaColecoes;
   }
 
-  Future<Collection> getCollectionInfo(String collectionId) async {
-    String? userUid = await prefs.getUserId();
+  Future<Collection> getCollectionInfo(String collectionId, {String? userId}) async {
+    String? userUid = userId ?? await prefs.getUserId();
     var result = await db
         .collection(initialCollection)
         .doc("/$userUid")
@@ -90,12 +90,12 @@ class FirebaseCollections {
     path.set({
       "colecoes": FieldValue.arrayUnion(["${collection.nome}"])
     }, SetOptions(merge: true));
+    print(collection.toMap());
     path
         .collection("/${collection.nome}")
         .doc(doc)
         .set(collection.toMap())
         .then((value) {
-      print("Coleção foi criada com sucesso!");
     }).catchError((e) => throw Exception(e));
   }
 
@@ -201,6 +201,10 @@ class FirebaseCollections {
     return episodios;
   }
 
+  getEditedSeries({String? userId}) async {
+
+  }
+
   updateUserdata({String? username, String? avatar}) async {
     String? userUid = await prefs.getUserId();
     assert(userUid != null);
@@ -213,32 +217,4 @@ class FirebaseCollections {
       throw Exception(error);
     });
   }
-
-  // getData() async {
-  //   var result = await db.collection(initialCollection).doc("/WuRayan").get();
-  //   Map<String, dynamic> resultMap = result.data()!;
-  //   print("resultado: $resultMap");
-  //   List<dynamic> colecoes = resultMap["colecoes"];
-  //   print(colecoes);
-  // }
-
-  // setData() async {
-  //   var result = await db.collection(initialCollection).doc("/WuRayan").set({
-  //     "colecoes": FieldValue.arrayUnion(["Favoritos", "odiados"])
-  //   }, SetOptions(merge: true));
-  // }
-
-  // addData() async {
-  //   var result = await db.collection(initialCollection).doc("/WuRayan").set({
-  //     "colecoes": FieldValue.arrayUnion(["outra lista", "teste"])
-  //   }, SetOptions(merge: true));
-  // }
-
-  // removeData() async {
-  //   var result = await db.collection(initialCollection).doc("/WuRayan").update(
-  //     {
-  //       "colecoes": FieldValue.arrayRemove(["Favoritos", "teste"])
-  //     },
-  //   );
-  // }
 }

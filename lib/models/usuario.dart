@@ -8,4 +8,9 @@ class Usuario extends ChangeNotifier {
   String? bio;
 
   Usuario({this.uid, this.username, this.firstTime, this.avatar, this.bio});
+
+  @override
+  String toString() {
+    return "UID: $uid\nUsername: $username";
+  }
 }

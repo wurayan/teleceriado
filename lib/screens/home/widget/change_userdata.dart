@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:teleceriado/services/user_dao/user_collections.dart';
+import 'package:teleceriado/services/user_dao/firebase_collections.dart';
 import 'package:teleceriado/utils/utils.dart';
 import '../../../models/usuario.dart';
 import 'link_invalido.dart';

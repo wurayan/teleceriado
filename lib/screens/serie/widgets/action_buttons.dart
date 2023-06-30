@@ -3,7 +3,7 @@ import 'package:teleceriado/models/snackbar.dart';
 import 'package:teleceriado/screens/serie/widgets/collection_list.dart';
 
 import '../../../models/serie.dart';
-import '../../../services/user_dao/user_collections.dart';
+import '../../../services/user_dao/firebase_collections.dart';
 
 class ActionButtons extends StatelessWidget {
   final Serie serie;

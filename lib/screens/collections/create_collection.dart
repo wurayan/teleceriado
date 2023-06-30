@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:teleceriado/models/snackbar.dart';
-import 'package:teleceriado/services/user_dao/user_collections.dart';
+import 'package:teleceriado/services/user_dao/firebase_collections.dart';
 import 'package:teleceriado/utils/utils.dart';
 
 import '../../models/collection.dart';

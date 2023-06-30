@@ -7,7 +7,7 @@ import 'package:teleceriado/screens/home/widget/new_collection.dart';
 import 'package:teleceriado/screens/home/widget/search.dart';
 import 'package:teleceriado/screens/user_feed.dart';
 
-import '../../services/user_dao/user_collections.dart';
+import '../../services/user_dao/firebase_collections.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -31,15 +31,15 @@ class _HomeState extends State<Home> {
 
   getUserdata() async {
     usuario = await _collections.getUserdata();
-    setState(() {
-    });
+    setState(() {});
   }
 
-  saveUserdata(context, Usuario usuario){
-    Usuario provider =  Provider.of<Usuario>(context);
+  saveUserdata(context, Usuario usuario) {
+    Usuario provider = Provider.of<Usuario>(context);
     provider.uid = usuario.uid;
     provider.username = usuario.username;
-    provider.avatar = usuario.avatar; 
+    provider.avatar = usuario.avatar;
+    setState(() {});
   }
 
   @override
@@ -50,7 +50,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    if (usuario!=null) {
+    if (usuario != null) {
       saveUserdata(context, usuario!);
     }
     return Scaffold(

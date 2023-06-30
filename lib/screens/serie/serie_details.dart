@@ -6,7 +6,7 @@ import 'package:teleceriado/screens/serie/widgets/options_dialog.dart';
 import 'package:teleceriado/screens/serie/widgets/serie_header.dart';
 import 'package:teleceriado/services/api_service.dart';
 import '../../models/serie.dart';
-import '../../services/user_dao/user_collections.dart';
+import '../../services/user_dao/firebase_collections.dart';
 
 class ShowDetails extends StatefulWidget {
   final Serie serie;

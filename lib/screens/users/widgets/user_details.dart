@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:teleceriado/screens/users/widgets/user_collections.dart';
-import 'package:teleceriado/screens/users/widgets/user_header.dart';
+import 'package:teleceriado/models/error_handler.dart';
 
-import '../../models/usuario.dart';
+import '../../../models/usuario.dart';
 
 class UserDetails extends StatelessWidget {
   final Usuario usuario;
@@ -10,16 +9,11 @@ class UserDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      body: SafeArea(
-          child: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
+    final double height = MediaQuery.of(context).size.height;
+    return SliverToBoxAdapter(
             child: Column(
               children: [
-                UserHeader(usuario: usuario),
                 Padding(
                   padding: EdgeInsets.only(top: height * 0.02),
                   child: SizedBox(
@@ -45,10 +39,15 @@ class UserDetails extends StatelessWidget {
                     ),
                     Padding(
                       padding: EdgeInsets.only(right: width * 0.03),
-                      child: const Icon(
-                        Icons.star_border,
-                        color: Colors.grey,
-                        size: 50,
+                      child: InkWell(
+                        onTap: (){
+                          ErrorHandler.show("  Esse botão ainda não faz nada...\n  Mas ele será útil no futuro, confia.");
+                        },
+                        child: const Icon(
+                          Icons.star_border,
+                          color: Colors.grey,
+                          size: 50,
+                        ),
                       ),
                     ),
                   ],
@@ -61,23 +60,8 @@ class UserDetails extends StatelessWidget {
                     color: Colors.white24,
                   ),
                 ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding:
-                        EdgeInsets.only(left: width * 0.02, top: height * 0.02, bottom: height*0.01),
-                    child: const Text(
-                      "Colecões:",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                ),
               ],
             ),
-          ),
-          UserCollectionsList(usuario: usuario),
-        ],
-      ),),
-    );
+          );
   }
 }

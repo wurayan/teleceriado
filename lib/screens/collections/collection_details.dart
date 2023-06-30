@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/models/collection.dart';
 import 'package:teleceriado/services/api_service.dart';
-import 'package:teleceriado/services/user_dao/user_collections.dart';
+import 'package:teleceriado/services/user_dao/firebase_collections.dart';
 import '../../models/serie.dart';
 import '../serie/serie_details.dart';
 

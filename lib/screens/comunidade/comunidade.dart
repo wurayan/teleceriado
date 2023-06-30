@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:teleceriado/components/emoji_generator.dart';
 import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/components/loading_frases.dart';
-import 'package:teleceriado/screens/users/user_details.dart';
+import 'package:teleceriado/screens/users/user_page.dart';
 import 'package:teleceriado/services/user_dao/comunidade_dao.dart';
 import '../../models/usuario.dart';
 import '../../utils/utils.dart';
@@ -136,7 +136,7 @@ class _UsuarioItem extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => UserDetails(usuario: usuario,),
+            builder: (context) => UserPage(usuario: usuario,),
           ),
         );
       },

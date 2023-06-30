@@ -60,6 +60,7 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Criação da tela de usuários;
     - Implementação do alerta de erros;
     - Implementação do métodos de Google Sign-In;
+    - Redesign da tela de Usuário para apresentar as coleções e dições do usuário;
 
 
 ## Ideias Futuras  

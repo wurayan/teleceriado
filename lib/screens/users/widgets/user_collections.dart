@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/models/collection.dart';
 import 'package:teleceriado/screens/collections/collection_details.dart';
-import 'package:teleceriado/services/user_dao/user_collections.dart';
+import 'package:teleceriado/services/user_dao/firebase_collections.dart';
 import '../../../models/usuario.dart';
 
 class UserCollectionsList extends StatefulWidget {
@@ -22,7 +22,7 @@ class _UserCollectionsListState extends State<UserCollectionsList>
     List<String> res =
         await _collections.getAllCollections(user: widget.usuario.uid);
     for (String colecaoNome in res) {
-      colecoes.add(await _collections.getCollectionInfo(colecaoNome));
+      colecoes.add(await _collections.getCollectionInfo(colecaoNome, userId: widget.usuario.uid));
     }
     setState(() {});
   }

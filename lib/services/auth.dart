@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:teleceriado/models/error_handler.dart';
 import 'package:teleceriado/services/prefs.dart';
-import 'package:teleceriado/services/user_dao/user_collections.dart';
+import 'package:teleceriado/services/user_dao/firebase_collections.dart';
 import '../models/usuario.dart';
 
 class AuthService {
@@ -65,6 +65,8 @@ class AuthService {
   }
 
   Future<Usuario> signInGoogle() async {
+    DateTime init = DateTime.now();
+
     final GoogleSignIn googleSignIn = GoogleSignIn();
     final GoogleSignInAccount? googleSignInAccount =
         await googleSignIn.signIn();
@@ -80,11 +82,18 @@ class AuthService {
       try {
         final UserCredential userCredential =
             await _auth.signInWithCredential(credential);
-
+        DateTime? creationTime = _auth.currentUser?.metadata.creationTime;
+        print("CREATION tIME: $creationTime \n INIT: $init \n ${creationTime!=null && creationTime.isBefore(init)}");
+        
         User user = userCredential.user!;
+        assert(user!=null);
         Usuario? usuario = _usuarioFromFirebase(user);
+        print(usuario.toString());
         _prefs.saveUserId(usuario!.uid!);
-
+        if(creationTime!=null && !creationTime.isBefore(init)) 
+        {
+          _collection.createFavorites();
+          }
         return usuario;
       } on FirebaseAuthException catch(e) {
         if (e.code == "account-exists-with-different-credential")  ErrorHandler.show("Essa conta já existe com outra credencial!");
@@ -93,6 +102,8 @@ class AuthService {
       } 
       catch (e) {
         ErrorHandler.show(e.toString());
+        print(e.toString());
+        print(StackTrace.current);
         throw Exception();
       }
     } else {

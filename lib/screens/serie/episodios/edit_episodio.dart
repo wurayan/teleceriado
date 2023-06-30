@@ -5,7 +5,7 @@ import 'package:teleceriado/utils/utils.dart';
 
 import '../../../models/episodio.dart';
 import '../../../services/api_service.dart';
-import '../../../services/user_dao/user_collections.dart';
+import '../../../services/user_dao/firebase_collections.dart';
 
 class EditEpisodio extends StatelessWidget {
   final Episodio episodio;

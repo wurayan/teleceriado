@@ -56,8 +56,9 @@ class _DrawerHeaderInfoState extends State<DrawerHeaderInfo> {
               Padding(
                 padding: EdgeInsets.only(top: height * 0.01),
                 child: Text(
-                    Provider.of<Usuario>(context).username ?? "Carregando...",
+                    Provider.of<Usuario>(context).username ?? Provider.of<Usuario>(context).uid ?? "erro",
                     textAlign: TextAlign.center,
+                    maxLines: 1,
                     style: const TextStyle(
                         fontSize: 18, fontWeight: FontWeight.w500)),
               ),
@@ -71,7 +72,7 @@ class _DrawerHeaderInfoState extends State<DrawerHeaderInfo> {
               showDialog(
                   context: context,
                   builder: (context) => ChangeUserdata()).then((value) {
-                if (value) {
+                if (value==true) {
                   setState(() {});
                 }
               });

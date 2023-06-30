@@ -3,7 +3,7 @@ import 'package:teleceriado/screens/collections/create_collection.dart';
 
 import '../../../models/serie.dart';
 import '../../../models/snackbar.dart';
-import '../../../services/user_dao/user_collections.dart';
+import '../../../services/user_dao/firebase_collections.dart';
 
 class CollectionList extends StatelessWidget {
   final Serie serie;

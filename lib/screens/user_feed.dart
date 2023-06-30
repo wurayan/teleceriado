@@ -4,7 +4,7 @@ import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/components/loading_frases.dart';
 import 'package:teleceriado/screens/collections/collection_details.dart';
 import 'package:teleceriado/screens/serie/serie_details.dart';
-import 'package:teleceriado/services/user_dao/user_collections.dart';
+import 'package:teleceriado/services/user_dao/firebase_collections.dart';
 import 'package:teleceriado/utils/utils.dart';
 
 import '../models/serie.dart';

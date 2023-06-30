@@ -3,7 +3,7 @@ import 'package:teleceriado/models/snackbar.dart';
 import 'package:teleceriado/utils/utils.dart';
 
 import '../../../models/serie.dart';
-import '../../../services/user_dao/user_collections.dart';
+import '../../../services/user_dao/firebase_collections.dart';
 
 class EditSerie extends StatelessWidget {
   final bool isDescription;
