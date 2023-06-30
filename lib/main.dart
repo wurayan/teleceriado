@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:teleceriado/models/collection.dart';
 import 'package:teleceriado/models/episodio.dart';
+import 'package:teleceriado/models/error_handler.dart';
 import 'package:teleceriado/models/temporada.dart';
 import 'package:teleceriado/services/auth.dart';
 import 'package:teleceriado/utils/theme.dart';
@@ -38,6 +39,7 @@ class MainApp extends StatelessWidget {
       value: AuthService().onAuthStateChanged,
       builder: (context, snapshot) {
         return MaterialApp(
+          navigatorKey: ErrorHandler.key,
           scaffoldMessengerKey: SnackbarGlobal.key,
           title: 'Teleceriado',
           darkTheme: theme, 
