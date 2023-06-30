@@ -4,15 +4,17 @@ import 'package:teleceriado/models/usuario.dart';
 import '../../models/collection.dart';
 import '../../models/episodio.dart';
 import '../../models/serie.dart';
+import '../api_service.dart';
 import '../prefs.dart';
 
 class FirebaseCollections {
-  Prefs prefs = Prefs();
-  FirebaseFirestore db = FirebaseFirestore.instance;
-  String initialCollection = "/usuarios";
-  String favoritos = "/favoritos";
-  String series = "/series";
-  String doc = "/doc";
+  final ApiService _api = ApiService();
+  final Prefs prefs = Prefs();
+  final FirebaseFirestore db = FirebaseFirestore.instance;
+  final String initialCollection = "/usuarios";
+  final String favoritos = "/favoritos";
+  final String series = "/series";
+  final String doc = "/doc";
 
   Future<Usuario> getUserdata() async {
     String? userUid = await prefs.getUserId();
@@ -21,7 +23,7 @@ class FirebaseCollections {
         .doc("/$userUid")
         .get()
         .catchError((e) => throw Exception(e));
-    Map<String, dynamic> resultMap = result.data()??{};
+    Map<String, dynamic> resultMap = result.data() ?? {};
     return Usuario(
       uid: userUid,
       username: resultMap["username"],
@@ -44,7 +46,8 @@ class FirebaseCollections {
     return listaColecoes;
   }
 
-  Future<Collection> getCollectionInfo(String collectionId, {String? userId}) async {
+  Future<Collection> getCollectionInfo(String collectionId,
+      {String? userId}) async {
     String? userUid = userId ?? await prefs.getUserId();
     var result = await db
         .collection(initialCollection)
@@ -95,8 +98,8 @@ class FirebaseCollections {
         .collection("/${collection.nome}")
         .doc(doc)
         .set(collection.toMap())
-        .then((value) {
-    }).catchError((e) => throw Exception(e));
+        .then((value) {})
+        .catchError((e) => throw Exception(e));
   }
 
   createFavorites() async {
@@ -111,9 +114,7 @@ class FirebaseCollections {
       "nome": "Favoritos",
       "descricao": "Uma coleção só para suas séries favoritas!",
       "imagemUrl":
-          "https://images.unsplash.com/photo-1593361351718-6b853f7b3431?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80"
-    }).then((value) {
-      print("Coleção foi criada com sucesso!");
+          "https://picsum.photos/900/600"
     }).catchError((e) => throw Exception(e));
   }
 
@@ -201,16 +202,44 @@ class FirebaseCollections {
     return episodios;
   }
 
-  getEditedSeries({String? userId}) async {
-
+  Future<List<Serie>> getAllEditedSeries({String? userId}) async {
+    var editados = db
+        .collection(initialCollection)
+        .doc("/$userId")
+        .collection("/editados");
+    var res = await editados.get();
+    List<Serie> series = [];
+    for (var serie in res.docs) {
+      var editado = await editados.doc("/${serie.id}").get();
+      Map? edicao = editado.data();
+      Serie apiSerie = await _api.getSerie(int.parse(serie.id), 1);
+      //Se edicao retornar nulo, então nãO tem edições na série e ja retornamos a apiSerie
+      if (edicao == null) {
+        series.add(apiSerie);
+      } else {
+        String? backdrop = edicao["backdrop"];
+        String? descricao = edicao["descricao"];
+        Serie resultado = Serie();
+        if (backdrop != null && descricao != null) {
+          resultado =
+              apiSerie.copyWith(backdrop: backdrop, descricao: descricao);
+        } else if (backdrop != null && descricao == null) {
+          resultado = apiSerie.copyWith(backdrop: backdrop);
+        } else {
+          resultado = apiSerie.copyWith(descricao: descricao);
+        }
+        series.add(resultado);
+      }
+    }
+    return series;
   }
 
   updateUserdata({String? username, String? avatar}) async {
     String? userUid = await prefs.getUserId();
     assert(userUid != null);
     Map<String, dynamic> map = {};
-    username!=null ? map["username"] = username : null;
-    avatar!=null ? map["avatar"] = avatar : null;
+    username != null ? map["username"] = username : null;
+    avatar != null ? map["avatar"] = avatar : null;
     var path = db.collection(initialCollection).doc("/$userUid");
     path.update(map).onError((error, stackTrace) {
       SnackbarGlobal.show(error.toString());

@@ -28,7 +28,7 @@ class Serie extends ChangeNotifier {
   int? get temporadasqtde => _temporadasqtde;
   int? get episodiosqtde => _episodiosqtde;
   List<Temporada>? get temporadas => _temporadas;
-  String? get  status => _status;
+  String? get status => _status;
 
   set id(int? value) => _id = value;
   set nome(String? value) => _nome = value;
@@ -40,11 +40,42 @@ class Serie extends ChangeNotifier {
   set backdrop(String? value) => _backdrop = value;
   set temporadasqtde(int? value) => _temporadasqtde = value;
   set episodiosqtde(int? value) => _episodiosqtde = value;
-  set temporadas (List<Temporada>? value) => _temporadas = value;
-  set status (String? value) => _status = value;
+  set temporadas(List<Temporada>? value) => _temporadas = value;
+  set status(String? value) => _status = value;
 
   @override
   String toString() {
     return 'ID: $_id\nNome: $_nome\nDescrição: $_descricao';
+  }
+
+  
+  Serie copyWith({
+    int? id,
+    String? nome,
+    String? descricao,
+    String? poster,
+    List<dynamic>? generos,
+    String? release,
+    List<dynamic>? pais,
+    String? backdrop,
+    int? temporadasqtde,
+    int? episodiosqtde,
+    List<Temporada>? temporadas,
+    String? status,
+  }) {
+    Serie serie = Serie();
+    serie.id = id ?? this.id;
+    serie.nome = nome ?? this.nome;
+    serie.descricao = descricao ?? this.descricao;
+    serie.poster = poster ?? this.poster;
+    serie.generos = generos ?? this.generos;
+    serie.release = release ?? this.release;
+    serie.pais = pais ?? this.pais;
+    serie.backdrop = backdrop ?? this.backdrop;
+    serie.temporadasqtde = temporadasqtde ?? this.temporadasqtde;
+    serie.episodiosqtde = episodiosqtde ?? this.episodiosqtde;
+    serie.temporadas = temporadas ?? this.temporadas;
+    serie.status = status ?? this.status;
+    return serie;
   }
 }
