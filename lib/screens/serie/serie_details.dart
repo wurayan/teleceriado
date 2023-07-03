@@ -23,7 +23,8 @@ class _ShowDetailsState extends State<ShowDetails> {
   bool backdropEdited = false;
 
   getEdited(Serie serie) async {
-    Map? map = await _collection.getEditedSerie(serie.id!);
+    Map? map =
+        await _collection.getEditedSerie(serie.id!);
     if (map != null) {
       if (map["descricao"] != null && map["backdrop"] != null) {
         serie.descricao = map["descricao"];
@@ -56,10 +57,11 @@ class _ShowDetailsState extends State<ShowDetails> {
             CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
-                    child: SerieHeader(
-                  serie: _serie,
-                  backdropEdited: backdropEdited,
-                )),
+                  child: SerieHeader(
+                    serie: _serie,
+                    backdropEdited: backdropEdited,
+                  ),
+                ),
                 ListBuilder(idSerie: _serie.id!)
               ],
             ),
@@ -80,10 +82,11 @@ class _ShowDetailsState extends State<ShowDetails> {
                   ),
                 ),
                 Padding(
-                    padding: EdgeInsets.all(width * 0.02),
-                    child: OptionsButton(
-                      serieId: _serie.id!,
-                    ))
+                  padding: EdgeInsets.all(width * 0.02),
+                  child: OptionsButton(
+                    serieId: _serie.id!,
+                  ),
+                )
               ],
             )
           ],

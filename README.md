@@ -63,6 +63,11 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Redesign da tela de Usuário para apresentar as coleções e edições do usuário;
     - Implementado método de recuperação de Coleções e Séries Editadas do usuário;
 
+## Versão 2.1.0
+    - Redesign completo da tela de usuário:  
+        Agora se trata de uma tela com detecção de gesto para o usuário navegador entre as telas de comentários, coleções e perfil visitado;
+        
+
 
 ## Ideias Futuras  
     - Reduzir o tempo de demora para se carregar as imagens com o network;

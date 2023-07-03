@@ -152,8 +152,8 @@ class FirebaseCollections {
             SetOptions(merge: true));
   }
 
-  Future<Map?> getEditedSerie(int serieId) async {
-    String? userUid = await prefs.getUserId();
+  Future<Map?> getEditedSerie(int serieId, {String? userId}) async {
+    String? userUid = userId ?? await prefs.getUserId();
     var res = await db
         .collection(initialCollection)
         .doc("/$userUid")
@@ -182,8 +182,8 @@ class FirebaseCollections {
   }
 
   Future<Map<int, Episodio>?> getEditedEpisodio(
-      int serieId, int temporada) async {
-    String? userUid = await prefs.getUserId();
+      int serieId, int temporada, {String? userId}) async {
+    String? userUid = userId ?? await prefs.getUserId();
     Map<int, Episodio> episodios = {};
     var res = await db
         .collection(initialCollection)

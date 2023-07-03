@@ -1,16 +1,10 @@
-//AQUI VAMOS APRESENTAR LISTAS DE USUÁRIOS,
-// PODEMOS FAZER LINAHS DE USUÁRIOS NOVOS, OU
-// MAIORES CONTRIBUIDORES
-
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:teleceriado/components/emoji_generator.dart';
 import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/components/loading_frases.dart';
-import 'package:teleceriado/screens/users/user_page.dart';
+import 'package:teleceriado/screens/usuarios/user_page.dart';
 import 'package:teleceriado/services/user_dao/comunidade_dao.dart';
 import '../../models/usuario.dart';
-import '../../utils/utils.dart';
 
 class Comunidade extends StatefulWidget {
   const Comunidade({super.key});
@@ -51,7 +45,8 @@ class _ComunidadeState extends State<Comunidade>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.4),
+                        padding: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.4),
                         child: const Loading(),
                       ),
                       Padding(
@@ -134,11 +129,9 @@ class _UsuarioItem extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => UserPage(usuario: usuario,),
-          ),
-        );
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => UserPage(usuario: usuario,)));
       },
       child: SizedBox(
         height: height * 0.15,
