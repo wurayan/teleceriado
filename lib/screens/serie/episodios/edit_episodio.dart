@@ -136,6 +136,7 @@ class EditEpisodio extends StatelessWidget {
                           if (_imagemController.text.isNotEmpty ||
                               _descricaoController.text.isNotEmpty || _nomeController.text.isNotEmpty) {
                             Episodio newEpisodio = Episodio();
+                            newEpisodio.serie = episodio.serie;
                             newEpisodio.serieId = episodio.serieId;
                             newEpisodio.temporada = episodio.temporada;
                             newEpisodio.numero = episodio.numero;

@@ -62,7 +62,7 @@ class _ShowDetailsState extends State<ShowDetails> {
                     backdropEdited: backdropEdited,
                   ),
                 ),
-                ListBuilder(idSerie: _serie.id!)
+                ListBuilder(idSerie: _serie.id!,)
               ],
             ),
             Row(
@@ -84,7 +84,7 @@ class _ShowDetailsState extends State<ShowDetails> {
                 Padding(
                   padding: EdgeInsets.all(width * 0.02),
                   child: OptionsButton(
-                    serieId: _serie.id!,
+                    serie: _serie,
                   ),
                 )
               ],

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:teleceriado/models/snackbar.dart';
 import 'package:teleceriado/models/usuario.dart';
@@ -16,6 +18,7 @@ class FirebaseCollections {
   final String series = "/series";
   final String doc = "/doc";
 
+  //USERDATA
   Future<Usuario> getUserdata() async {
     String? userUid = await prefs.getUserId();
     DocumentSnapshot<Map<String, dynamic>> result = await db
@@ -31,6 +34,20 @@ class FirebaseCollections {
     );
   }
 
+  updateUserdata({String? username, String? avatar}) async {
+    String? userUid = await prefs.getUserId();
+    assert(userUid != null);
+    Map<String, dynamic> map = {};
+    username != null ? map["username"] = username : null;
+    avatar != null ? map["avatar"] = avatar : null;
+    var path = db.collection(initialCollection).doc("/$userUid");
+    path.update(map).onError((error, stackTrace) {
+      SnackbarGlobal.show(error.toString());
+      throw Exception(error);
+    });
+  }
+
+  //GET COLLECTIONS
   Future<List<String>> getAllCollections({String? user}) async {
     String? userUid = user ?? await prefs.getUserId();
     DocumentSnapshot<Map<String, dynamic>> result = await db
@@ -65,27 +82,6 @@ class FirebaseCollections {
     return collection;
   }
 
-  Future<List<Serie>> getCollectionSeries(String collectionId) async {
-    String? userUid = await prefs.getUserId();
-    List<Serie> resultList = [];
-    var result = await db
-        .collection(initialCollection)
-        .doc("/$userUid")
-        .collection(collectionId)
-        .doc(doc)
-        .collection(series)
-        .get();
-    for (var elemento in result.docs) {
-      Map serieMap = elemento.data();
-      Serie serie = Serie();
-      serie.id = int.parse(elemento.id);
-      serie.nome = serieMap["Nome"];
-      serie.poster = serieMap["Poster"];
-      resultList.add(serie);
-    }
-    return resultList;
-  }
-
   createCollection(Collection collection) async {
     String? userUid = await prefs.getUserId();
     assert(userUid != null);
@@ -113,8 +109,7 @@ class FirebaseCollections {
     path.collection("/Favoritos").doc(doc).set({
       "nome": "Favoritos",
       "descricao": "Uma coleção só para suas séries favoritas!",
-      "imagemUrl":
-          "https://picsum.photos/900/600"
+      "imagemUrl": "https://picsum.photos/900/600"
     }).catchError((e) => throw Exception(e));
   }
 
@@ -134,6 +129,28 @@ class FirebaseCollections {
         .set(serieMap)
         .catchError((e) => throw Exception(e));
     return true;
+  }
+
+  //GET SERIES
+  Future<List<Serie>> getCollectionSeries(String collectionId) async {
+    String? userUid = await prefs.getUserId();
+    List<Serie> resultList = [];
+    var result = await db
+        .collection(initialCollection)
+        .doc("/$userUid")
+        .collection(collectionId)
+        .doc(doc)
+        .collection(series)
+        .get();
+    for (var elemento in result.docs) {
+      Map serieMap = elemento.data();
+      Serie serie = Serie();
+      serie.id = int.parse(elemento.id);
+      serie.nome = serieMap["Nome"];
+      serie.poster = serieMap["Poster"];
+      resultList.add(serie);
+    }
+    return resultList;
   }
 
   editSerie(Serie serie) async {
@@ -161,45 +178,6 @@ class FirebaseCollections {
         .doc("/$serieId")
         .get();
     return res.data();
-  }
-
-  editEpisodio(Episodio episodio) async {
-    String? userUid = await prefs.getUserId();
-    Map<String, dynamic> editado = {};
-    episodio.imagem != null ? editado["imagem"] = episodio.imagem : null;
-    episodio.descricao != null
-        ? editado["descricao"] = episodio.descricao
-        : null;
-    episodio.nome != null ? editado["nome"] = episodio.nome : null;
-    await db
-        .collection(initialCollection)
-        .doc("/$userUid")
-        .collection("/editados")
-        .doc("/${episodio.serieId}")
-        .collection("/${episodio.temporada}")
-        .doc("/${episodio.numero}")
-        .set(editado, SetOptions(merge: true));
-  }
-
-  Future<Map<int, Episodio>?> getEditedEpisodio(
-      int serieId, int temporada, {String? userId}) async {
-    String? userUid = userId ?? await prefs.getUserId();
-    Map<int, Episodio> episodios = {};
-    var res = await db
-        .collection(initialCollection)
-        .doc("/$userUid")
-        .collection("/editados")
-        .doc("/$serieId")
-        .collection("/$temporada")
-        .get();
-    for (var element in res.docs) {
-      Episodio episodio = Episodio();
-      episodio.imagem = element.data()["imagem"];
-      episodio.descricao = element.data()["descricao"];
-      episodio.nome = element.data()["nome"];
-      episodios[int.parse(element.id)] = episodio;
-    }
-    return episodios;
   }
 
   Future<List<Serie>> getAllEditedSeries({String? userId}) async {
@@ -234,16 +212,93 @@ class FirebaseCollections {
     return series;
   }
 
-  updateUserdata({String? username, String? avatar}) async {
+  //GET EPISODIOS
+  editEpisodio(Episodio episodio) async {
     String? userUid = await prefs.getUserId();
-    assert(userUid != null);
-    Map<String, dynamic> map = {};
-    username != null ? map["username"] = username : null;
-    avatar != null ? map["avatar"] = avatar : null;
-    var path = db.collection(initialCollection).doc("/$userUid");
-    path.update(map).onError((error, stackTrace) {
-      SnackbarGlobal.show(error.toString());
-      throw Exception(error);
-    });
+    Map<String, dynamic> editado = {};
+    episodio.imagem != null ? editado["imagem"] = episodio.imagem : null;
+    episodio.descricao != null
+        ? editado["descricao"] = episodio.descricao
+        : null;
+    episodio.nome != null ? editado["nome"] = episodio.nome : null;
+    var path = db
+        .collection(initialCollection)
+        .doc("/$userUid")
+        .collection("/editados")
+        .doc("/${episodio.serieId}");
+    var temporada = await path.get();
+    Map? map = temporada.data();
+    if (map?["temporadas"] == null || map?["temporadas"] < episodio.temporada) {
+      await path.set(
+        {"temporadas": episodio.temporada,
+        "nome": episodio.serie},
+        SetOptions(merge: true),
+      );
+    }
+    await path
+        .collection("/${episodio.temporada}")
+        .doc("/${episodio.numero}")
+        .set(
+          editado,
+          SetOptions(merge: true),
+        );
+  }
+
+  Future<Map<int, Episodio>?> getEditedEpisodio(int serieId, int temporada,
+      {String? userId}) async {
+    String? userUid = userId ?? await prefs.getUserId();
+    Map<int, Episodio> episodios = {};
+    var res = await db
+        .collection(initialCollection)
+        .doc("/$userUid")
+        .collection("/editados")
+        .doc("/$serieId")
+        .collection("/$temporada")
+        .get();
+
+    for (var element in res.docs) {
+      Episodio episodio = Episodio();
+      episodio.imagem = element.data()["imagem"];
+      episodio.descricao = element.data()["descricao"];
+      episodio.nome = element.data()["nome"];
+      episodios[int.parse(element.id)] = episodio;
+    }
+    return episodios;
+  }
+
+  Future<List<Episodio>> getAllEditedEpisodios(String userId) async {
+    List<Episodio> apiEpisodios;
+    List<Episodio> resultado = [];
+    var path = db
+        .collection(initialCollection)
+        .doc("/$userId")
+        .collection("/editados");
+    var series = await path.get();
+    for (var item in series.docs) {
+      var pathToSerie = path.doc(item.id);
+      var serieMap = await pathToSerie.get();
+      if (serieMap.data() != null) {
+        Map map = serieMap.data()!;
+        int temporadas = map["temporadas"];
+        for (var i = 1; i <= temporadas; i++) {
+          apiEpisodios = await _api.getEpisodios(int.parse(item.id), i);
+          var episodiosEditados = await pathToSerie.collection("/$i").get();
+          int index = 0;
+          for (var episodioData in episodiosEditados.docs) {
+            Map episodioMap = episodioData.data();
+            Episodio episodio = apiEpisodios[index];
+            episodio.nome = episodioMap["nome"] ?? episodio.nome;
+            episodio.descricao = episodioMap["descricao"] ?? episodio.descricao;
+            if (episodioMap["imagem"]!=null) {
+              episodio.imagem = episodioMap["imagem"];
+              episodio.wasEdited = true;  
+            }
+            resultado.add(episodio);
+            index += 1;
+          }
+        }
+      }
+    }
+    return resultado;
   }
 }

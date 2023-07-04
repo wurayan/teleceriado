@@ -7,8 +7,8 @@ import '../../../services/user_dao/firebase_collections.dart';
 
 class EditSerie extends StatelessWidget {
   final bool isDescription;
-  final int serieId;
-  EditSerie({super.key, required this.isDescription, required this.serieId});
+  final Serie serie;
+  EditSerie({super.key, required this.isDescription, required this.serie});
 
   final FirebaseCollections _collection = FirebaseCollections();
 
@@ -70,7 +70,6 @@ class EditSerie extends StatelessWidget {
                       onPressed: () async {
                         if (_controller.text.isNotEmpty) {
                           bool isValid;
-                          Serie serie = Serie();
                           if (isDescription) {
                             serie.descricao = _controller.text;
                             _collection.editSerie(serie); 

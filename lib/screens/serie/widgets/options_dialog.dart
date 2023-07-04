@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:teleceriado/screens/serie/widgets/edit_serie.dart';
 
+import '../../../models/serie.dart';
+
 class OptionsButton extends StatefulWidget {
-  final int serieId;
-  const OptionsButton({super.key, required this.serieId});
+  final Serie serie;
+  const OptionsButton({super.key, required this.serie});
 
   @override
   State<OptionsButton> createState() => _OptionsButtonState();
@@ -21,7 +23,7 @@ class _OptionsButtonState extends State<OptionsButton> {
         });
         showDialog(
             context: context,
-            builder: (context) => OptionsDialog(serieId: widget.serieId,)).then((value) {
+            builder: (context) => OptionsDialog(serie: widget.serie,)).then((value) {
           setState(() {
             isTapped = !isTapped;
           });
@@ -45,8 +47,8 @@ class _OptionsButtonState extends State<OptionsButton> {
 }
 
 class OptionsDialog extends StatelessWidget {
-  final int serieId;
-  const OptionsDialog({super.key, required this.serieId});
+  final Serie serie;
+  const OptionsDialog({super.key, required this.serie});
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +75,7 @@ class OptionsDialog extends StatelessWidget {
                           Navigator.pop(context);
                         showDialog(
                           context: context,
-                          builder: (context) => EditSerie(isDescription: false, serieId: serieId,),
+                          builder: (context) => EditSerie(isDescription: false, serie: serie,),
                         );
                         },
                         child: const Text('Editar imagem',
@@ -87,7 +89,7 @@ class OptionsDialog extends StatelessWidget {
                         Navigator.pop(context);
                         showDialog(
                           context: context,
-                          builder: (context) => EditSerie(isDescription: true, serieId: serieId,),
+                          builder: (context) => EditSerie(isDescription: true, serie: serie,),
                         );
                       },
                       child: const Text(

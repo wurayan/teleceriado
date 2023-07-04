@@ -8,16 +8,17 @@ class ColecoesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onHorizontalDragEnd: (details) {
-        if(details.primaryVelocity! > 0){
-          print("swiped direira para esquerda");
-        } else if (details.primaryVelocity! < 0) {
-          print("swiped esquerda para direita");
-        }
-      },
-      child: Container
-      (),
-    );
+    return Container(); 
+    // GestureDetector(
+    //   onHorizontalDragEnd: (details) {
+    //     if(details.primaryVelocity! > 0){
+    //       swipe(true);
+    //     } else if (details.primaryVelocity! < 0) {
+    //       swipe(false);
+    //     }
+    //   },
+    //   child: Container
+    //   (),
+    // );
   }
 }

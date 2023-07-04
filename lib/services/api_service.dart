@@ -28,7 +28,7 @@ class ApiService {
     return '$posterPrefix$poster';
   }
 
-  getRandomBackdrop() async {
+  Future<String> getRandomBackdrop() async {
     int requests = 0;
     List<dynamic> results = [];
 
@@ -82,6 +82,7 @@ class ApiService {
         headers: {"Authorization": "Bearer $token"});
     Map body = json.decode(response.body);
     // List<dynamic> resultados = body['results'];
+    
     return toSerie(body, temporada);
   }
 
@@ -91,7 +92,13 @@ class ApiService {
         headers: {"Authorization": "Bearer $token"});
     Map body = json.decode(response.body);
     List<dynamic> resultados = body['episodes'];
-    return episodiosToList(resultados);
+    response = await  client.get(
+      getUri("tv/$idSerie?language=pt-BR"),
+      headers: header
+    );
+    Map map = json.decode(response.body);
+    String serie = map["name"];
+    return episodiosToList(resultados, serie);
   }
 
   Serie toSerie(Map resultado, int value) {
@@ -126,7 +133,7 @@ class ApiService {
     return temporadas;
   }
 
-  List<Episodio> episodiosToList(List<dynamic> value) {
+  List<Episodio> episodiosToList(List<dynamic> value, String serie) {
     List<Episodio> episodios = [];
     for (Map episodioDetails in value) {
       Episodio episodio = Episodio();
@@ -135,6 +142,7 @@ class ApiService {
       episodio.nome = episodioDetails['name'];
       episodio.imagem = episodioDetails['still_path'];
       episodio.descricao = episodioDetails['overview'];
+      episodio.serie = serie;
       episodio.serieId = episodioDetails['show_id'];
       episodio.temporada = episodioDetails['season_number'];
       episodios.add(episodio);

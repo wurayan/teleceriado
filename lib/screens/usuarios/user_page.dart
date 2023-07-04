@@ -4,6 +4,7 @@ import 'package:teleceriado/screens/components/custom_appbar.dart';
 import 'package:teleceriado/screens/usuarios/widgets/colecoes_screen.dart';
 import 'package:teleceriado/screens/usuarios/widgets/comentarios.dart';
 import 'package:teleceriado/screens/usuarios/widgets/user_screen.dart';
+import 'package:teleceriado/services/user_dao/firebase_collections.dart';
 
 import '../../models/collection.dart';
 import '../../models/episodio.dart';
@@ -18,17 +19,41 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
+  final FirebaseCollections _collection = FirebaseCollections();
   int _currentPage = 1;
   // List<BottomNavigationBarItem>? bottomNavigationBarItens;
   List pages = [];
 
+  swipe(bool value) {
+    print("SWIPEEEEEEE $value");
+    print(_currentPage);
+    if (value) {
+      if (_currentPage > 0) {
+        _currentPage -= 1;
+        setState(() {});
+      }
+    } else {
+      if (_currentPage < 2) {
+        _currentPage += 1;
+        setState(() {});
+      }
+    }
+  }
+
   getData() async {
-    List<Episodio> episodios = [];
+    List<Episodio> episodios =
+        await _collection.getAllEditedEpisodios(widget.usuario.uid!);
     List<Collection> colecoes = [];
     pages = [
-      ColecoesScreen(colecoes: colecoes),
-      ComentariosScreen(episodios: episodios),
-      UserScreen(usuario: widget.usuario),
+      ColecoesScreen(
+        colecoes: colecoes,
+      ),
+      ComentariosScreen(
+        episodios: episodios,
+      ),
+      UserScreen(
+        usuario: widget.usuario,
+      ),
     ];
     setState(() {});
   }
@@ -61,29 +86,40 @@ class _UserPageState extends State<UserPage> {
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        items: bottomBarItens(),
-        selectedItemColor: Colors.white,
-        selectedIconTheme: const IconThemeData(size: 30),
-        currentIndex: _currentPage,
-        onTap: (index) {
-          setState(() {
-            _currentPage = index;
-          });
-        },
-      ),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            pages.isNotEmpty
-                ? pages[_currentPage]
-                : Padding(
-                    padding: EdgeInsets.only(top: height * 0.4),
-                    child: const Loading(),
-                  ),
-            const CustomAppbar()
-          ],
+    return GestureDetector(
+      onHorizontalDragEnd: (details) {
+            if (details.primaryVelocity! > 0) {
+              swipe(true);
+              print("MAS NUM VAI?");
+            } else if (details.primaryVelocity! < 0) {
+              swipe(false);
+              print("Tem que ir ou");
+            }
+          },
+      child: Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
+          items: bottomBarItens(),
+          selectedItemColor: Colors.white,
+          selectedIconTheme: const IconThemeData(size: 30),
+          currentIndex: _currentPage,
+          onTap: (index) {
+            setState(() {
+              _currentPage = index;
+            });
+          },
+        ),
+        body: SafeArea(
+          child: Stack(
+            children: [
+              pages.isNotEmpty
+                  ? pages[_currentPage]
+                  : Padding(
+                      padding: EdgeInsets.only(top: height * 0.4),
+                      child: const Loading(),
+                    ),
+              const CustomAppbar()
+            ],
+          ),
         ),
       ),
     );

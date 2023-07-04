@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:teleceriado/screens/comunidade/comunidade.dart';
 import 'package:teleceriado/screens/home/widget/drawer_header.dart';
 import 'package:teleceriado/services/user_dao/comunidade_dao.dart';
+import 'package:teleceriado/services/user_dao/firebase_collections.dart';
+import 'package:teleceriado/utils/color_checker.dart';
+import '../../../models/episodio.dart';
 import '../../../services/api_service.dart';
 import '../../../services/auth.dart';
 
@@ -56,9 +59,7 @@ class HomeDrawer extends StatelessWidget {
               ),
             ),
             TextButton(
-              onPressed: (){
-                ApiService _api = ApiService();
-                _api.getRandomBackdrop();
+              onPressed: () {
               },
               child: Text("ARRIVA CHICO CARLITO")
             ),
