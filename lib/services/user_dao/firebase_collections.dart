@@ -48,19 +48,25 @@ class FirebaseCollections {
   }
 
   //GET COLLECTIONS
-  Future<List<String>> getAllCollections({String? user}) async {
+  Future<List<Collection>> getAllCollections({String? user}) async {
+    List<Collection> resultado = [];
     String? userUid = user ?? await prefs.getUserId();
     DocumentSnapshot<Map<String, dynamic>> result = await db
         .collection(initialCollection)
         .doc("/$userUid")
         .get()
         .catchError((e) => throw Exception(e));
-
     Map<String, dynamic> resultMap = result.data()!;
     List<String> listaColecoes =
         List<String>.from(resultMap["colecoes"] as List);
     // List<String> categoriesList = List<String>.from(map['categories'] as List);
-    return listaColecoes;
+    for (String colecaoNome in listaColecoes) {
+      Collection colecao = await getCollectionInfo(colecaoNome);
+      colecao.series = await getCollectionSeries(colecaoNome);
+      resultado.add(colecao);
+    }
+    print(resultado);
+    return resultado;
   }
 
   Future<Collection> getCollectionInfo(String collectionId,

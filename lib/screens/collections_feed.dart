@@ -1,36 +1,31 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/components/loading_frases.dart';
 import 'package:teleceriado/screens/collections/collection_details.dart';
 import 'package:teleceriado/screens/serie/serie_details.dart';
 import 'package:teleceriado/services/user_dao/firebase_collections.dart';
-import 'package:teleceriado/utils/utils.dart';
-
+import '../models/collection.dart';
 import '../models/serie.dart';
 import '../services/api_service.dart';
 
-class UserFeed extends StatefulWidget {
-  const UserFeed({super.key});
+class CollectionsFeed extends StatefulWidget {
+  const CollectionsFeed({super.key});
 
   @override
-  State<UserFeed> createState() => _UserFeedState();
+  State<CollectionsFeed> createState() => _CollectionsFeedState();
 }
 
-class _UserFeedState extends State<UserFeed>
+class _CollectionsFeedState extends State<CollectionsFeed>
     with AutomaticKeepAliveClientMixin {
   final FirebaseCollections _collections = FirebaseCollections();
-  List<Map<String, List<Serie>>> colecoes = [];
+  List<Collection>? colecoes;
 
 
 //TODO TALVEZ TENHAMOS QUE USAR O OUTRO METODO DE CONSTRUIR LIST COM FUTURE, PARA ASSIM A LISTA SER ATUALIZADA CONFORME É ALTERADA
-  getCollections(){
-    _collections.getAllCollections().then((collectionList) async {
-      for (String collection in collectionList) {
-        List<Serie> series = await _collections.getCollectionSeries(collection);
-        colecoes.add({collection: series});
-      }
-      setState(() {});
+  getCollections() async {
+    colecoes = await _collections.getAllCollections();
+    setState(() {
+      
     });
   }
 
@@ -48,7 +43,7 @@ class _UserFeedState extends State<UserFeed>
     // );
     return CustomScrollView(
       slivers: [
-        colecoes.isEmpty
+        colecoes==null
             ? SliverToBoxAdapter(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -60,14 +55,21 @@ class _UserFeedState extends State<UserFeed>
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
-                      child: LoadingFrases(loading: colecoes.isEmpty)
+                      child: LoadingFrases(loading: colecoes==null)
                     )
                   ],
                 ),
               )
-            : _CollectionList(
-                collectionList: colecoes,
+            : colecoes!.isNotEmpty
+            ?_CollectionList(
+                collectionList: colecoes!,
+              )
+            : SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 200),
+                child: Text("Algo deu errado"),
               ),
+            ),
       ],
     );
   }
@@ -77,7 +79,7 @@ class _UserFeedState extends State<UserFeed>
 }
 
 class _CollectionList extends StatelessWidget {
-  final List collectionList;
+  final List<Collection> collectionList;
   const _CollectionList({required this.collectionList});
 
   @override
@@ -87,13 +89,8 @@ class _CollectionList extends StatelessWidget {
     return SliverList.builder(
       itemCount: collectionList.length,
       itemBuilder: (context, index) {
-        Map<String, List<Serie>> colecao = collectionList[index];
-        String? titulo;
-        List<Serie>? series;
-        colecao.forEach((key, value) {
-          titulo = key;
-          series = value;
-        });
+        Collection colecao = collectionList[index];
+        List<Serie> series = colecao.series ?? [];
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -106,7 +103,7 @@ class _CollectionList extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(titulo!,
+                  Text(colecao.nome!,
                       style: const TextStyle(
                         fontSize: 18,
                       )),
@@ -118,7 +115,7 @@ class _CollectionList extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                CollectionDetails(collectionId: titulo!),
+                                CollectionDetails(collectionId: colecao.nome!),
                           ),
                         );
                       },
@@ -131,7 +128,7 @@ class _CollectionList extends StatelessWidget {
                 ],
               ),
             ),
-            series == null || series!.isEmpty
+            series.isEmpty
                 ? Padding(
                   padding: EdgeInsets.only(top: height*0.05),
                   child: const Center(
@@ -145,10 +142,10 @@ class _CollectionList extends StatelessWidget {
                     height: height * 0.2,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: series?.length ?? 0,
+                      itemCount: series.length,
                       itemBuilder: (context, index) {
-                        return series != null || series!.isNotEmpty
-                            ? _CollectionItem(serie: series![index])
+                        return series.isNotEmpty
+                            ? _CollectionItem(serie: series[index])
                             : const Center(
                                 child: Text(
                                     "(◞‸◟) Não encontramos nenhuma série..."),
@@ -165,7 +162,7 @@ class _CollectionList extends StatelessWidget {
 
 class _CollectionItem extends StatelessWidget {
   final Serie serie;
-  _CollectionItem({super.key, required this.serie});
+  _CollectionItem({required this.serie});
   final ApiService _api = ApiService();
   @override
   Widget build(BuildContext context) {

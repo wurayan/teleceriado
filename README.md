@@ -67,6 +67,7 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Redesign completo da tela de usuário:  
         Agora se trata de uma tela com detecção de gesto para o usuário navegador entre as telas de comentários, coleções e perfil visitado;
     - Criação da tela de comentários;
+    - Reestruturação do método de busca das Coleções;
         
 
 

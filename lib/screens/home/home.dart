@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:teleceriado/models/usuario.dart';
-import 'package:teleceriado/screens/first_page.dart';
+import 'package:teleceriado/screens/trending_feed.dart';
 import 'package:teleceriado/screens/home/widget/drawer.dart';
 import 'package:teleceriado/screens/home/widget/new_collection.dart';
 import 'package:teleceriado/screens/home/widget/search.dart';
-import 'package:teleceriado/screens/user_feed.dart';
-
+import 'package:teleceriado/screens/collections_feed.dart';
 import '../../services/user_dao/firebase_collections.dart';
 
 class Home extends StatefulWidget {
@@ -21,8 +20,8 @@ class _HomeState extends State<Home> {
   Usuario? usuario;
 
   List pages = [
-    const FisrtPage(),
-    const UserFeed(),
+    const TrendingFeed(),
+    const CollectionsFeed(),
   ];
 
   List icons = [const Search(), const NewCollection()];

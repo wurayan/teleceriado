@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:teleceriado/screens/collections/create_collection.dart';
 
+import '../../../models/collection.dart';
 import '../../../models/serie.dart';
 import '../../../models/snackbar.dart';
 import '../../../services/user_dao/firebase_collections.dart';
 
 class CollectionList extends StatelessWidget {
   final Serie serie;
-  final List<String> collectionList;
+  final List<Collection> collectionList;
   CollectionList(
       {super.key, required this.collectionList, required this.serie});
 
@@ -31,7 +32,7 @@ class CollectionList extends StatelessWidget {
             itemCount: collectionList.length + 1,
             itemBuilder: (context, index) {
               if (index < collectionList.length) {
-                String collectionId = collectionList[index];
+                String collectionId = collectionList[index].nome!;
                 return InkWell(
                   onTap: () {
                     _collections.saveInCollection(collectionId, serie).then(

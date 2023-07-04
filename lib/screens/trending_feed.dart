@@ -1,21 +1,18 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/components/loading_frases.dart';
 import 'package:teleceriado/screens/serie/serie_details.dart';
 import 'package:teleceriado/services/api_service.dart';
-import 'package:teleceriado/utils/utils.dart';
 import '../models/serie.dart';
 
-class FisrtPage extends StatefulWidget {
-  const FisrtPage({super.key});
+class TrendingFeed extends StatefulWidget {
+  const TrendingFeed({super.key});
 
   @override
-  State<FisrtPage> createState() => _FisrtPageState();
+  State<TrendingFeed> createState() => _TrendingFeedState();
 }
 
-class _FisrtPageState extends State<FisrtPage> with  AutomaticKeepAliveClientMixin{
+class _TrendingFeedState extends State<TrendingFeed> with  AutomaticKeepAliveClientMixin{
   final ApiService _api = ApiService();
   List<Serie> seriesPopulares = [];
 

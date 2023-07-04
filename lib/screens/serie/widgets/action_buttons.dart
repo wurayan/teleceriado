@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:teleceriado/models/snackbar.dart';
 import 'package:teleceriado/screens/serie/widgets/collection_list.dart';
 
+import '../../../models/collection.dart';
 import '../../../models/serie.dart';
 import '../../../services/user_dao/firebase_collections.dart';
 
@@ -30,7 +31,7 @@ class ActionButtons extends StatelessWidget {
             )),
         TextButton(
           onPressed: () async {
-            List<String> collectionList =
+            List<Collection> collectionList =
                 await _collections.getAllCollections();
             // ignore: use_build_context_synchronously
             showDialog(
