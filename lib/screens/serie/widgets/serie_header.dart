@@ -50,10 +50,15 @@ class SerieHeader extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(
-                      serie.nome!,
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.w600),
+                    SizedBox(
+                      width: width*0.9,
+                      child: Text(
+                        serie.nome!,
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w600),
+                            maxLines: 2,
+                            overflow: TextOverflow.clip,
+                      ),
                     ),
                   ],
                 ),

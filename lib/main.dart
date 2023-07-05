@@ -5,6 +5,7 @@ import 'package:teleceriado/models/collection.dart';
 import 'package:teleceriado/models/episodio.dart';
 import 'package:teleceriado/models/error_handler.dart';
 import 'package:teleceriado/models/temporada.dart';
+import 'package:teleceriado/models/version.dart';
 import 'package:teleceriado/services/auth.dart';
 import 'package:teleceriado/utils/theme.dart';
 import 'package:teleceriado/wrapper.dart';
@@ -22,7 +23,8 @@ void main() async {
         ChangeNotifierProvider(create: (context)=> Episodio()),
         ChangeNotifierProvider(create: (context)=> Temporada()),
         ChangeNotifierProvider(create: (context) => Collection()),
-        ChangeNotifierProvider(create: (context) => Usuario())
+        ChangeNotifierProvider(create: (context) => Usuario()),
+        ChangeNotifierProvider(create: (context) => Version()),
       ],
       child: const MainApp(),
     )

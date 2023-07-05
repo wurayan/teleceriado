@@ -43,10 +43,12 @@ class _UserPageState extends State<UserPage> {
   getData() async {
     List<Episodio> episodios =
         await _collection.getAllEditedEpisodios(widget.usuario.uid!);
-    List<Collection> colecoes = [];
+    List<Collection> colecoes =
+        await _collection.getAllCollections(user: widget.usuario.uid);
     pages = [
       ColecoesScreen(
         colecoes: colecoes,
+        userId: widget.usuario.uid!,
       ),
       ComentariosScreen(
         episodios: episodios,
@@ -88,14 +90,14 @@ class _UserPageState extends State<UserPage> {
     final double width = MediaQuery.of(context).size.width;
     return GestureDetector(
       onHorizontalDragEnd: (details) {
-            if (details.primaryVelocity! > 0) {
-              swipe(true);
-              print("MAS NUM VAI?");
-            } else if (details.primaryVelocity! < 0) {
-              swipe(false);
-              print("Tem que ir ou");
-            }
-          },
+        if (details.primaryVelocity! > 0) {
+          swipe(true);
+          print("MAS NUM VAI?");
+        } else if (details.primaryVelocity! < 0) {
+          swipe(false);
+          print("Tem que ir ou");
+        }
+      },
       child: Scaffold(
         bottomNavigationBar: BottomNavigationBar(
           items: bottomBarItens(),

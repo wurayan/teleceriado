@@ -65,7 +65,6 @@ class FirebaseCollections {
       colecao.series = await getCollectionSeries(colecaoNome);
       resultado.add(colecao);
     }
-    print(resultado);
     return resultado;
   }
 
@@ -138,8 +137,8 @@ class FirebaseCollections {
   }
 
   //GET SERIES
-  Future<List<Serie>> getCollectionSeries(String collectionId) async {
-    String? userUid = await prefs.getUserId();
+  Future<List<Serie>> getCollectionSeries(String collectionId, {String? userId}) async {
+    String? userUid = userId ?? await prefs.getUserId();
     List<Serie> resultList = [];
     var result = await db
         .collection(initialCollection)

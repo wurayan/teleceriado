@@ -20,13 +20,10 @@ class _CollectionsFeedState extends State<CollectionsFeed>
   final FirebaseCollections _collections = FirebaseCollections();
   List<Collection>? colecoes;
 
-
 //TODO TALVEZ TENHAMOS QUE USAR O OUTRO METODO DE CONSTRUIR LIST COM FUTURE, PARA ASSIM A LISTA SER ATUALIZADA CONFORME É ALTERADA
   getCollections() async {
     colecoes = await _collections.getAllCollections();
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   @override
@@ -38,12 +35,9 @@ class _CollectionsFeedState extends State<CollectionsFeed>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    // _collections.updateUi(
-    //   getCollections
-    // );
     return CustomScrollView(
       slivers: [
-        colecoes==null
+        colecoes == null
             ? SliverToBoxAdapter(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -54,22 +48,21 @@ class _CollectionsFeedState extends State<CollectionsFeed>
                       child: const Loading(),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: LoadingFrases(loading: colecoes==null)
-                    )
+                        padding: const EdgeInsets.only(top: 10),
+                        child: LoadingFrases(loading: colecoes == null))
                   ],
                 ),
               )
             : colecoes!.isNotEmpty
-            ?_CollectionList(
-                collectionList: colecoes!,
-              )
-            : SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 200),
-                child: Text("Algo deu errado"),
-              ),
-            ),
+                ? _CollectionList(
+                    collectionList: colecoes!,
+                  )
+                : const SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 200),
+                      child: Text("Algo deu errado"),
+                    ),
+                  ),
       ],
     );
   }
@@ -130,26 +123,21 @@ class _CollectionList extends StatelessWidget {
             ),
             series.isEmpty
                 ? Padding(
-                  padding: EdgeInsets.only(top: height*0.05),
-                  child: const Center(
+                    padding: EdgeInsets.only(top: height * 0.05),
+                    child: const Center(
                       child: Text(
                         "(◞‸◟) Não encontramos nenhuma série...",
                         style: TextStyle(fontSize: 16),
                       ),
                     ),
-                )
+                  )
                 : SizedBox(
                     height: height * 0.2,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: series.length,
                       itemBuilder: (context, index) {
-                        return series.isNotEmpty
-                            ? _CollectionItem(serie: series[index])
-                            : const Center(
-                                child: Text(
-                                    "(◞‸◟) Não encontramos nenhuma série..."),
-                              );
+                        return  _CollectionItem(serie: series[index]);
                       },
                     ),
                   )
@@ -188,6 +176,9 @@ class _CollectionItem extends StatelessWidget {
             fit: BoxFit.cover,
             width: width * 0.65,
             height: width,
+            errorBuilder: (context, error, stackTrace) {
+              return const Text("Não foi possível carregar a imagem");
+            },
           ),
         ),
       ),

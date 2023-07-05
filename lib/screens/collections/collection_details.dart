@@ -8,7 +8,8 @@ import '../serie/serie_details.dart';
 
 class CollectionDetails extends StatefulWidget {
   final String collectionId;
-  const CollectionDetails({super.key, required this.collectionId});
+  final String? userId;
+  const CollectionDetails({super.key, required this.collectionId, this.userId});
 
   @override
   State<CollectionDetails> createState() => _CollectionDetailsState();
@@ -21,9 +22,9 @@ class _CollectionDetailsState extends State<CollectionDetails> {
 
   @override
   void initState() {
-    _collections.getCollectionInfo(widget.collectionId).then((value) {
+    _collections.getCollectionInfo(widget.collectionId, userId: widget.userId).then((value) {
       collection = value;
-      _collections.getCollectionSeries(widget.collectionId).then((value) {
+      _collections.getCollectionSeries(widget.collectionId, userId: widget.userId).then((value) {
         series = value;
         setState(() {});
       });

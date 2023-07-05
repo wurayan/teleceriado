@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:teleceriado/screens/comunidade/comunidade.dart';
 import 'package:teleceriado/screens/home/widget/drawer_header.dart';
-import 'package:teleceriado/services/user_dao/comunidade_dao.dart';
-import 'package:teleceriado/services/user_dao/firebase_collections.dart';
-import 'package:teleceriado/utils/color_checker.dart';
-import '../../../models/episodio.dart';
-import '../../../services/api_service.dart';
+import '../../../models/version.dart';
 import '../../../services/auth.dart';
 
 class HomeDrawer extends StatelessWidget {
@@ -31,7 +28,7 @@ class HomeDrawer extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Comunidade(),
+                      builder: (context) => const Comunidade(),
                     ),
                   );
                 },
@@ -58,11 +55,11 @@ class HomeDrawer extends StatelessWidget {
                 ),
               ),
             ),
-            TextButton(
-              onPressed: () {
-              },
-              child: Text("ARRIVA CHICO CARLITO")
-            ),
+            // TextButton(
+            //   onPressed: () {
+            //   },
+            //   child: Text("ARRIVA CHICO CARLITO")
+            // ),
             const Expanded(child: SizedBox(width: null, height: null)),
             TextButton(
               onPressed: () async {
@@ -72,9 +69,9 @@ class HomeDrawer extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.only(bottom: height * 0.01),
-              child: const Text(
-                "Versão 2.0.3",
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
+              child: Text(
+                Provider.of<Version>(context).version ?? "Versão 2.1.0",
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
               ),
             )
           ],
