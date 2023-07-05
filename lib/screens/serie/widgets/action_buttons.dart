@@ -18,15 +18,19 @@ class ActionButtons extends StatelessWidget {
       children: [
         TextButton(
             onPressed: () {
-              _collections.saveInCollection("Favoritos", serie).then(
-                    (value) => SnackbarGlobal.show("Série Favoritada!")
-                  );
+              _collections
+                  .saveInCollection("Favoritos", serie)
+                  .then((value) => SnackbarGlobal.show("Série Favoritada!"));
             },
             style: TextButton.styleFrom(iconColor: Colors.grey),
-            child: const Column(
+            child: Column(
               children: [
-                Icon(Icons.favorite_border_rounded, size: 50),
-                Text("Favoritar", style: TextStyle(color: Colors.grey))
+                Icon(
+                    serie.isFavorite!
+                        ? Icons.favorite_border_rounded
+                        : Icons.favorite_rounded,
+                    size: 50),
+                const Text("Favoritar", style: TextStyle(color: Colors.grey))
               ],
             )),
         TextButton(

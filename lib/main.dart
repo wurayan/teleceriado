@@ -35,11 +35,13 @@ class MainApp extends StatelessWidget {
   const MainApp({super.key});
   @override
   Widget build(BuildContext context) {
+    print("MAS QUE CARALHJOS");
     return StreamProvider<Usuario?>.value
       (
       initialData: null,
       value: AuthService().onAuthStateChanged,
       builder: (context, snapshot) {
+        print("surto coletivo");
         return MaterialApp(
           navigatorKey: ErrorHandler.key,
           scaffoldMessengerKey: SnackbarGlobal.key,

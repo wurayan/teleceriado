@@ -20,7 +20,7 @@ class Wrapper extends StatelessWidget {
     if (usuario == null) {
       return const Auth();
     } else {
-      getPackage(context);
+      // getPackage(context);
       return const Home();
     }
   }

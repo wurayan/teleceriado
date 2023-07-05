@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:teleceriado/models/error_handler.dart';
 import 'package:teleceriado/screens/collections/create_collection.dart';
 
 import '../../../models/collection.dart';
@@ -20,38 +21,77 @@ class CollectionList extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return Dialog(
       backgroundColor: const Color.fromARGB(200, 89, 94, 112),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(25)
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       child: SizedBox(
         height: height * 0.5,
         width: width * 0.7,
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: height*0.02),
+          padding: EdgeInsets.symmetric(vertical: height * 0.02),
           child: ListView.builder(
             itemCount: collectionList.length + 1,
             itemBuilder: (context, index) {
               if (index < collectionList.length) {
-                String collectionId = collectionList[index].nome!;
+                Collection colecao = collectionList[index];
                 return InkWell(
                   onTap: () {
-                    _collections.saveInCollection(collectionId, serie).then(
-                        (value) =>
-                            SnackbarGlobal.show("Série salva em $collectionId!"),);
-                    Navigator.pop(context);
+                    _collections.saveInCollection(colecao.nome!, serie).then(
+                      (value) {
+                        Navigator.pop(context);
+                        SnackbarGlobal.show("Série salva em ${colecao.nome!}!");
+                      },
+                    );
                   },
                   child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)
-                  ),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
                     child: Container(
                       alignment: Alignment.center,
-                      height: height * 0.05,
-                      child: Text(
-                        collectionId,
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w500),
-                        textAlign: TextAlign.center,
+                      height: height * 0.075,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: Image.network(
+                              colecao.imagem!,
+                              errorBuilder: (context, error, stackTrace) {
+                                ErrorHandler.show(
+                                    "${error.toString()}\n${stackTrace.toString()}");
+                                return const Text("Erro ao carregar a imagem");
+                              },
+                            ).image,
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.circular(10)),
+                      clipBehavior: Clip.hardEdge,
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            height: double.infinity,
+                            decoration: const BoxDecoration(
+                              gradient: LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  stops: [
+                                    0,
+                                    0.4,
+                                    0.6
+                                  ],
+                                  colors: [
+                                    Colors.transparent,
+                                    Color.fromARGB(200, 33, 33, 33),
+                                    Color.fromARGB(223, 48, 48, 48),
+                                  ]),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              colecao.nome!,
+                              style: const TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w500),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -66,12 +106,12 @@ class CollectionList extends StatelessWidget {
                           serie: serie,
                         ),
                       ),
-                    ).then((value) => value==true ? Navigator.pop(context) : null);
+                    ).then((value) =>
+                        value == true ? Navigator.pop(context) : null);
                   },
                   child: Card(
                     shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)
-                  ),
+                        borderRadius: BorderRadius.circular(10)),
                     child: Container(
                       alignment: Alignment.center,
                       height: height * 0.05,

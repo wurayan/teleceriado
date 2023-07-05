@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:teleceriado/services/user_dao/firebase_collections.dart';
 import 'package:teleceriado/services/web_client.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,6 +13,7 @@ import '../models/temporada.dart';
 class ApiService {
   String url = WebClient.url;
   http.Client client = WebClient().client;
+  final FirebaseCollections _collections = FirebaseCollections();
 
   static const String weekTrending = "trending/tv/week?language=pt-Br";
   static const String token =
@@ -79,8 +81,8 @@ class ApiService {
         headers: {"Authorization": "Bearer $token"});
     Map body = json.decode(response.body);
     // List<dynamic> resultados = body['results'];
-    
-    return toSerie(body, temporada);
+    // bool isFavorite = await _collections.isFavorite(id);
+    return toSerie(body, temporada, false);
   }
 
   Future<List<Episodio>> getEpisodios(int idSerie, int temporada) async {
@@ -98,7 +100,7 @@ class ApiService {
     return episodiosToList(resultados, serie);
   }
 
-  Serie toSerie(Map resultado, int value) {
+  Serie toSerie(Map resultado, int value, bool isFavorite) {
     Serie serie = Serie();
     serie.id = resultado['id'];
     serie.backdrop = resultado['backdrop_path'];
@@ -110,6 +112,7 @@ class ApiService {
     serie.descricao = resultado['overview'];
     serie.poster = resultado['poster_path'];
     serie.status = resultado['status'];
+    serie.isFavorite = isFavorite;
     Map temporada = resultado['season/$value'];
     serie.temporadas =
         getTemporada(resultado['seasons'], temporada['episodes']);

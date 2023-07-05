@@ -83,6 +83,7 @@ class _Header extends StatelessWidget {
               ? Image.network(
                   collection.imagem!,
                   fit: BoxFit.cover,
+                  alignment: Alignment.topCenter,
                 )
               : null,
         ),

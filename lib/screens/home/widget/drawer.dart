@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:teleceriado/screens/comunidade/comunidade.dart';
 import 'package:teleceriado/screens/home/widget/drawer_header.dart';
+import 'package:teleceriado/services/user_dao/firebase_collections.dart';
 import '../../../models/version.dart';
 import '../../../services/auth.dart';
 
@@ -57,8 +58,10 @@ class HomeDrawer extends StatelessWidget {
             ),
             // TextButton(
             //   onPressed: () {
+            //     FirebaseCollections col = FirebaseCollections();
+            //     col.isFavorite(114472);
             //   },
-            //   child: Text("ARRIVA CHICO CARLITO")
+            //   child: Text("ARRIBA CHICO CARLITO")
             // ),
             const Expanded(child: SizedBox(width: null, height: null)),
             TextButton(

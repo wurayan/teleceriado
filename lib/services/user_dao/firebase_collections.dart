@@ -313,4 +313,25 @@ class FirebaseCollections {
     }
     return resultado;
   }
+
+   isFavorite(int serieId) async {
+    String? userUid = await prefs.getUserId();
+    var res = await db
+    .collection(initialCollection)
+    .doc("/$userUid")
+    .collection("/Favoritos")
+    .doc("/doc")
+    .collection("/series")
+    .doc("/$serieId")
+    .get();
+    return res.data()!=null;
+  }
 }
+// db
+//         .collection(initialCollection)
+//         .doc("/$userUid")
+//         .collection("/$collectionId")
+//         .doc(doc)
+//         .collection(series)
+//         .doc("/${serie.id}")
+//         .set(serieMap)
