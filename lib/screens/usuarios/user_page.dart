@@ -25,8 +25,6 @@ class _UserPageState extends State<UserPage> {
   List pages = [];
 
   swipe(bool value) {
-    print("SWIPEEEEEEE $value");
-    print(_currentPage);
     if (value) {
       if (_currentPage > 0) {
         _currentPage -= 1;
@@ -87,15 +85,12 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
-    final double width = MediaQuery.of(context).size.width;
     return GestureDetector(
       onHorizontalDragEnd: (details) {
         if (details.primaryVelocity! > 0) {
           swipe(true);
-          print("MAS NUM VAI?");
         } else if (details.primaryVelocity! < 0) {
           swipe(false);
-          print("Tem que ir ou");
         }
       },
       child: Scaffold(

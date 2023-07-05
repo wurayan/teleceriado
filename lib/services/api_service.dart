@@ -29,7 +29,6 @@ class ApiService {
   }
 
   Future<String> getRandomBackdrop() async {
-    int requests = 0;
     List<dynamic> results = [];
 
     http.Response response =
@@ -40,7 +39,6 @@ class ApiService {
     response = await client.get(getUri("tv/$random/images"), headers: header);
 
     while (results.isEmpty) {
-      requests += 1;
       int random = Random().nextInt(body["id"]);
       response = await client.get(getUri("tv/$random/images"), headers: header);
       if (response.statusCode == 200) {
@@ -48,7 +46,6 @@ class ApiService {
         results = body["backdrops"];
       }
     }
-    print("QUANTIDADE DE REQUESTS ATE ACHAR UMA IMAGEM: $requests\n ID: $random");
     return getSeriePoster(results[0]["file_path"]);
   }
 

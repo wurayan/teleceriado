@@ -3,7 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Prefs {
   saveUserId(String userId) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    print(userId);
     await prefs.setString("userId", userId);
   }
 

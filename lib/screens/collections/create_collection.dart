@@ -139,7 +139,6 @@ class CreateCollection extends StatelessWidget {
         : serie?.poster!=null ?
         _api.getSeriePoster(serie!.poster!) 
         : loremPicsum;
-    //TODO TALVEZ POSSAMOS COLOCAR UMA IMAGEM PLACEHOLDER DE SERIES AQUI
     Collection collection = Collection();
     collection.nome = _tituloController.text;
     collection.imagem = imagemUrl;

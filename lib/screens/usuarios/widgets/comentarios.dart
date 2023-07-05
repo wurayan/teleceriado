@@ -47,8 +47,6 @@ class _ComentarioCardState extends State<ComentarioCard> {
             ? episodio.imagem!
             : _api.getSeriePoster(episodio.imagem!),
       );
-      print(
-          "Episodio: ${widget.episodio.numero} ${widget.episodio.nome} \n isDark? $lightness");
       setState(() {});
     }
   }
@@ -67,6 +65,7 @@ class _ComentarioCardState extends State<ComentarioCard> {
     if (lightness! > 100) {
       return const ColorFilter.mode(Colors.black54, BlendMode.darken);
     }
+    return null;
   }
 
   @override

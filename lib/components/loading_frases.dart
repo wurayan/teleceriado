@@ -47,7 +47,6 @@ class _LoadingFrasesState extends State<LoadingFrases> {
   }
   @override
   Widget build(BuildContext context) {
-    print("esse é o widget de loading frase, vamos ver se fica chamando");
     return Text(
       loadingFrase,
       style: const TextStyle(

@@ -83,12 +83,8 @@ class AuthService {
         final UserCredential userCredential =
             await _auth.signInWithCredential(credential);
         DateTime? creationTime = _auth.currentUser?.metadata.creationTime;
-        print("CREATION tIME: $creationTime \n INIT: $init \n ${creationTime!=null && creationTime.isBefore(init)}");
-        
         User user = userCredential.user!;
-        assert(user!=null);
         Usuario? usuario = _usuarioFromFirebase(user);
-        print(usuario.toString());
         _prefs.saveUserId(usuario!.uid!);
         if(creationTime!=null && !creationTime.isBefore(init)) 
         {
@@ -102,8 +98,6 @@ class AuthService {
       } 
       catch (e) {
         ErrorHandler.show(e.toString());
-        print(e.toString());
-        print(StackTrace.current);
         throw Exception();
       }
     } else {

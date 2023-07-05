@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:teleceriado/models/error_handler.dart';
 import 'package:teleceriado/models/snackbar.dart';
 import 'package:teleceriado/models/usuario.dart';
 import '../../models/collection.dart';
@@ -94,7 +95,6 @@ class FirebaseCollections {
     path.set({
       "colecoes": FieldValue.arrayUnion(["${collection.nome}"])
     }, SetOptions(merge: true));
-    print(collection.toMap());
     path
         .collection("/${collection.nome}")
         .doc(doc)
@@ -158,7 +158,7 @@ class FirebaseCollections {
     return resultList;
   }
 
-  editSerie(Serie serie) async {
+  Future<bool> editSerie(Serie serie) async {
     String? userUid = await prefs.getUserId();
     db
         .collection(initialCollection)
@@ -171,7 +171,14 @@ class FirebaseCollections {
                     "backdrop": serie.backdrop,
                   }
                 : {"descricao": serie.descricao},
-            SetOptions(merge: true));
+            SetOptions(merge: true))
+            .catchError(
+              (e) { 
+                
+                ErrorHandler.show(e.toString());
+               }
+            );
+    return true;
   }
 
   Future<Map?> getEditedSerie(int serieId, {String? userId}) async {
