@@ -10,7 +10,21 @@ class AuthService {
   final Prefs _prefs = Prefs();
   final FirebaseCollections _collection = FirebaseCollections();
 
+Stream<Usuario?> get onAuthStateChanged {
+    Stream<Usuario?> res;
+    try {
+      res = _auth
+        .authStateChanges()
+        .map((User? user) => _usuarioFromFirebase(user));  
+    } catch (e) {
+      print("Erro ${e.toString()}\nstack: ${StackTrace.current}");
+      throw Exception(e);
+    }
+    return res;
+  }
+
   Usuario? _usuarioFromFirebase(User? usuario) {
+    print(usuario.toString());
     if (usuario != null) {
       Usuario user = Usuario();
       user.uid = usuario.uid;
@@ -35,11 +49,7 @@ class AuthService {
     }
   }
 
-  Stream<Usuario?> get onAuthStateChanged {
-    return _auth
-        .authStateChanges()
-        .map((User? user) => _usuarioFromFirebase(user));
-  }
+  
 
   Future signOut() async {
     try {

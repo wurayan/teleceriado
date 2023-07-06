@@ -16,6 +16,7 @@ class Serie extends ChangeNotifier {
   int? _episodiosqtde;
   List<Temporada>? _temporadas;
   String? _status;
+  // bool? _isFavorite;
 
   int? get id => _id;
   String? get nome => _nome;
@@ -29,6 +30,7 @@ class Serie extends ChangeNotifier {
   int? get episodiosqtde => _episodiosqtde;
   List<Temporada>? get temporadas => _temporadas;
   String? get status => _status;
+  // bool? get isFavorite => _isFavorite;
 
   set id(int? value) => _id = value;
   set nome(String? value) => _nome = value;
@@ -42,6 +44,7 @@ class Serie extends ChangeNotifier {
   set episodiosqtde(int? value) => _episodiosqtde = value;
   set temporadas(List<Temporada>? value) => _temporadas = value;
   set status(String? value) => _status = value;
+  // set isFavorite (bool? value) => _isFavorite = value;
 
   @override
   String toString() {

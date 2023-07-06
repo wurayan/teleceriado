@@ -23,10 +23,18 @@ class ActionButtons extends StatelessWidget {
                   );
             },
             style: TextButton.styleFrom(iconColor: Colors.grey),
-            child: const Column(
+            child: Column(
               children: [
-                Icon(Icons.favorite_border_rounded, size: 50),
-                Text("Favoritar", style: TextStyle(color: Colors.grey))
+                Icon(
+                  // serie.isFavorite==true
+                  // ? Icons.favorite_rounded
+                  // : 
+                  Icons.favorite_border_rounded, size: 50),
+                Text(
+                  // serie.isFavorite==true
+                  // ?"Favoritado"
+                  // :
+                  "Favoritar", style: const TextStyle(color: Colors.grey))
               ],
             )),
         TextButton(

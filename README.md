@@ -69,6 +69,11 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Criação da tela de comentários;
     - Reestruturação do método de busca das Coleções;
     - Redesign dos cards de coleções ao salvar uma série;
+
+## Versão 3.0.0  
+    - Atualização de todos os plugins;
+    - Reestruturação do interceptador hhtp;
+    - Possível correção do StackOverflowError;
         
 
 

@@ -1,56 +1,15 @@
-class ListBuilder extends StatefulWidget {
-  final int idSerie;
-  const ListBuilder({super.key, required this.idSerie});
+@override
+  Future<RequestData> interceptRequest ({required RequestData data}) async {
+    logger.v('Requisição para ${data.baseUrl}\nCabeçalhos: ${data.headers}\nCorpo: ${data.body}');
+    return data;
+  }
 
   @override
-  State<ListBuilder> createState() => _ListBuilderState();
-}
-
-class _ListBuilderState extends State<ListBuilder> {
-  List<Episodio> episodios = [];
-  Map<int, Episodio>? editados;
-  final ApiService _api = ApiService();
-  final FirebaseCollections _collection = FirebaseCollections();
-
-  _getEpisodios(int serieId, int temporada) async {
-    episodios = await _api.getEpisodios(serieId, temporada);
-    editados = await _collection.getEditedEpisodio(serieId, temporada);
-    if (editados != null) {
-      editados!.forEach((key, value) {
-        Episodio ep = episodios[key - 1];
-        value.descricao != null ? ep.descricao = value.descricao : null;
-        value.nome != null ? ep.nome = value.nome : null;
-        if (value.imagem != null) {
-          ep.imagem = value.imagem;
-          ep.wasEdited = true;
-        }
-      });
+  Future<ResponseData> interceptResponse ({required ResponseData data}) async {
+    if (data.statusCode ~/ 100 == 2) {
+      logger.i('Resposta de ${data.url}\nStatus da Resposta:${data.statusCode}\nCabeçalho: ${data.headers}\nCorpo: ${data.body}');
+    } else{
+      logger.e('Requisição para ${data.url}\nStatus da Resposta:${data.statusCode}\nCabeçalhos: ${data.headers}\nCorpo: ${data.body}');
     }
-    setState(() {});
+    return data;
   }
-
-  @override
-  void initState() {
-    _getEpisodios(widget.idSerie, 1);
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return episodios.isEmpty
-        ? SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.15),
-              child: const Loading(),
-            ),
-          )
-        : SliverList(
-            delegate: SliverChildBuilderDelegate((context, index) {
-              Episodio episodio = episodios[index];
-
-              return _EpisodioItem(episodio: episodio);
-            }, childCount: episodios.length),
-          );
-  }
-}

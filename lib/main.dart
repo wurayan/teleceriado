@@ -33,6 +33,7 @@ void main() async {
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
+  // final AuthService auth = AuthService();
   @override
   Widget build(BuildContext context) {
     return StreamProvider<Usuario?>.value
