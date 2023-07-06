@@ -74,6 +74,7 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Atualização de todos os plugins;
     - Reestruturação do interceptador hhtp;
     - Possível correção do StackOverflowError;
+    - Botão de favoritar é responsivo;
         
 
 

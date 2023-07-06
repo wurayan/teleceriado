@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:teleceriado/models/snackbar.dart';
 import 'package:teleceriado/screens/serie/widgets/collection_list.dart';
+import 'package:teleceriado/screens/serie/widgets/favorite_button.dart';
 
 import '../../../models/collection.dart';
 import '../../../models/serie.dart';
@@ -16,27 +16,7 @@ class ActionButtons extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        TextButton(
-            onPressed: () {
-              _collections.saveInCollection("Favoritos", serie).then(
-                    (value) => SnackbarGlobal.show("Série Favoritada!")
-                  );
-            },
-            style: TextButton.styleFrom(iconColor: Colors.grey),
-            child: Column(
-              children: [
-                Icon(
-                  // serie.isFavorite==true
-                  // ? Icons.favorite_rounded
-                  // : 
-                  Icons.favorite_border_rounded, size: 50),
-                Text(
-                  // serie.isFavorite==true
-                  // ?"Favoritado"
-                  // :
-                  "Favoritar", style: const TextStyle(color: Colors.grey))
-              ],
-            )),
+        FavoriteButton(serie: serie),
         TextButton(
           onPressed: () async {
             List<Collection> collectionList =

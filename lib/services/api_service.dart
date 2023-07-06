@@ -82,7 +82,7 @@ class ApiService {
     Map body = json.decode(response.body);
     // List<dynamic> resultados = body['results'];
     // bool isFavorite = await _collections.isFavorite(id);
-    return toSerie(body, temporada,);
+    return toSerie(body, temporada);
   }
 
   Future<List<Episodio>> getEpisodios(int idSerie, int temporada) async {
@@ -100,7 +100,7 @@ class ApiService {
     return episodiosToList(resultados, serie);
   }
 
-  Serie toSerie(Map resultado, int value, ) {
+  Serie toSerie(Map resultado, int value) {
     Serie serie = Serie();
     serie.id = resultado['id'];
     serie.backdrop = resultado['backdrop_path'];

@@ -136,6 +136,23 @@ class FirebaseCollections {
     return true;
   }
 
+  Future<bool> removeInCollection(String collectionId, Serie serie) async {
+    String? userUid = await prefs.getUserId();
+    db.
+    collection(initialCollection)
+    .doc("/$userUid")
+    .collection("/$collectionId")
+    .doc(doc)
+    .collection(series)
+    .doc("/${serie.id}")
+    .delete()
+    .onError((error, stackTrace) {
+      ErrorHandler.show(error.toString());
+      throw Exception (error);
+    });
+    return true;
+  }
+
   //GET SERIES
   Future<List<Serie>> getCollectionSeries(String collectionId, {String? userId}) async {
     String? userUid = userId ?? await prefs.getUserId();
@@ -314,16 +331,16 @@ class FirebaseCollections {
     return resultado;
   }
 
-  // Future<bool> isFavorite(int serieId) async {
-  //  String? userId = await prefs.getUserId();
-  //  var res = await db
-  //  .collection(initialCollection)
-  //  .doc("/$userId")
-  //  .collection("Favoritos")
-  //  .doc("/doc")
-  //  .collection("/series")
-  //  .doc("/$serieId")
-  //  .get();
-  //  return res.data()!=null;
-  // }
+  Future<bool> isFavorite(int serieId) async {
+   String? userId = await prefs.getUserId();
+   var res = await db
+   .collection(initialCollection)
+   .doc("/$userId")
+   .collection("Favoritos")
+   .doc("/doc")
+   .collection("/series")
+   .doc("/$serieId")
+   .get();
+   return res.data()!=null;
+  }
 }
