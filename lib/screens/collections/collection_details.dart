@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/models/collection.dart';
 import 'package:teleceriado/services/api_service.dart';
-import 'package:teleceriado/services/user_dao/firebase_collections.dart';
 import '../../models/serie.dart';
+import '../../services/user_dao/firebase_export.dart';
 import '../serie/serie_details.dart';
 
 class CollectionDetails extends StatefulWidget {
@@ -17,6 +17,7 @@ class CollectionDetails extends StatefulWidget {
 
 class _CollectionDetailsState extends State<CollectionDetails> {
   final FirebaseCollections _collections = FirebaseCollections();
+  final FirebaseSeries _series = FirebaseSeries();
   List<Serie>? series;
   Collection? collection;
 
@@ -24,7 +25,7 @@ class _CollectionDetailsState extends State<CollectionDetails> {
   void initState() {
     _collections.getCollectionInfo(widget.collectionId, userId: widget.userId).then((value) {
       collection = value;
-      _collections.getCollectionSeries(widget.collectionId, userId: widget.userId).then((value) {
+      _series.getCollectionSeries(widget.collectionId, userId: widget.userId).then((value) {
         series = value;
         setState(() {});
       });

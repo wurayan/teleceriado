@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:teleceriado/models/snackbar.dart';
 import 'package:teleceriado/utils/decoration.dart';
 import 'package:teleceriado/utils/utils.dart';
-
 import '../../../models/episodio.dart';
 import '../../../services/api_service.dart';
-import '../../../services/user_dao/firebase_collections.dart';
+import '../../../services/user_dao/firebase_export.dart';
 
 class EditEpisodio extends StatelessWidget {
   final Episodio episodio;
   final VoidCallback reload;
   EditEpisodio({super.key, required this.episodio, required this.reload});
 
-  final FirebaseCollections _collection = FirebaseCollections();
+  final FirebaseEpisodios _episodios = FirebaseEpisodios();
   final ApiService _api = ApiService();
 
   final TextEditingController _imagemController = TextEditingController();
@@ -158,7 +157,7 @@ class EditEpisodio extends StatelessWidget {
                               episodio.imagem =
                                   newEpisodio.imagem ?? episodio.imagem;
                               episodio.nome = newEpisodio.nome ?? episodio.nome;
-                              _collection.editEpisodio(newEpisodio);
+                              _episodios.editEpisodio(newEpisodio);
                             }
                           }
                           reload();

@@ -4,8 +4,7 @@ import 'package:teleceriado/screens/components/custom_appbar.dart';
 import 'package:teleceriado/screens/usuarios/widgets/colecoes_screen.dart';
 import 'package:teleceriado/screens/usuarios/widgets/comentarios.dart';
 import 'package:teleceriado/screens/usuarios/widgets/user_screen.dart';
-import 'package:teleceriado/services/user_dao/firebase_collections.dart';
-
+import 'package:teleceriado/services/user_dao/firebase_export.dart';
 import '../../models/collection.dart';
 import '../../models/episodio.dart';
 import '../../models/usuario.dart';
@@ -20,6 +19,7 @@ class UserPage extends StatefulWidget {
 
 class _UserPageState extends State<UserPage> {
   final FirebaseCollections _collection = FirebaseCollections();
+  final FirebaseEpisodios _episodios = FirebaseEpisodios();
   int _currentPage = 1;
   // List<BottomNavigationBarItem>? bottomNavigationBarItens;
   List pages = [];
@@ -40,7 +40,7 @@ class _UserPageState extends State<UserPage> {
 
   getData() async {
     List<Episodio> episodios =
-        await _collection.getAllEditedEpisodios(widget.usuario.uid!);
+        await _episodios.getAllEditedEpisodios(widget.usuario.uid!);
     List<Collection> colecoes =
         await _collection.getAllCollections(user: widget.usuario.uid);
     pages = [

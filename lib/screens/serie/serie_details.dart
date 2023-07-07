@@ -6,7 +6,7 @@ import 'package:teleceriado/screens/serie/widgets/options_dialog.dart';
 import 'package:teleceriado/screens/serie/widgets/serie_header.dart';
 import 'package:teleceriado/services/api_service.dart';
 import '../../models/serie.dart';
-import '../../services/user_dao/firebase_collections.dart';
+import '../../services/user_dao/firebase_export.dart';
 
 class ShowDetails extends StatefulWidget {
   final Serie serie;
@@ -17,14 +17,14 @@ class ShowDetails extends StatefulWidget {
 }
 
 class _ShowDetailsState extends State<ShowDetails> {
-  final FirebaseCollections _collection = FirebaseCollections();
+  final FirebaseSeries _series = FirebaseSeries();
 
   late Serie _serie;
   bool backdropEdited = false;
 
   getEdited(Serie serie) async {
     Map? map =
-        await _collection.getEditedSerie(serie.id!);
+        await _series.getEditedSerie(serie.id!);
     if (map != null) {
       if (map["descricao"] != null && map["backdrop"] != null) {
         serie.descricao = map["descricao"];
@@ -108,11 +108,11 @@ class _ListBuilderState extends State<ListBuilder> {
   List<Episodio> episodios = [];
   Map<int, Episodio>? editados;
   final ApiService _api = ApiService();
-  final FirebaseCollections _collection = FirebaseCollections();
+  final FirebaseEpisodios _episodios = FirebaseEpisodios();
 
   _getEpisodios(int serieId, int temporada) async {
     episodios = await _api.getEpisodios(serieId, temporada);
-    editados = await _collection.getEditedEpisodio(serieId, temporada);
+    editados = await _episodios.getEditedEpisodio(serieId, temporada);
     if (editados != null) {
       editados!.forEach((key, value) {
         Episodio ep = episodios[key - 1];

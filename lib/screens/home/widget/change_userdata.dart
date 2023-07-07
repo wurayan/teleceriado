@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:teleceriado/services/user_dao/firebase_collections.dart';
 import 'package:teleceriado/utils/utils.dart';
 import '../../../models/usuario.dart';
+import '../../../services/user_dao/firebase_export.dart';
 import 'link_invalido.dart';
 
 class ChangeUserdata extends StatefulWidget {
@@ -13,7 +13,7 @@ class ChangeUserdata extends StatefulWidget {
 }
 
 class _ChangeUserdataState extends State<ChangeUserdata> {
-  final FirebaseCollections _collections = FirebaseCollections();
+  final FirebaseUsers _users = FirebaseUsers(); 
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -151,7 +151,7 @@ class _ChangeUserdataState extends State<ChangeUserdata> {
     bool avatarValid = avatar != null ? await validateImage(avatar) : false;
     bool usernameValid = username != null;
     if (avatarValid || usernameValid) {
-      _collections.updateUserdata(
+      _users.updateUserdata(
           username: usernameValid ? _usernameController.text : null,
           avatar: avatarValid ? _avatarController.text : null);
     }

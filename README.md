@@ -75,6 +75,7 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Reestruturação do interceptador hhtp;
     - Possível correção do StackOverflowError;
     - Botão de favoritar é responsivo;
+    - Refatoração dos métodos do Firebase e adição do arquivo Export;
         
 
 

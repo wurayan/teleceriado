@@ -3,7 +3,7 @@ import 'package:teleceriado/components/emoji_generator.dart';
 import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/components/loading_frases.dart';
 import 'package:teleceriado/screens/usuarios/user_page.dart';
-import 'package:teleceriado/services/user_dao/comunidade_dao.dart';
+import 'package:teleceriado/services/user_dao/firebase_comunidade.dart';
 import '../../models/usuario.dart';
 
 class Comunidade extends StatefulWidget {
@@ -15,7 +15,7 @@ class Comunidade extends StatefulWidget {
 
 class _ComunidadeState extends State<Comunidade>
     with AutomaticKeepAliveClientMixin {
-  final ComunidadeCollections _comunidade = ComunidadeCollections();
+  final FirebaseComunidade _comunidade = FirebaseComunidade();
 
   List<Usuario> usuarios = [];
 

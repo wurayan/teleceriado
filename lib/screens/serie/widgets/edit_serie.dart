@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:teleceriado/models/snackbar.dart';
 import 'package:teleceriado/utils/utils.dart';
-
 import '../../../models/serie.dart';
-import '../../../services/user_dao/firebase_collections.dart';
+import '../../../services/user_dao/firebase_export.dart';
 
 class EditSerie extends StatelessWidget {
   final bool isDescription;
   final Serie serie;
   EditSerie({super.key, required this.isDescription, required this.serie});
 
-  final FirebaseCollections _collection = FirebaseCollections();
+  final FirebaseSeries _series = FirebaseSeries();
 
   final TextEditingController _controller = TextEditingController();
 
@@ -85,12 +84,12 @@ class EditSerie extends StatelessWidget {
       bool isValid;
       if (isDescription) {
         serie.descricao = _controller.text;
-        return await _collection.editSerie(serie);
+        return await _series.editSerie(serie);
       } else if (!isDescription) {
         isValid = await validateImage(_controller.text);
         if (isValid) {
           serie.backdrop = _controller.text;
-          return await _collection.editSerie(serie);
+          return await _series.editSerie(serie);
         } else {
           SnackbarGlobal.show("Link inválido!");
           return false;

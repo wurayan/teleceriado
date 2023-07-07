@@ -97,6 +97,7 @@ class _CollectionItem extends StatelessWidget {
       },
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        clipBehavior: Clip.hardEdge,
         child: Container(
           alignment: Alignment.center,
           height: height * 0.075,
@@ -130,6 +131,7 @@ class _CollectionItem extends StatelessWidget {
                 ]
               ),
             ),
+            alignment: Alignment.center,
             child: Text(
               colecao.nome!,
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),

@@ -6,7 +6,7 @@ import 'package:teleceriado/screens/home/widget/drawer.dart';
 import 'package:teleceriado/screens/home/widget/new_collection.dart';
 import 'package:teleceriado/screens/home/widget/search.dart';
 import 'package:teleceriado/screens/collections_feed.dart';
-import '../../services/user_dao/firebase_collections.dart';
+import 'package:teleceriado/services/user_dao/firebase_export.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -16,7 +16,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final FirebaseCollections _collections = FirebaseCollections();
+  final FirebaseUsers _users = FirebaseUsers();
   Usuario? usuario;
 
   List pages = [
@@ -29,7 +29,7 @@ class _HomeState extends State<Home> {
   int _currentPage = 0;
 
   getUserdata() async {
-    usuario = await _collections.getUserdata();
+    usuario = await _users.getUserdata();
     setState(() {});
   }
 

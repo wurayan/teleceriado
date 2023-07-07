@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
 import '../../../models/serie.dart';
 import '../../../models/snackbar.dart';
-import '../../../services/user_dao/firebase_collections.dart';
+import '../../../services/user_dao/firebase_export.dart';
 
 class FavoriteButton extends StatefulWidget {
   final Serie serie;
@@ -13,12 +12,13 @@ class FavoriteButton extends StatefulWidget {
 }
 
 class _FavoriteButtonState extends State<FavoriteButton> {
+  final FirebaseSeries _series = FirebaseSeries();
   final FirebaseCollections _collections = FirebaseCollections();
   late Serie serie;
   bool isFavorite = false;
 
   checkFavorite(int serieId) async {
-    isFavorite = await _collections.isFavorite(serieId);
+    isFavorite = await _series.isFavorite(serieId);
     setState(() {});
   }
 

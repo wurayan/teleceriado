@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../models/usuario.dart';
 
-class ComunidadeCollections {
+class FirebaseComunidade {
   FirebaseFirestore db = FirebaseFirestore.instance;
 
   Future<List<Usuario>> getUsuarios() async {
