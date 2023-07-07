@@ -7,8 +7,8 @@ class FirebaseUsers {
   final Prefs prefs = Prefs();
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
-  Future<Usuario> getUserdata() async {
-    String? userUid = await prefs.getUserId();
+  Future<Usuario> getUserdata({String? userId}) async {
+    String? userUid = userId ?? await prefs.getUserId();
     DocumentSnapshot<Map<String, dynamic>> result = await db
         .collection("/usuarios")
         .doc("/$userUid")

@@ -23,7 +23,7 @@ class FirebaseCollections {
     Map<String, dynamic> resultMap = result.data()!;
     List<String> listaColecoes =
         List<String>.from(resultMap["colecoes"] as List);
-    // List<String> categoriesList = List<String>.from(map['categories'] as List);
+    
     for (String colecaoNome in listaColecoes) {
       Collection colecao = await getCollectionInfo(colecaoNome);
       colecao.series = await _series.getCollectionSeries(colecaoNome);

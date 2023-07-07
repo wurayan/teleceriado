@@ -76,6 +76,9 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Possível correção do StackOverflowError;
     - Botão de favoritar é responsivo;
     - Refatoração dos métodos do Firebase e adição do arquivo Export;
+    - Criação da lista de Usuários Seguindo;
+
+    -PROBLEMA: vamos ter que fazer uma coleção para os Seguindo, porque ao seguir uma coleção precisamos saber a quem ela pertence para ser possível buscar a coleção correta;
         
 
 
