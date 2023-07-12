@@ -10,17 +10,16 @@ class FirebaseComunidade {
 
   Future<List<Usuario>> getUsuarios() async {
     var res = await db.collection("/usuarios").get();
-    
 
     List<Usuario> usuariosList = [];
     for (var docs in res.docs) {
-        Map<String, dynamic> data = docs.data();
-        Usuario usuario = Usuario();
-        usuario.uid = docs.id;
-        usuario.username = data["username"];
-        usuario.avatar = data["avatar"];
-        usuario.bio = data["bio"];
-        usuariosList.add(usuario);
+      Map<String, dynamic> data = docs.data();
+      Usuario usuario = Usuario();
+      usuario.uid = docs.id;
+      usuario.username = data["username"];
+      usuario.avatar = data["avatar"];
+      usuario.bio = data["bio"];
+      usuariosList.add(usuario);
     }
     return usuariosList;
   }
@@ -28,10 +27,10 @@ class FirebaseComunidade {
   Future<List<Usuario>> getUsuariosSeguindo() async {
     String? userUid = await prefs.getUserId();
     var res = await db
-    .collection("/usuarios")
-    .doc("/$userUid")
-    .collection("/seguindoUsuarios")
-    .get();
+        .collection("/usuarios")
+        .doc("/$userUid")
+        .collection("/seguindoUsuarios")
+        .get();
     List<Usuario> userList = [];
     for (var doc in res.docs) {
       Map data = doc.data();
@@ -47,10 +46,10 @@ class FirebaseComunidade {
   Future<List<Collection>> getColecoesSeguindo() async {
     final String? userUid = await prefs.getUserId();
     var res = await db
-    .collection("/usuarios")
-    .doc("/$userUid")
-    .collection("/seguindoColecoes")
-    .get();
+        .collection("/usuarios")
+        .doc("/$userUid")
+        .collection("/seguindoColecoes")
+        .get();
 
     List<Collection> collectionList = [];
     for (var doc in res.docs) {
@@ -71,32 +70,38 @@ class FirebaseComunidade {
       "username": usuario.username,
       "avatar": usuario.avatar
     };
-    await db
-    .collection("/usuarios")
-    .doc("/$userUid")
-    .collection("/seguindoUsuarios")
-    .doc("/${usuario.uid}")
-    .set(map);
+    var path = db
+        .collection("/usuarios")
+        .doc("/$userUid")
+        .collection("/seguindoUsuarios")
+        .doc("/${usuario.uid}");
+    seguir ? path.set(map) : path.delete();
   }
+
+  // unfollowUsuario(String usuarioId) async {
+  //   final String? userUid = await prefs.getUserId();
+  //   await db
+  //       .collection("/usuarios")
+  //       .doc("/$userUid")
+  //       .collection("/seguindoUsuarios")
+  //       .doc("/$usuarioId")
+  //       .delete();
+  // }
 
   seguirColecao(String colecaoId, bool seguir) async {
     final String? userUid = await prefs.getUserId();
-    await db
-    .collection("/usuarios")
-    .doc("/$userUid")
-    .set(
-      {"seguindoColecoes" : 
-      seguir
-      ? FieldValue.arrayUnion([colecaoId])
-      : FieldValue.arrayRemove([colecaoId])},
-      SetOptions(merge: true)
-    );
+    await db.collection("/usuarios").doc("/$userUid").set({
+      "seguindoColecoes": seguir
+          ? FieldValue.arrayUnion([colecaoId])
+          : FieldValue.arrayRemove([colecaoId])
+    }, SetOptions(merge: true));
   }
 
-  isFollowingUsuario(String usuarioId) async {
+  Future<bool> isFollowingUsuario(String usuarioId) async {
     List<Usuario> seguindo = await getUsuariosSeguindo();
     return seguindo.map((item) => item.uid).contains(usuarioId);
   }
+
   isFollowingColecao(String colecaoId) async {
     List<Collection> seguindo = await getColecoesSeguindo();
     return seguindo.map((item) => item.nome).contains(colecaoId);

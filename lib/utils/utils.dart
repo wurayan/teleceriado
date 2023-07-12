@@ -13,7 +13,8 @@ List<String> loadingFrases = [
   "Voltando no tempo",
   "Ned Stark morre",
   "Homofobia nos olhos",
-  "Você não é 'literalmente ele'"
+  "Você não é 'literalmente ele'",
+  "Não consigo ler nada.",
 ];
 
 List<String> avatarPlaceholder = [

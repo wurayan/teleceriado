@@ -47,7 +47,7 @@ class _ComentarioCardState extends State<ComentarioCard> {
             ? episodio.imagem!
             : _api.getSeriePoster(episodio.imagem!),
       );
-      setState(() {});
+      if(mounted) setState(() {});
     }
   }
 

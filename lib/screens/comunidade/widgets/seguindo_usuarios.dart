@@ -4,15 +4,15 @@ import 'package:teleceriado/models/error_handler.dart';
 import 'package:teleceriado/models/usuario.dart';
 import 'package:teleceriado/screens/comunidade/widgets/user_item.dart';
 
-class Seguindo extends StatefulWidget {
+class SeguindoUsuarios extends StatefulWidget {
   final List<Usuario> seguindo;
-  const Seguindo({super.key, required this.seguindo});
+  const SeguindoUsuarios({super.key, required this.seguindo});
 
   @override
-  State<Seguindo> createState() => _SeguindoState();
+  State<SeguindoUsuarios> createState() => _SeguindoState();
 }
 
-class _SeguindoState extends State<Seguindo> {
+class _SeguindoState extends State<SeguindoUsuarios> {
   List<Usuario> seguindoList = [];
   int listLength = 0;
   bool loading = true;

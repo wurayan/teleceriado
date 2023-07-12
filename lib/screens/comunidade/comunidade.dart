@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/components/loading_frases.dart';
 import 'package:teleceriado/models/collection.dart';
-import 'package:teleceriado/screens/comunidade/widgets/seguindo.dart';
+import 'package:teleceriado/models/update_seguindo.dart';
+import 'package:teleceriado/screens/comunidade/widgets/seguindo_usuarios.dart';
 import 'package:teleceriado/screens/comunidade/widgets/top_users.dart';
 import 'package:teleceriado/services/user_dao/firebase_comunidade.dart';
 import '../../models/usuario.dart';
@@ -29,6 +31,12 @@ class _ComunidadeState extends State<Comunidade>
     setState(() {});
   }
 
+  updateSeguindo() async {
+    seguindoUsuarios = await _comunidade.getUsuariosSeguindo();
+    seguindoColecoes = await _comunidade.getColecoesSeguindo();
+    if (mounted) setState(() {});
+  }
+
   @override
   void initState() {
     getCollections();
@@ -39,33 +47,38 @@ class _ComunidadeState extends State<Comunidade>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Comunidade"),
-      ),
-      body: topUsers.isEmpty
-          ? Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.4),
-                child: const Loading(),
-              ),
-              Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: LoadingFrases(loading: topUsers.isEmpty)),
-            ],
-          )
-          : CustomScrollView(
-              slivers: [
-                TopUsers(
-                  usuarios: topUsers,
+        appBar: AppBar(
+          title: const Text("Comunidade"),
+        ),
+        body: 
+        Consumer<UpdateSeguindo>(
+          builder: (context, value, child) {
+          if (value.update==true) updateSeguindo(); 
+          return topUsers.isEmpty
+            ? Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.4),
+                  child: const Loading(),
                 ),
-                Seguindo(
-                  seguindo: seguindoUsuarios,
-                ),
-
+                Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: LoadingFrases(loading: topUsers.isEmpty)),
               ],
-            ),
+            )
+            : CustomScrollView(
+                slivers: [
+                  TopUsers(
+                    usuarios: topUsers,
+                  ),
+                  SeguindoUsuarios(
+                    seguindo: seguindoUsuarios,
+                  ),
+    
+                ],
+              );
+        },)
     );
   }
 
