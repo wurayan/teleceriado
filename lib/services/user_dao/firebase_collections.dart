@@ -25,7 +25,7 @@ class FirebaseCollections {
         List<String>.from(resultMap["colecoes"] as List);
     
     for (String colecaoNome in listaColecoes) {
-      Collection colecao = await getCollectionInfo(colecaoNome);
+      Collection colecao = await getCollectionInfo(colecaoNome,userId: userUid);
       colecao.series = await _series.getCollectionSeries(colecaoNome);
       resultado.add(colecao);
     }

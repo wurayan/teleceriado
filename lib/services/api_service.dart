@@ -155,7 +155,7 @@ class ApiService {
     for (Map serieDetails in resultados) {
       Serie serie = Serie();
       serie.id = serieDetails['id'];
-      // serie.nome = serieDetails['name'];
+      serie.nome = serieDetails['name'];
       // serie.pais = serieDetails['origin_country'];
       serie.poster = serieDetails['poster_path'];
       // serie.release = serieDetails['first_air_date'];

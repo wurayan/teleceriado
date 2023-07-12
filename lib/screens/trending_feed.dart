@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/components/loading_frases.dart';
@@ -12,16 +13,23 @@ class TrendingFeed extends StatefulWidget {
   State<TrendingFeed> createState() => _TrendingFeedState();
 }
 
-class _TrendingFeedState extends State<TrendingFeed> with  AutomaticKeepAliveClientMixin{
+class _TrendingFeedState extends State<TrendingFeed>
+    with AutomaticKeepAliveClientMixin {
   final ApiService _api = ApiService();
   List<Serie> seriesPopulares = [];
 
+  getTrending() async {
+    seriesPopulares = await _api.getTrending();
+    setState(() {});
+  }
+
   @override
   void initState() {
-    _api.getTrending().then((value) {
-      seriesPopulares = value;
-      setState(() {});
-    });
+    getTrending();
+    // _api.getTrending().then((value) {
+    //   seriesPopulares = value;
+    //   setState(() {});
+    // });
     super.initState();
   }
 
@@ -49,20 +57,20 @@ class _TrendingFeedState extends State<TrendingFeed> with  AutomaticKeepAliveCli
               ],
             )
           : Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Center(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Center(
                   child: Loading(),
                 ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: LoadingFrases(loading: seriesPopulares.isEmpty)
-              )
-            ],
-          ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: LoadingFrases(loading: seriesPopulares.isEmpty),
+                )
+              ],
+            ),
     );
   }
-  
+
   @override
   bool get wantKeepAlive => true;
 }
@@ -76,27 +84,54 @@ class _PopularList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverGrid(
       delegate: SliverChildBuilderDelegate((context, index) {
+        Serie serie = items[index];
         return Container(
           decoration: BoxDecoration(
               border: Border.all(width: 0.5, color: Colors.blueGrey.shade700)),
           child: InkWell(
-            onTap: () {
-              _api.getSerie(items[index].id!, 1).then((value) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ShowDetails(serie: value),
-                  ),
+              onTap: () {
+                _api.getSerie(serie.id!, 1).then(
+                  (value) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ShowDetails(serie: value),
+                      ),
+                    );
+                  },
                 );
-              });
-            },
-            child: Image.network(
-              _api.getSeriePoster(items[index].poster!),
-              fit: BoxFit.cover,
-              width: width * 0.65,
-              height: width,
-            ),
-          ),
+              },
+              child: CachedNetworkImage(
+                imageUrl: _api.getSeriePoster(serie.poster!),
+                errorWidget: (context, url, error) {
+                  return const Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Text(
+                      "Não foi possível carregar a imagem ;-;",
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                },
+                fit: BoxFit.cover,
+                progressIndicatorBuilder: (context, url, progress) {
+                  return Column(
+                    children: [
+                      const Flexible(flex: 2, child: SizedBox()),
+                      Text(serie.nome!,
+                          style: const TextStyle(fontWeight: FontWeight.w500),
+                          textAlign: TextAlign.center),
+                      const Flexible(flex: 1, child: SizedBox()),
+                    ],
+                  );
+                },
+              )
+              // Image.network(
+              //   _api.getSeriePoster(items[index].poster!),
+              //   fit: BoxFit.cover,
+              //   width: width * 0.65,
+              //   height: width,
+              // ),
+              ),
         );
       }, childCount: items.length),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

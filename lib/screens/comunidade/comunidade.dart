@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/components/loading_frases.dart';
 import 'package:teleceriado/screens/comunidade/widgets/seguindo.dart';
-import 'package:teleceriado/screens/comunidade/widgets/seguindo_colecoes.dart';
 import 'package:teleceriado/screens/comunidade/widgets/top_users.dart';
 import 'package:teleceriado/services/user_dao/firebase_comunidade.dart';
 import '../../models/usuario.dart';
