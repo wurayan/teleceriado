@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/models/error_handler.dart';
+import 'package:teleceriado/models/usuario.dart';
 import 'package:teleceriado/screens/comunidade/widgets/user_item.dart';
-import '../../../services/user_dao/firebase_export.dart';
 
 class Seguindo extends StatefulWidget {
-  final List<String> seguindo;
+  final List<Usuario> seguindo;
   const Seguindo({super.key, required this.seguindo});
 
   @override
@@ -13,15 +13,13 @@ class Seguindo extends StatefulWidget {
 }
 
 class _SeguindoState extends State<Seguindo> {
-  final FirebaseUsers _users = FirebaseUsers();
-  List seguindoList = [];
+  List<Usuario> seguindoList = [];
+  int listLength = 0;
   bool loading = true;
 
   getSeguindo(List seguindo) async {
-    int qtde = seguindo.length < 20 ? seguindo.length : 20;
-    for (var i = 0; i < qtde; i++) {
-      seguindoList.add(await _users.getUserdata(userId: seguindo[i]));
-    }
+    listLength = seguindo.length < 20 ? seguindo.length : 20;
+    seguindoList = widget.seguindo;
     loading = false;
     setState(() {});
   }
@@ -77,7 +75,7 @@ class _SeguindoState extends State<Seguindo> {
                       height: height * 0.2,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: seguindoList.length,
+                        itemCount: listLength,
                         itemBuilder: (context, index) {
                           return UsuarioItem(usuario: seguindoList[index]);
                         },

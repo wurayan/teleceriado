@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/components/loading_frases.dart';
+import 'package:teleceriado/models/collection.dart';
 import 'package:teleceriado/screens/comunidade/widgets/seguindo.dart';
 import 'package:teleceriado/screens/comunidade/widgets/top_users.dart';
 import 'package:teleceriado/services/user_dao/firebase_comunidade.dart';
@@ -18,13 +19,13 @@ class _ComunidadeState extends State<Comunidade>
   final FirebaseComunidade _comunidade = FirebaseComunidade();
 
   List<Usuario> topUsers = [];
-  List<String> seguindo = [];
-  List<String> colecoes = [];
+  List<Usuario> seguindoUsuarios = [];
+  List<Collection> seguindoColecoes = [];
 
   getCollections() async {
     topUsers = await _comunidade.getUsuarios();
-    seguindo = await _comunidade.getUsuariosSeguindo();
-    colecoes = await _comunidade.getColecoesSeguindo();
+    seguindoUsuarios = await _comunidade.getUsuariosSeguindo();
+    seguindoColecoes = await _comunidade.getColecoesSeguindo();
     setState(() {});
   }
 
@@ -60,7 +61,7 @@ class _ComunidadeState extends State<Comunidade>
                   usuarios: topUsers,
                 ),
                 Seguindo(
-                  seguindo: seguindo,
+                  seguindo: seguindoUsuarios,
                 ),
 
               ],

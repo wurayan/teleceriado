@@ -20,6 +20,7 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage> {
   final FirebaseCollections _collection = FirebaseCollections();
   final FirebaseEpisodios _episodios = FirebaseEpisodios();
+  final FirebaseUsers _users = FirebaseUsers();
   int _currentPage = 1;
   // List<BottomNavigationBarItem>? bottomNavigationBarItens;
   List pages = [];
@@ -43,16 +44,17 @@ class _UserPageState extends State<UserPage> {
         await _episodios.getAllEditedEpisodios(widget.usuario.uid!);
     List<Collection> colecoes =
         await _collection.getAllCollections(user: widget.usuario.uid);
+    Usuario usuario = await _users.getUserdata(userId: widget.usuario.uid!);
     pages = [
       ColecoesScreen(
         colecoes: colecoes,
-        userId: widget.usuario.uid!,
+        userId: usuario.uid!,
       ),
       ComentariosScreen(
         episodios: episodios,
       ),
       UserScreen(
-        usuario: widget.usuario,
+        usuario: usuario,
       ),
     ];
     setState(() {});

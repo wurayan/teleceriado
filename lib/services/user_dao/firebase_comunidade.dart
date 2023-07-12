@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../models/collection.dart';
 import '../../models/usuario.dart';
 import '../prefs.dart';
 
@@ -24,46 +25,58 @@ class FirebaseComunidade {
     return usuariosList;
   }
 
-  Future<List<String>> getUsuariosSeguindo() async {
+  Future<List<Usuario>> getUsuariosSeguindo() async {
     String? userUid = await prefs.getUserId();
     var res = await db
     .collection("/usuarios")
     .doc("/$userUid")
+    .collection("/seguindoUsuarios")
     .get();
-    List<String> listaSeguindo = [];
-    Map<String, dynamic> resultMap = res.data()!;
-    if (resultMap["seguindoUsuarios"]!=null) {
-      listaSeguindo= List<String>.from(resultMap["seguindoUsuarios"] as List);
+    List<Usuario> userList = [];
+    for (var doc in res.docs) {
+      Map data = doc.data();
+      Usuario user = Usuario();
+      user.uid = data["uid"];
+      user.username = data["username"];
+      user.avatar = data["avatar"];
+      userList.add(user);
     }
-    return listaSeguindo;
+    return userList;
   }
 
-  Future<List<String>> getColecoesSeguindo() async {
+  Future<List<Collection>> getColecoesSeguindo() async {
     final String? userUid = await prefs.getUserId();
     var res = await db
     .collection("/usuarios")
     .doc("/$userUid")
+    .collection("/seguindoColecoes")
     .get();
-    Map<String, dynamic> resultMap = res.data()!;
-    List<String> listaSeguindo = [];
-    if (resultMap["seguindoColecoes"]!=null) {
-     listaSeguindo = List<String>.from(resultMap["seguindoColecoes"] as List); 
+
+    List<Collection> collectionList = [];
+    for (var doc in res.docs) {
+      Map data = doc.data();
+      Collection colecao = Collection();
+      colecao.nome = data["nome"];
+      colecao.imagem = data["imagem"];
+      colecao.dono = data["dono"];
+      collectionList.add(colecao);
     }
-    return listaSeguindo;
+    return collectionList;
   }
 
-  seguirUsuario(String usuarioId, bool seguir) async {
+  seguirUsuario(Usuario usuario, bool seguir) async {
     final String? userUid = await prefs.getUserId();
+    Map<String, dynamic> map = {
+      "uid": usuario.uid,
+      "username": usuario.username,
+      "avatar": usuario.avatar
+    };
     await db
     .collection("/usuarios")
     .doc("/$userUid")
-    .set(
-      {"seguindoUsuarios" : 
-      seguir
-      ? FieldValue.arrayUnion([usuarioId])
-      : FieldValue.arrayRemove([usuarioId])},
-      SetOptions(merge: true)
-    );
+    .collection("/seguindoUsuarios")
+    .doc("/${usuario.uid}")
+    .set(map);
   }
 
   seguirColecao(String colecaoId, bool seguir) async {
@@ -80,17 +93,12 @@ class FirebaseComunidade {
     );
   }
 
-  isFollowing({String? usuarioId, String? colecaoId}) async {
-    if(usuarioId==null&&colecaoId==null) return;
-    List<String> seguindo = [];
-    if (usuarioId!=null) {
-      seguindo = await getUsuariosSeguindo();
-    }
-    else if (colecaoId!=null) {
-      seguindo = await getColecoesSeguindo();
-    }
-    bool isFollowing = seguindo.contains(usuarioId) | seguindo.contains(colecaoId);
-    print("TA SEGUINDO? $isFollowing");
-    return isFollowing;
+  isFollowingUsuario(String usuarioId) async {
+    List<Usuario> seguindo = await getUsuariosSeguindo();
+    return seguindo.map((item) => item.uid).contains(usuarioId);
+  }
+  isFollowingColecao(String colecaoId) async {
+    List<Collection> seguindo = await getColecoesSeguindo();
+    return seguindo.map((item) => item.nome).contains(colecaoId);
   }
 }
