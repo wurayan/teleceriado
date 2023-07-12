@@ -48,7 +48,6 @@ class _UserPageState extends State<UserPage> {
     pages = [
       ColecoesScreen(
         colecoes: colecoes,
-        userId: usuario.uid!,
       ),
       ComentariosScreen(
         episodios: episodios,

@@ -78,9 +78,10 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Refatoração dos métodos do Firebase e adição do arquivo Export;
     - Criação da lista de Usuários Seguindo;
     - Implementação do método de Seguir usuários;
+    - Implementação do método de seguir Coleções;
 
-    -PROBLEMA: vamos ter que fazer uma coleção para os Seguindo, porque ao seguir uma coleção precisamos saber a quem ela pertence para ser possível buscar a coleção correta;
-        
+
+PROBLEMA: JA QUE VAMOS IMPLEMENTAR O MÉTODO DE SEGUIR COLEÇÕES, NÃO PODEMOS MAIS SALVAR O NOME DA COLEÇÃO COMO UID PQ ASSIM AO SALVAR DUAS COLEÇÕES COM NOMES IGUAIS DE USUARIOS DIFERENTES, NÃO VAMOS TER OCMO DIFERENCIA-LAS        
 
 
 ## Ideias Futuras  

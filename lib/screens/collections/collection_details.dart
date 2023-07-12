@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/models/collection.dart';
+import 'package:teleceriado/screens/collections/widget/seguir_colecao.dart';
 import 'package:teleceriado/services/api_service.dart';
 import '../../models/serie.dart';
+import '../../models/usuario.dart';
 import '../../services/user_dao/firebase_export.dart';
 import '../serie/serie_details.dart';
 
 class CollectionDetails extends StatefulWidget {
-  final String collectionId;
-  final String? userId;
-  const CollectionDetails({super.key, required this.collectionId, this.userId});
+  final Collection colecao;
+  const CollectionDetails({super.key, required this.colecao});
 
   @override
   State<CollectionDetails> createState() => _CollectionDetailsState();
@@ -18,18 +20,18 @@ class CollectionDetails extends StatefulWidget {
 class _CollectionDetailsState extends State<CollectionDetails> {
   final FirebaseCollections _collections = FirebaseCollections();
   final FirebaseSeries _series = FirebaseSeries();
-  List<Serie>? series;
-  Collection? collection;
+  // List<Serie>? series;
+  // Collection? collection;
 
   @override
   void initState() {
-    _collections.getCollectionInfo(widget.collectionId, userId: widget.userId).then((value) {
-      collection = value;
-      _series.getCollectionSeries(widget.collectionId, userId: widget.userId).then((value) {
-        series = value;
-        setState(() {});
-      });
-    });
+    // _collections.getCollectionInfo(widget.collectionId, userId: widget.userId).then((value) {
+    //   collection = value;
+    //   _series.getCollectionSeries(widget.collectionId, userId: widget.userId).then((value) {
+    //     series = value;
+    //     setState(() {});
+    //   });
+    // });
 
     super.initState();
   }
@@ -39,16 +41,16 @@ class _CollectionDetailsState extends State<CollectionDetails> {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SafeArea(
-        child: series == null
+        child: widget.colecao.series == null
             ? const Loading()
             : CustomScrollView(
                 slivers: [
                   SliverToBoxAdapter(
                     child: _Header(
-                      collection: collection!,
+                      collection: widget.colecao,
                     ),
                   ),
-                  series!.isEmpty
+                  widget.colecao.series!.isEmpty
                       ? SliverToBoxAdapter(
                           child: Padding(
                             padding: EdgeInsets.only(top: height * 0.1),
@@ -59,7 +61,7 @@ class _CollectionDetailsState extends State<CollectionDetails> {
                             ),
                           ),
                         )
-                      : _Body(series: series!)
+                      : _Body(series: widget.colecao.series!)
                 ],
               ),
       ),
@@ -77,79 +79,70 @@ class _Header extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     return Stack(
       children: [
-        SizedBox(
-          width: width,
-          height: height * 0.2,
-          child: collection.imagem != null
-              ? Image.network(
+        Column(
+          children: [
+            Container(
+              width: width,
+              height: height * 0.2,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                image: Image.network(
                   collection.imagem!,
-                  fit: BoxFit.cover,
-                )
-              : null,
-        ),
-        Container(
-          width: width,
-          height: height * 0.2,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
+                  errorBuilder: (context, error, stackTrace) => const Center(
+                    child: Text("Não foi possível carregar a imagem"),
+                  ),
+                ).image,
+                fit: BoxFit.cover,
+              )),
+              child: Container(
+                width: width,
+                height: height * 0.2,
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Colors.transparent, Colors.blueGrey[900]!])),
-        ),
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+                  colors: [Colors.transparent, Colors.blueGrey[900]!],
+                )),
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        bottom: height * 0.01, left: width * 0.05),
+                    child: Text(collection.nome!,
+                        style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white)),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: height * 0.15,
+              width: width,
+              child: Center(
+                child: Text(
+                  collection.descricao == null || collection.descricao!.isEmpty
+                      ? "Essa coleção não possui descrição.\n Então ela é um enigma, tente adivinhar o tema."
+                      : collection.descricao!,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
             Padding(
-              padding: EdgeInsets.only(
-                  left: width * 0.02, right: width * 0.02, top: height * 0.01),
+              padding: EdgeInsets.only(left: width * 0.02, right: width * 0.05, bottom: height*0.01),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const CircleAvatar(
-                      backgroundColor: Colors.white24,
-                      child: Icon(
-                        Icons.arrow_back_ios_rounded,
-                      ),
-                    ),
+                  Text(
+                    "Qtde de Séries: ${collection.series?.length ?? "Erro"}",
                   ),
-                  InkWell(
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => const Dialog(
-                          child: Text("Nada Ainda"),
-                        ),
-                      );
-                    },
-                    child: const CircleAvatar(
-                      backgroundColor: Colors.white24,
-                      child: Icon(Icons.edit_rounded),
-                    ),
-                  )
+                  Visibility(
+                    visible:
+                        Provider.of<Usuario>(context).uid != collection.dono,
+                    child: SeguirColecao(colecao: collection),
+                  ),
                 ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  top: height * 0.1, bottom: height * 0.02, left: width * 0.05),
-              child: Text(
-                collection.nome!,
-                style: const TextStyle(
-                    fontSize: 22,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500),
-              ),
-            ),
-            Flexible(
-              child: Padding(
-                padding:
-                    EdgeInsets.only(left: width * 0.03, bottom: height * 0.03),
-                child: Text(collection.descricao ?? "Sem descrição...."),
               ),
             ),
             const Divider(
@@ -158,6 +151,42 @@ class _Header extends StatelessWidget {
               color: Colors.white,
             )
           ],
+        ),
+
+        //BOTOES NO TOPO DA TELA
+        Padding(
+          padding: EdgeInsets.only(
+              left: width * 0.02, right: width * 0.02, top: height * 0.01),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: const CircleAvatar(
+                  backgroundColor: Colors.white24,
+                  child: Icon(
+                    Icons.arrow_back_ios_rounded,
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => const Dialog(
+                      child: Text("Nada Ainda"),
+                    ),
+                  );
+                },
+                child: const CircleAvatar(
+                  backgroundColor: Colors.white24,
+                  child: Icon(Icons.edit_rounded),
+                ),
+              )
+            ],
+          ),
         )
       ],
     );

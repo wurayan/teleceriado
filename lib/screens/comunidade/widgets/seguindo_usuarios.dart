@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/models/error_handler.dart';
 import 'package:teleceriado/models/usuario.dart';
 import 'package:teleceriado/screens/comunidade/widgets/user_item.dart';
@@ -13,21 +12,9 @@ class SeguindoUsuarios extends StatefulWidget {
 }
 
 class _SeguindoState extends State<SeguindoUsuarios> {
-  List<Usuario> seguindoList = [];
-  int listLength = 0;
-  bool loading = true;
 
-  getSeguindo(List seguindo) async {
-    listLength = seguindo.length < 20 ? seguindo.length : 20;
-    seguindoList = widget.seguindo;
-    loading = false;
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    getSeguindo(widget.seguindo);
-    super.initState();
+  int length(List<Usuario> seguindo) {
+    return seguindo.length<20?seguindo.length:20;
   }
 
   @override
@@ -62,22 +49,23 @@ class _SeguindoState extends State<SeguindoUsuarios> {
               )
             ],
           ),
-          loading
-              ? const Loading()
-              : seguindoList.isEmpty
-                  ? const Center(
-                      child: Text(
-                        "Você não segue ninguém ainda.\nQue tal começar por alguém da lista acima?",
-                        textAlign: TextAlign.center,
+          widget.seguindo.isEmpty
+                  ? SizedBox(
+                    height: height*0.1,
+                    child: const Center(
+                        child: Text(
+                          "Você não segue ninguém ainda.\nQue tal começar por alguém da lista acima?",
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                    )
+                  )
                   : SizedBox(
-                      height: height * 0.2,
+                      height: height * 0.15,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: listLength,
+                        itemCount: length(widget.seguindo),
                         itemBuilder: (context, index) {
-                          return UsuarioItem(usuario: seguindoList[index]);
+                          return UsuarioItem(usuario: widget.seguindo[index]);
                         },
                       ),
                     )

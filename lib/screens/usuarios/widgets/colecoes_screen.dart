@@ -5,9 +5,8 @@ import '../../../models/collection.dart';
 
 class ColecoesScreen extends StatelessWidget {
   final List<Collection> colecoes;
-  final String userId;
   const ColecoesScreen(
-      {super.key, required this.colecoes, required this.userId});
+      {super.key, required this.colecoes});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,6 @@ class ColecoesScreen extends StatelessWidget {
             Collection colecao = colecoes[index];
             return _ColecaoItem(
               colecao: colecao,
-              userId: userId,
             );
           },
         )
@@ -35,8 +33,7 @@ class ColecoesScreen extends StatelessWidget {
 
 class _ColecaoItem extends StatelessWidget {
   final Collection colecao;
-  final String userId;
-  const _ColecaoItem({required this.colecao, required this.userId});
+  const _ColecaoItem({required this.colecao});
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +43,7 @@ class _ColecaoItem extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => CollectionDetails(
-            collectionId: colecao.nome!,
-            userId: userId,
+            colecao: colecao,
           ),
         ));
       },

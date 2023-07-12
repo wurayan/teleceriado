@@ -88,13 +88,16 @@ class FirebaseComunidade {
   //       .delete();
   // }
 
-  seguirColecao(String colecaoId, bool seguir) async {
+  seguirColecao(Collection colecao, bool seguir) async {
     final String? userUid = await prefs.getUserId();
-    await db.collection("/usuarios").doc("/$userUid").set({
-      "seguindoColecoes": seguir
-          ? FieldValue.arrayUnion([colecaoId])
-          : FieldValue.arrayRemove([colecaoId])
-    }, SetOptions(merge: true));
+    Map<String, dynamic> map = {
+      "nome" : colecao.nome,
+      "imagem": colecao.imagem,
+      "dono" : colecao.dono,
+    };
+    var path = db.collection("/usuarios").doc("/$userUid").collection("/seguindoColecoes").doc("/${colecao.nome}${colecao.dono}");
+    
+    seguir? path.set(map) : path.delete();
   }
 
   Future<bool> isFollowingUsuario(String usuarioId) async {
@@ -102,8 +105,8 @@ class FirebaseComunidade {
     return seguindo.map((item) => item.uid).contains(usuarioId);
   }
 
-  isFollowingColecao(String colecaoId) async {
+  isFollowingColecao(Collection colecao) async {
     List<Collection> seguindo = await getColecoesSeguindo();
-    return seguindo.map((item) => item.nome).contains(colecaoId);
+    return seguindo.map((item) => "${item.nome}${item.dono}").contains("${colecao.nome}${colecao.dono}");
   }
 }

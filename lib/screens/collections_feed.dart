@@ -20,7 +20,7 @@ class _CollectionsFeedState extends State<CollectionsFeed>
   final FirebaseCollections _collections = FirebaseCollections();
   List<Collection>? colecoes;
 
-//TODO TALVEZ TENHAMOS QUE USAR O OUTRO METODO DE CONSTRUIR LIST COM FUTURE, PARA ASSIM A LISTA SER ATUALIZADA CONFORME É ALTERADA
+
   getCollections() async {
     colecoes = await _collections.getAllCollections();
     setState(() {});
@@ -108,7 +108,7 @@ class _CollectionList extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                CollectionDetails(collectionId: colecao.nome!),
+                                CollectionDetails(colecao: colecao),
                           ),
                         );
                       },

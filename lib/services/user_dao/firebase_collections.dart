@@ -47,6 +47,7 @@ class FirebaseCollections {
       collection.nome = resultMap["nome"];
       collection.descricao = resultMap["descricao"];
       collection.imagem = resultMap["imagemUrl"];
+      collection.dono = userUid;
     }
     return collection;
   }
