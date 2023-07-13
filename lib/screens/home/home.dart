@@ -63,12 +63,17 @@ class _HomeState extends State<Home> {
         centerTitle: true,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'FirstScreen'),
+        selectedIconTheme: const IconThemeData(size: 30),
+        items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.bookmark_rounded), label: 'UserScreen'),
+            icon: const Icon(Icons.home),
+            label: _currentPage == 0 ? 'Séries' : ""),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.bookmark_rounded),
+            label: _currentPage == 1 ? 'Coleções' : ""
+          ),
         ],
-        selectedItemColor: Colors.grey,
+        selectedItemColor: Colors.white,
         currentIndex: _currentPage,
         onTap: (index) {
           setState(() {

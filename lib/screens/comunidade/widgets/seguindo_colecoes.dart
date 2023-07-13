@@ -34,7 +34,7 @@ class SeguindoColecoes extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  ErrorHandler.show("Ainda não faz nada");
+                  ErrorHandler.show("ble","Ainda não faz nada");
                 },
                 child: const Text(
                   "MAIS",

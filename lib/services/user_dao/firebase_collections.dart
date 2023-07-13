@@ -111,7 +111,7 @@ class FirebaseCollections {
     .doc("/${serie.id}")
     .delete()
     .onError((error, stackTrace) {
-      ErrorHandler.show(error.toString());
+      ErrorHandler.show("Erro",error.toString());
       throw Exception (error);
     });
     return true;

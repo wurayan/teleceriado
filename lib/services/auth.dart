@@ -10,21 +10,20 @@ class AuthService {
   final Prefs _prefs = Prefs();
   final FirebaseCollections _collection = FirebaseCollections();
 
-Stream<Usuario?> get onAuthStateChanged {
+  Stream<Usuario?> get onAuthStateChanged {
     Stream<Usuario?> res;
     try {
       res = _auth
-        .authStateChanges()
-        .map((User? user) => _usuarioFromFirebase(user));  
+          .authStateChanges()
+          .map((User? user) => _usuarioFromFirebase(user));
     } catch (e) {
-      print("Erro ${e.toString()}\nstack: ${StackTrace.current}");
+      ErrorHandler.showSimple(e.toString());
       throw Exception(e);
     }
     return res;
   }
 
   Usuario? _usuarioFromFirebase(User? usuario) {
-    print(usuario.toString());
     if (usuario != null) {
       Usuario user = Usuario();
       user.uid = usuario.uid;
@@ -44,12 +43,12 @@ Stream<Usuario?> get onAuthStateChanged {
       await _prefs.saveUserId(usuario!.uid!);
       _collection.createFavorites();
       return usuario;
+    } on FirebaseAuthException catch (e) {
+      ErrorHandler.authError(e);
     } catch (e) {
       throw Exception(e);
     }
   }
-
-  
 
   Future signOut() async {
     try {
@@ -67,10 +66,12 @@ Stream<Usuario?> get onAuthStateChanged {
       User user = result.user!;
       Usuario? usuario = _usuarioFromFirebase(user);
       _prefs.saveUserId(usuario!.uid!);
-
       return usuario;
+    } on FirebaseAuthException catch (e) {
+      ErrorHandler.authError(e);
     } catch (e) {
-      throw Exception(e);
+      ErrorHandler.showSimple(
+          "Não foi possível fazer Login, tente novamente mais tarde.\nSe o erro persistir contate o Suporte.");
     }
   }
 
@@ -96,22 +97,20 @@ Stream<Usuario?> get onAuthStateChanged {
         User user = userCredential.user!;
         Usuario? usuario = _usuarioFromFirebase(user);
         _prefs.saveUserId(usuario!.uid!);
-        if(creationTime!=null && !creationTime.isBefore(init)) 
-        {
+        if (creationTime != null && !creationTime.isBefore(init)) {
           _collection.createFavorites();
-          }
+        }
         return usuario;
-      } on FirebaseAuthException catch(e) {
-        if (e.code == "account-exists-with-different-credential")  ErrorHandler.show("Essa conta já existe com outra credencial!");
-        if(e.code == "invalid-credential")  ErrorHandler.show("Credenciais inválidas!");
+      } on FirebaseAuthException catch (e) {
+        ErrorHandler.authError(e);
         throw Exception();
-      } 
-      catch (e) {
-        ErrorHandler.show(e.toString());
+      } catch (e) {
+        ErrorHandler.showSimple(e.toString());
         throw Exception();
       }
     } else {
-      ErrorHandler.show("Erro Desconhecido");
+      ErrorHandler.showSimple(
+          "Não foi possível fazer login usando Google, tente novamente mais tarde.\nSe o erro persistir, entre em contato com o Suporte.");
       throw Exception();
     }
   }
@@ -125,6 +124,8 @@ Stream<Usuario?> get onAuthStateChanged {
       await _prefs.saveUserId(usuario!.uid!);
       _collection.createFavorites();
       return usuario;
+    } on FirebaseAuthException catch (e) {
+      ErrorHandler.authError(e);
     } catch (e) {
       throw Exception(e);
     }

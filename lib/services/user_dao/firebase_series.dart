@@ -45,7 +45,7 @@ class FirebaseSeries {
                 : {"descricao": serie.descricao},
             SetOptions(merge: true))
         .catchError((e) {
-      ErrorHandler.show(e.toString());
+      ErrorHandler.show("Erro",e.toString());
     });
     return true;
   }

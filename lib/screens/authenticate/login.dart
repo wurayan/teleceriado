@@ -1,5 +1,5 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/screens/authenticate/widget/google_signin.dart';
 import '../../services/auth.dart';
 
@@ -18,15 +18,12 @@ class _LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();
 
-  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return isLoading
-        ? const Loading()
-        : Scaffold(
+    return Scaffold(
             appBar: AppBar(
               title: const Text('Login'),
             ),
@@ -43,19 +40,21 @@ class _LoginState extends State<Login> {
                         children: [
                           const Text('E-mail', style: TextStyle(fontSize: 16)),
                           TextFormField(
-                            controller: _emailController,
-                            onTapOutside: (event) =>
-                                FocusManager.instance.primaryFocus!.unfocus(),
-                            keyboardType: TextInputType.emailAddress,
-                            //TODO IMPLEMENTAR O VERIFICADOR DE EMAIL DO BRASILFIELD E FLUXVALIDATOR
-                            validator: (value) => value == null || value.isEmpty
-                                ? 'Favor Inserir um e-mail válido!'
-                                : null,
-                          ),
+                              controller: _emailController,
+                              onTapOutside: (event) =>
+                                  FocusManager.instance.primaryFocus!.unfocus(),
+                              keyboardType: TextInputType.emailAddress,
+                              validator: (value) {
+                                if (value == null || value.isEmpty)return "Obrigatório inserir E-mail";
+                                if (!EmailValidator.validate(value))return "E-mail Inválido!";
+                                return null;
+                              }),
                           Padding(
                             padding: EdgeInsets.only(top: height * 0.02),
-                            child:
-                                const Text('Senha', style: TextStyle(fontSize: 16)),
+                            child: const Text(
+                              'Senha',
+                              style: TextStyle(fontSize: 16),
+                            ),
                           ),
                           TextFormField(
                             controller: _senhaController,
@@ -94,20 +93,21 @@ class _LoginState extends State<Login> {
                                   child: ElevatedButton(
                                     onPressed: () async {
                                       if (_formKey.currentState!.validate()) {
-                                        setState(() {
-                                          isLoading = true;
-                                        });
+                                        
                                         await AuthService().signIn(
                                             _emailController.text,
                                             _senhaController.text);
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15))),
-                                    child: const Text('ENTRAR',
-                                        style: TextStyle(fontSize: 16)),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      'ENTRAR',
+                                      style: TextStyle(fontSize: 16),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -132,7 +132,8 @@ class _LoginState extends State<Login> {
                                         text: 'Convidado',
                                         style: TextStyle(
                                             color: Colors.white,
-                                            decoration: TextDecoration.underline),
+                                            decoration:
+                                                TextDecoration.underline),
                                       )
                                     ],
                                   ),
@@ -141,7 +142,7 @@ class _LoginState extends State<Login> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: height*0.35),
+                            padding: EdgeInsets.only(top: height * 0.35),
                             child: const Center(
                               child: GoogleSignInButton(),
                             ),

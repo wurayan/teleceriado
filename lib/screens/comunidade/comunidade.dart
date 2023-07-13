@@ -47,7 +47,6 @@ class _ComunidadeState extends State<Comunidade>
 
   @override
   Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height;
     super.build(context);
     return Scaffold(
       appBar: AppBar(
@@ -66,7 +65,7 @@ class _ComunidadeState extends State<Comunidade>
                     ),
                     Padding(
                         padding: const EdgeInsets.only(top: 10),
-                        child: LoadingFrases(loading: topUsers.isEmpty)),
+                        child: LoadingFrases(loading: topUsers.isEmpty),),
                   ],
                 )
               : CustomScrollView(

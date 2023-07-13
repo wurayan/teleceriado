@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:teleceriado/screens/comunidade/comunidade.dart';
 import 'package:teleceriado/screens/home/widget/drawer_header.dart';
+import '../../../models/error_handler.dart';
 import '../../../models/version.dart';
 import '../../../services/auth.dart';
 
@@ -55,11 +56,12 @@ class HomeDrawer extends StatelessWidget {
                 ),
               ),
             ),
-            // TextButton(
-            //   onPressed: () {
-            //   },
-            //   child: Text("ARRIVA CHICO CARLITO")
-            // ),
+            TextButton(
+              onPressed: () {
+                ErrorHandler.show("titulo","Lorem Ipsum sit dolor amec viat sacharum vito artos argentum saccrum plubus orindum");
+              },
+              child: const Text("ARRIVA CHICO CARLITO")
+            ),
             const Expanded(child: SizedBox(width: null, height: null)),
             TextButton(
               onPressed: () async {

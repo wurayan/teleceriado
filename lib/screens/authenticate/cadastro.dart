@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:teleceriado/services/auth.dart';
 
@@ -33,14 +34,15 @@ class _CadastroState extends State<Cadastro> {
               children: [
                 const Text('E-mail', style: TextStyle(fontSize: 16)),
                 TextFormField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  onTapOutside: (event) =>
-                      FocusManager.instance.primaryFocus!.unfocus(),
-                  validator: (value) => value == null || value.isEmpty
-                      ? 'Favor insira um E-mail válido!'
-                      : null,
-                ),
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    onTapOutside: (event) =>
+                        FocusManager.instance.primaryFocus!.unfocus(),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) return "Obrigatório inserir E-mail";
+                      if (!EmailValidator.validate(value)) return "E-mail Inválido!";
+                      return null;
+                    },),
                 Padding(
                   padding: EdgeInsets.only(top: height * 0.02),
                   child: const Text('Senha', style: TextStyle(fontSize: 16)),
@@ -80,7 +82,8 @@ class _CadastroState extends State<Cadastro> {
                         child: ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                AuthService().cadastro(_emailController.text, _senhaController.text);
+                                AuthService().cadastro(_emailController.text,
+                                    _senhaController.text);
                               }
                             },
                             style: ElevatedButton.styleFrom(
