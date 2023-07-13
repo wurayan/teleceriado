@@ -1,6 +1,7 @@
 import 'package:pixel_snap/material.dart';
 import 'package:teleceriado/screens/collections/widget/mini_seguir_usuario.dart';
 import 'package:teleceriado/screens/collections/widget/seguir_colecao.dart';
+import 'package:teleceriado/screens/usuarios/user_page.dart';
 import '../../../models/collection.dart';
 import '../../../models/usuario.dart';
 
@@ -151,33 +152,47 @@ List<Widget> ownerData(Usuario? dono, context) {
   List<Widget> data = [];
   if (dono == null) return data;
   data = [
-    dono.avatar != null
-        ? Container(
-            width: width * 0.065,
-            height: width * 0.065,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(width: 1, color: Colors.white),
-              image: DecorationImage(
-                image: Image.network(
-                  dono.avatar!,
-                  errorBuilder: (context, error, stackTrace) => const Center(
-                    child: Text("Erro"),
-                  ),
-                ).image,
-                fit: BoxFit.cover,
+    GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => UserPage(usuario: dono),
+        ));
+      },
+      child: dono.avatar != null
+          ? Container(
+              width: width * 0.065,
+              height: width * 0.065,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(width: 1, color: Colors.white),
+                image: DecorationImage(
+                  image: Image.network(
+                    dono.avatar!,
+                    errorBuilder: (context, error, stackTrace) => const Center(
+                      child: Text("Erro"),
+                    ),
+                  ).image,
+                  fit: BoxFit.cover,
+                ),
               ),
+            )
+          : Icon(
+              Icons.account_circle_outlined,
+              size: width * 0.065,
             ),
-          )
-        : Icon(
-            Icons.account_circle_outlined,
-            size: width * 0.065,
-          ),
-    Padding(
-      padding: const EdgeInsets.only(left: 5),
-      child: Text(
-        dono.username ?? dono.uid!.substring(0, 20),
-        style: const TextStyle(fontWeight: FontWeight.w300),
+    ),
+    GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => UserPage(usuario: dono),
+        ));
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(left: 5),
+        child: Text(
+          dono.username ?? dono.uid!.substring(0, 20),
+          style: const TextStyle(fontWeight: FontWeight.w300),
+        ),
       ),
     ),
     SizedBox(
