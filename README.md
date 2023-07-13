@@ -80,6 +80,8 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Implementação do método de Seguir usuários;
     - Implementação do método de seguir Coleções;
     - Design da Tela de visualização de Coleção de outro usuário;
+    - Refatoração da tela de Usuários;
+    - Criação do botão de seguir usuário através da coleção; 
 
 
 PROBLEMA: JA QUE VAMOS IMPLEMENTAR O MÉTODO DE SEGUIR COLEÇÕES, NÃO PODEMOS MAIS SALVAR O NOME DA COLEÇÃO COMO UID PQ ASSIM AO SALVAR DUAS COLEÇÕES COM NOMES IGUAIS DE USUARIOS DIFERENTES, NÃO VAMOS TER OCMO DIFERENCIA-LAS        

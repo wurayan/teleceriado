@@ -70,6 +70,7 @@ class FirebaseComunidade {
       "username": usuario.username,
       "avatar": usuario.avatar
     };
+    print("$usuario\n$seguir");
     var path = db
         .collection("/usuarios")
         .doc("/$userUid")
@@ -77,16 +78,6 @@ class FirebaseComunidade {
         .doc("/${usuario.uid}");
     seguir ? path.set(map) : path.delete();
   }
-
-  // unfollowUsuario(String usuarioId) async {
-  //   final String? userUid = await prefs.getUserId();
-  //   await db
-  //       .collection("/usuarios")
-  //       .doc("/$userUid")
-  //       .collection("/seguindoUsuarios")
-  //       .doc("/$usuarioId")
-  //       .delete();
-  // }
 
   seguirColecao(Collection colecao, bool seguir) async {
     final String? userUid = await prefs.getUserId();
