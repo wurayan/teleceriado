@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:teleceriado/screens/collections/collection_details.dart';
 
 import '../../../models/collection.dart';
 
@@ -13,7 +14,14 @@ class ColecaoItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2),
       child: GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CollectionDetails(colecao: colecao),
+            ),
+          );
+        },
         child: Container(
           width: width * 0.45,
           // height: height * 0.17,
@@ -35,13 +43,13 @@ class ColecaoItem extends StatelessWidget {
           child: Align(
             alignment: Alignment.bottomLeft,
             child: Padding(
-              padding: EdgeInsets.only(bottom: height*0.01, left: width*0.01),
+              padding:
+                  EdgeInsets.only(bottom: height * 0.01, left: width * 0.01),
               child: Text(
                 colecao.nome!,
                 style: const TextStyle(
-                  // fontSize: 16,
-                  fontWeight: FontWeight.w500
-                ),
+                    // fontSize: 16,
+                    fontWeight: FontWeight.w500),
                 maxLines: 2,
                 overflow: TextOverflow.clip,
               ),

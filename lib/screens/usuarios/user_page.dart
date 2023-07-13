@@ -111,10 +111,7 @@ class _UserPageState extends State<UserPage> {
             children: [
               pages.isNotEmpty
                   ? pages[_currentPage]
-                  : Padding(
-                      padding: EdgeInsets.only(top: height * 0.3),
-                      child: const Loading(),
-                    ),
+                  : const Loading(),
               const CustomAppbar()
             ],
           ),

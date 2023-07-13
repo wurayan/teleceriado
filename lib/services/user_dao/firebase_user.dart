@@ -19,6 +19,7 @@ class FirebaseUsers {
       uid: userUid,
       username: resultMap["username"],
       avatar: resultMap["avatar"],
+      bio: resultMap["bio"],
     );
   }
 
