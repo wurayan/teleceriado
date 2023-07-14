@@ -56,9 +56,14 @@ class HomeDrawer extends StatelessWidget {
                 ),
               ),
             ),
-            TextButton(
-              onPressed: () {
-                ErrorHandler.show("titulo","Lorem Ipsum sit dolor amec viat sacharum vito artos argentum saccrum plubus orindum");
+TextButton(
+  onPressed: () {
+    DateTime creation = DateTime.parse("2023-07-14 19:21:43.699Z");
+    DateTime login = DateTime.parse("2023-07-14 19:23:45.700Z");
+    Duration difference = login.difference(creation); 
+    bool isBigger = difference > const Duration(minutes: 1);
+    print(difference);
+    print(isBigger); 
               },
               child: const Text("ARRIVA CHICO CARLITO")
             ),

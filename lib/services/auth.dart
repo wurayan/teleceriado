@@ -41,7 +41,7 @@ class AuthService {
       User? user = result.user;
       Usuario? usuario = _usuarioFromFirebase(user);
       await _prefs.saveUserId(usuario!.uid!);
-      _collection.createFavorites();
+      _collection.firstTime();
       return usuario;
     } on FirebaseAuthException catch (e) {
       ErrorHandler.authError(e);
@@ -76,8 +76,6 @@ class AuthService {
   }
 
   Future<Usuario> signInGoogle() async {
-    DateTime init = DateTime.now();
-
     final GoogleSignIn googleSignIn = GoogleSignIn();
     final GoogleSignInAccount? googleSignInAccount =
         await googleSignIn.signIn();
@@ -93,13 +91,15 @@ class AuthService {
       try {
         final UserCredential userCredential =
             await _auth.signInWithCredential(credential);
-        DateTime? creationTime = _auth.currentUser?.metadata.creationTime;
         User user = userCredential.user!;
         Usuario? usuario = _usuarioFromFirebase(user);
         _prefs.saveUserId(usuario!.uid!);
-        if (creationTime != null && !creationTime.isBefore(init)) {
-          _collection.createFavorites();
+        DateTime? creation = _auth.currentUser?.metadata.creationTime;
+        DateTime? lastSignin = _auth.currentUser?.metadata.lastSignInTime;
+        if (creation!=null && creation.difference(lastSignin!) > const Duration(minutes: 1)) {
+          _collection.firstTime();
         }
+        usuario.firstTime = true;
         return usuario;
       } on FirebaseAuthException catch (e) {
         ErrorHandler.authError(e);
@@ -122,7 +122,8 @@ class AuthService {
       User user = result.user!;
       Usuario? usuario = _usuarioFromFirebase(user);
       await _prefs.saveUserId(usuario!.uid!);
-      _collection.createFavorites();
+      _collection.firstTime();
+      usuario.firstTime = true;
       return usuario;
     } on FirebaseAuthException catch (e) {
       ErrorHandler.authError(e);

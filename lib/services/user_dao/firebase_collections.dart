@@ -67,13 +67,15 @@ class FirebaseCollections {
         .catchError((e) => throw Exception(e));
   }
 
-  createFavorites() async {
+  firstTime() async {
     String? userUid = await prefs.getUserId();
     assert(userUid != null);
     var path = db.collection("/usuarios").doc("/$userUid");
     path.set({
       "colecoes": FieldValue.arrayUnion(["Favoritos"]),
       "username": userUid,
+      "editadosQtde" : 0,
+      "seguidoresQtde" : 0,
     }, SetOptions(merge: true));
     path.collection("/Favoritos").doc("/doc").set({
       "nome": "Favoritos",

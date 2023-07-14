@@ -23,7 +23,6 @@ class _WrapperState extends State<Wrapper> {
 
   @override
   void initState() {
-    
     super.initState();
   }
 
@@ -34,6 +33,7 @@ class _WrapperState extends State<Wrapper> {
       return const Auth();
     } else {
       getPackage(context);
+      //TODO aqui podemos colocar a verificão de firstTime e redirecionar para uma tela de personalização de usuário
       return const Home();
     }
   }
