@@ -144,12 +144,8 @@ class _ListBuilderState extends State<ListBuilder> {
   @override
   Widget build(BuildContext context) {
     return episodios.isEmpty
-        ? SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.15),
-              child: const Loading(),
-            ),
+        ? const SliverToBoxAdapter(
+            child: Loading(),
           )
         : SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {

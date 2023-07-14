@@ -20,7 +20,7 @@ class UserScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: width * 0.03),
             child: Text(
-              "seguidores: ${usuario.seguidoresQtde}",
+              "seguidores: ${usuario.seguidoresQtde??0}",
               style: const TextStyle(
                   fontSize: 14, fontWeight: FontWeight.w300, letterSpacing: 1),
               ),
@@ -45,9 +45,9 @@ class UserScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  "Contribuições: não implementado",
-                  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14),
+                Text(
+                  "Contribuições: ${usuario.editados??0}",
+                  style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 14),
                 ),
                 BotaoSeguindo(usuario: usuario)
               ],

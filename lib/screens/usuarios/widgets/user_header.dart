@@ -20,8 +20,7 @@ class _UserHeaderState extends State<UserHeader>
   getBackdrop() async {
     if (widget.usuario.avatar == null) {
       backdrop = await _api.getRandomBackdrop();
-      print(backdrop);
-      setState(() {});
+      if(mounted)setState(() {});
     }
   }
 

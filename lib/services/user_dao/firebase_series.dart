@@ -34,9 +34,9 @@ class FirebaseSeries {
 
   Future<bool> editSerie(Serie serie) async {
     String? userUid = await prefs.getUserId();
-    db
-        .collection("/usuarios")
-        .doc("/$userUid")
+    var path = db.collection("/usuarios").doc("/$userUid");
+
+    path
         .collection("/editados")
         .doc("/${serie.id}")
         .set(
@@ -44,9 +44,8 @@ class FirebaseSeries {
                 ? {"backdrop": serie.backdrop}
                 : {"descricao": serie.descricao},
             SetOptions(merge: true))
-        .catchError((e) {
-      ErrorHandler.show("Erro",e.toString());
-    });
+        
+        .catchError((e) => ErrorHandler.show("Erro", e.toString()));
     return true;
   }
 
@@ -91,16 +90,16 @@ class FirebaseSeries {
     return series;
   }
 
-    Future<bool> isFavorite(int serieId) async {
-   String? userId = await prefs.getUserId();
-   var res = await db
-   .collection("/usuarios")
-   .doc("/$userId")
-   .collection("Favoritos")
-   .doc("/doc")
-   .collection("/series")
-   .doc("/$serieId")
-   .get();
-   return res.data()!=null;
+  Future<bool> isFavorite(int serieId) async {
+    String? userId = await prefs.getUserId();
+    var res = await db
+        .collection("/usuarios")
+        .doc("/$userId")
+        .collection("Favoritos")
+        .doc("/doc")
+        .collection("/series")
+        .doc("/$serieId")
+        .get();
+    return res.data() != null;
   }
 }

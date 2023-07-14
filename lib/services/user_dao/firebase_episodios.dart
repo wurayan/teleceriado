@@ -9,7 +9,6 @@ class FirebaseEpisodios {
   final FirebaseFirestore db = FirebaseFirestore.instance;
   final ApiService _api = ApiService();
 
-
   editEpisodio(Episodio episodio) async {
     String? userUid = await prefs.getUserId();
     Map<String, dynamic> editado = {};
@@ -27,8 +26,7 @@ class FirebaseEpisodios {
     Map? map = temporada.data();
     if (map?["temporadas"] == null || map?["temporadas"] < episodio.temporada) {
       await path.set(
-        {"temporadas": episodio.temporada,
-        "nome": episodio.serie},
+        {"temporadas": episodio.temporada, "nome": episodio.serie},
         SetOptions(merge: true),
       );
     }
@@ -38,7 +36,13 @@ class FirebaseEpisodios {
         .set(
           editado,
           SetOptions(merge: true),
-        );
+        )
+        .then((value) {
+      db
+          .collection("/usuarios")
+          .doc("/$userUid")
+          .update({"editadosQtde": FieldValue.increment(1)});
+    });
   }
 
   Future<Map<int, Episodio>?> getEditedEpisodio(int serieId, int temporada,
@@ -66,10 +70,8 @@ class FirebaseEpisodios {
   Future<List<Episodio>> getAllEditedEpisodios(String userId) async {
     List<Episodio> apiEpisodios;
     List<Episodio> resultado = [];
-    var path = db
-        .collection("/usuarios")
-        .doc("/$userId")
-        .collection("/editados");
+    var path =
+        db.collection("/usuarios").doc("/$userId").collection("/editados");
     var series = await path.get();
     for (var item in series.docs) {
       var pathToSerie = path.doc(item.id);
@@ -86,9 +88,9 @@ class FirebaseEpisodios {
             Episodio episodio = apiEpisodios[index];
             episodio.nome = episodioMap["nome"] ?? episodio.nome;
             episodio.descricao = episodioMap["descricao"] ?? episodio.descricao;
-            if (episodioMap["imagem"]!=null) {
+            if (episodioMap["imagem"] != null) {
               episodio.imagem = episodioMap["imagem"];
-              episodio.wasEdited = true;  
+              episodio.wasEdited = true;
             }
             resultado.add(episodio);
             index += 1;
