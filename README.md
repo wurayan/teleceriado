@@ -85,7 +85,9 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
 
 ## Versão 3.0.1  
     - Implementação da validação ao fazer Login ou Cadastrar;
-    - Implementação de mensagens de alerta caso
+    - Implementação de mensagens de alerta caso;
+    - Implementação do botão que permite escolher as temporadas;
+    - Adição de um limitador de comprimento nas Sinopses coletadas da Api que estavam maiores que o espaço disponível dos cards;
 
 
 PROBLEMA: JA QUE VAMOS IMPLEMENTAR O MÉTODO DE SEGUIR COLEÇÕES, NÃO PODEMOS MAIS SALVAR O NOME DA COLEÇÃO COMO UID PQ ASSIM AO SALVAR DUAS COLEÇÕES COM NOMES IGUAIS DE USUARIOS DIFERENTES, NÃO VAMOS TER OCMO DIFERENCIA-LAS        

@@ -36,16 +36,12 @@ class ApiService {
     http.Response response =
         await client.get(getUri("tv/latest"), headers: header);
     Map body = json.decode(response.body);
-    int random = Random().nextInt(body["id"]);
-    // https://api.themoviedb.org/3/tv/229276/images
-    response = await client.get(getUri("tv/$random/images"), headers: header);
-
     while (results.isEmpty) {
       int random = Random().nextInt(body["id"]);
       response = await client.get(getUri("tv/$random/images"), headers: header);
       if (response.statusCode == 200) {
-        body = json.decode(response.body);
-        results = body["backdrops"];
+        Map map = json.decode(response.body);
+        results = map["backdrops"];
       }
     }
     return getSeriePoster(results[0]["file_path"]);
