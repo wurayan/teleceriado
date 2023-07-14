@@ -20,6 +20,8 @@ class FirebaseUsers {
       username: resultMap["username"],
       avatar: resultMap["avatar"],
       bio: resultMap["bio"],
+      seguidoresQtde: resultMap["seguidoresQtde"],
+      seguidores: List<String>.from(resultMap["seguidores"] ??<String>[]),
     );
   }
 

@@ -70,25 +70,48 @@ class FirebaseComunidade {
       "username": usuario.username,
       "avatar": usuario.avatar
     };
-    print("$usuario\n$seguir");
     var path = db
         .collection("/usuarios")
         .doc("/$userUid")
         .collection("/seguindoUsuarios")
         .doc("/${usuario.uid}");
-    seguir ? path.set(map) : path.delete();
+    var seguidores = db.collection("/usuarios").doc("/${usuario.uid}");
+
+    seguir
+        ? path.set(map).then((value) {
+            seguidores.set(
+              {
+                "seguidores": FieldValue.arrayUnion(["$userUid"])
+              },
+              SetOptions(merge: true),
+            );
+            seguidores.update({"seguidoresQtde": FieldValue.increment(1)});
+          })
+        : path.delete().then((value) {
+          seguidores.set(
+              {
+                "seguidores": FieldValue.arrayRemove(["$userUid"])
+              },
+              SetOptions(merge: true),
+            );
+            seguidores.update({"seguidoresQtde": FieldValue.increment(-1)});
+        });
   }
 
   seguirColecao(Collection colecao, bool seguir) async {
     final String? userUid = await prefs.getUserId();
     Map<String, dynamic> map = {
-      "nome" : colecao.nome,
+      "nome": colecao.nome,
       "imagem": colecao.imagem,
-      "dono" : colecao.dono,
+      "dono": colecao.dono,
     };
-    var path = db.collection("/usuarios").doc("/$userUid").collection("/seguindoColecoes").doc("/${colecao.nome}${colecao.dono}");
-    
-    seguir? path.set(map) : path.delete();
+    var path = db
+        .collection("/usuarios")
+        .doc("/$userUid")
+        .collection("/seguindoColecoes")
+        .doc("/${colecao.nome}${colecao.dono}");
+
+    seguir ? path.set(map) : path.delete();
   }
 
   Future<bool> isFollowingUsuario(String usuarioId) async {
@@ -98,6 +121,8 @@ class FirebaseComunidade {
 
   isFollowingColecao(Collection colecao) async {
     List<Collection> seguindo = await getColecoesSeguindo();
-    return seguindo.map((item) => "${item.nome}${item.dono}").contains("${colecao.nome}${colecao.dono}");
+    return seguindo
+        .map((item) => "${item.nome}${item.dono}")
+        .contains("${colecao.nome}${colecao.dono}");
   }
 }

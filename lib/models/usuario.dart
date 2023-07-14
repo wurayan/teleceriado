@@ -6,8 +6,10 @@ class Usuario extends ChangeNotifier {
   bool? firstTime;
   String? avatar;
   String? bio;
+  int? seguidoresQtde;
+  List<String>? seguidores;
 
-  Usuario({this.uid, this.username, this.firstTime, this.avatar, this.bio});
+  Usuario({this.uid, this.username, this.firstTime, this.avatar, this.bio, this.seguidoresQtde, this.seguidores});
 
   @override
   String toString() {

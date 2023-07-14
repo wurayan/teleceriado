@@ -15,6 +15,11 @@ List<String> loadingFrases = [
   "Homofobia nos olhos",
   "Você não é 'literalmente ele'",
   "Não consigo ler nada.",
+  "L morre",
+  "Kuririn ressuscita",
+  "Eu sei o que voce assistiu ontem",
+  "Tem que boicotar a Netflix",
+
 ];
 
 List<String> avatarPlaceholder = [

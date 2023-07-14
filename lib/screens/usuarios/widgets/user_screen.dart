@@ -17,6 +17,14 @@ class UserScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           UserHeader(usuario: usuario),
+          Padding(
+            padding: EdgeInsets.only(left: width * 0.03),
+            child: Text(
+              "seguidores: ${usuario.seguidoresQtde}",
+              style: const TextStyle(
+                  fontSize: 14, fontWeight: FontWeight.w300, letterSpacing: 1),
+              ),
+          ),
           SizedBox(
             width: width * 0.95,
             height: height * 0.15,
@@ -33,7 +41,7 @@ class UserScreen extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: width*0.02, right: width*0.05),
+            padding: EdgeInsets.only(left: width * 0.02, right: width * 0.05),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
