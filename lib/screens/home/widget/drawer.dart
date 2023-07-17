@@ -56,17 +56,15 @@ class HomeDrawer extends StatelessWidget {
                 ),
               ),
             ),
-TextButton(
-  onPressed: () {
-    DateTime creation = DateTime.parse("2023-07-14 19:21:43.699Z");
-    DateTime login = DateTime.parse("2023-07-14 19:23:45.700Z");
-    Duration difference = login.difference(creation); 
-    bool isBigger = difference > const Duration(minutes: 1);
-    print(difference);
-    print(isBigger); 
-              },
-              child: const Text("ARRIVA CHICO CARLITO")
-            ),
+            // TextButton(
+            //     onPressed: () {
+            //       Version version = Version();
+            //       version.localVersion = "3.0.0";
+            //       version.newVersion = "3.0.1";
+            //       version.versionLink = "google.com";
+            //       ErrorHandler.versionOutdated(version);
+            //     },
+            //     child: const Text("ARRIVA CHICO CARLITO"),),
             const Expanded(child: SizedBox(width: null, height: null)),
             TextButton(
               onPressed: () async {
@@ -77,8 +75,9 @@ TextButton(
             Padding(
               padding: EdgeInsets.only(bottom: height * 0.01),
               child: Text(
-                Provider.of<Version>(context).version ?? "Versão 2.1.0",
-                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
+                Provider.of<Version>(context).localVersion ?? "Carregando",
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
               ),
             )
           ],

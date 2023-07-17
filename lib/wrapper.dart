@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:teleceriado/models/error_handler.dart';
 import 'package:teleceriado/screens/authenticate/auth.dart';
 import 'package:teleceriado/screens/home/home.dart';
+import 'package:teleceriado/services/user_dao/firebase_misc.dart';
 import 'models/usuario.dart';
 import 'models/version.dart';
 
@@ -14,15 +16,17 @@ class Wrapper extends StatefulWidget {
 }
 
 class _WrapperState extends State<Wrapper> {
-  
+  final FirebaseMisc _misc = FirebaseMisc();
   
   getPackage(context) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    Provider.of<Version>(context, listen: false).version = packageInfo.version;
+    Provider.of<Version>(context, listen: false).localVersion = packageInfo.version;
   }
+
 
   @override
   void initState() {
+    _misc.checkVersion();
     super.initState();
   }
 
