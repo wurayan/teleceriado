@@ -87,15 +87,18 @@ class FirebaseComunidade {
             );
             seguidores.update({"seguidoresQtde": FieldValue.increment(1)});
           })
-        : path.delete().then((value) {
-          seguidores.set(
+        : path.delete().then((value) async {
+            seguidores.set(
               {
                 "seguidores": FieldValue.arrayRemove(["$userUid"])
               },
               SetOptions(merge: true),
             );
-            seguidores.update({"seguidoresQtde": FieldValue.increment(-1)});
-        });
+            var res = await seguidores.get();
+            if (res.data()?["seguidoresQtde"] != null) {
+              seguidores.update({"seguidoresQtde": FieldValue.increment(-1)});
+            }
+          });
   }
 
   seguirColecao(Collection colecao, bool seguir) async {
@@ -110,8 +113,28 @@ class FirebaseComunidade {
         .doc("/$userUid")
         .collection("/seguindoColecoes")
         .doc("/${colecao.nome}${colecao.dono}");
+    var follow = db
+        .collection("/usuarios")
+        .doc("/${colecao.dono}")
+        .collection("/${colecao.nome}")
+        .doc("/doc");
 
-    seguir ? path.set(map) : path.delete();
+    seguir
+        ? path.set(map).then((value) {
+            follow.set({
+              "seguidores": FieldValue.arrayUnion(["$userUid"])
+            }, SetOptions(merge: true));
+            follow.update({"seguidoresQtde": FieldValue.increment(1)});
+          })
+        : path.delete().then((value) async {
+            follow.set({
+              "seguidores": FieldValue.arrayRemove(["$userUid"])
+            }, SetOptions(merge: true));
+            var res = await follow.get();
+            if (res.data()?["seguidoresQtde"] != null) {
+              follow.update({"seguidoresQtde": FieldValue.increment(-1)});
+            }
+          });
   }
 
   Future<bool> isFollowingUsuario(String usuarioId) async {
@@ -119,10 +142,12 @@ class FirebaseComunidade {
     return seguindo.map((item) => item.uid).contains(usuarioId);
   }
 
-  isFollowingColecao(Collection colecao) async {
+  Future<bool> isFollowingColecao(Collection colecao) async {
     List<Collection> seguindo = await getColecoesSeguindo();
     return seguindo
         .map((item) => "${item.nome}${item.dono}")
         .contains("${colecao.nome}${colecao.dono}");
   }
+
+  
 }

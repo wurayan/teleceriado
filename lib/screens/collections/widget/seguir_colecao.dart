@@ -22,6 +22,10 @@ class _SeguirColecaoState extends State<SeguirColecao> {
     if (mounted) setState(() {});
   }
 
+  Future seguir(Collection colecao, bool follow) async {
+    await _comunidade.seguirColecao(colecao, follow);
+  }
+
   @override
   void initState() {
     isFollowing(widget.colecao);
@@ -31,14 +35,16 @@ class _SeguirColecaoState extends State<SeguirColecao> {
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
-      onPressed: () {
+      onPressed: () async {
         if (seguindo == null) return;
-        _comunidade.seguirColecao(widget.colecao, !seguindo!);
-        seguindo = !seguindo!;
+        seguir(widget.colecao, !seguindo!).then((value) {
+          seguindo = !seguindo!;
         Provider.of<UpdateSeguindo>(context, listen: false).update = true;
         setState(() {});
+        });
+        
       },
-      child: Text(seguindo ?? false ? "SEGUINDO" : "SEGUIR"),
+      child: Text(seguindo==true ? "SEGUINDO" : "SEGUIR"),
     );
   }
 }

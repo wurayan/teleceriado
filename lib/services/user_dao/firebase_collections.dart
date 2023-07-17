@@ -48,6 +48,8 @@ class FirebaseCollections {
       collection.descricao = resultMap["descricao"];
       collection.imagem = resultMap["imagemUrl"];
       collection.dono = userUid;
+      collection.seguidoresQtde = resultMap["seguidoresQtde"] ?? 0;
+      print(resultMap["seguidoresQtde"]);
     }
     return collection;
   }

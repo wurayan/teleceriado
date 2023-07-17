@@ -47,6 +47,7 @@ class _ComunidadeState extends State<Comunidade>
 
   @override
   Widget build(BuildContext context) {
+    
     super.build(context);
     return Scaffold(
       appBar: AppBar(

@@ -1,9 +1,11 @@
 import 'package:pixel_snap/material.dart';
 import 'package:teleceriado/screens/collections/widget/mini_seguir_usuario.dart';
+import 'package:teleceriado/screens/collections/widget/seguidores_colecao.dart';
 import 'package:teleceriado/screens/collections/widget/seguir_colecao.dart';
 import 'package:teleceriado/screens/usuarios/user_page.dart';
 import '../../../models/collection.dart';
 import '../../../models/usuario.dart';
+import '../../../services/user_dao/firebase_export.dart';
 
 class Header extends StatelessWidget {
   final Collection collection;
@@ -68,7 +70,15 @@ class Header extends StatelessWidget {
                   const Expanded(
                     child: SizedBox(),
                   ),
-                  const Text("Seguidores?")
+                  // TextButton(
+                  //   onPressed: () async {
+                  //     FirebaseCollections col = FirebaseCollections();
+                  //     Collection cole = await col.getCollectionInfo("aqui", userId: "rzWhYOggrbP0cczR6PTuYUJL4G12");
+                  //     print(cole.seguidoresQtde);
+                  //   },
+                  //   child: Text("A")
+                  // ),
+                  ColecaoSeguidores(colecao: collection,)
                 ],
               ),
             ),
@@ -190,7 +200,7 @@ List<Widget> ownerData(Usuario? dono, context) {
       child: Padding(
         padding: const EdgeInsets.only(left: 5),
         child: Text(
-          dono.username ?? dono.uid!.substring(0, 20),
+          dono.username?.substring(0,15) ?? dono.uid!.substring(0, 10),
           style: const TextStyle(fontWeight: FontWeight.w300),
         ),
       ),

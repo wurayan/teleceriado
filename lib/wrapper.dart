@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
-import 'package:teleceriado/models/error_handler.dart';
 import 'package:teleceriado/screens/authenticate/auth.dart';
 import 'package:teleceriado/screens/home/home.dart';
 import 'package:teleceriado/services/user_dao/firebase_misc.dart';
@@ -36,6 +35,7 @@ class _WrapperState extends State<Wrapper> {
     if (usuario == null) {
       return const Auth();
     } else {
+      print(usuario.toString());
       getPackage(context);
       //TODO aqui podemos colocar a verificão de firstTime e redirecionar para uma tela de personalização de usuário
       return const Home();
