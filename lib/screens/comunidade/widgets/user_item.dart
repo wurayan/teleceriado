@@ -43,6 +43,7 @@ class UsuarioItem extends StatelessWidget {
               padding: EdgeInsets.only(top: height * 0.005),
               child: Text(
                 usuario.username ?? usuario.uid!,
+                maxLines: 2,
                 overflow: TextOverflow.clip,
               ),
             )

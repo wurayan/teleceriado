@@ -36,7 +36,7 @@ class TopUsers extends StatelessWidget {
               : Padding(
                   padding: EdgeInsets.only(top: height * 0.01),
                   child: SizedBox(
-                    height: height * 0.2,
+                    height: height * 0.17,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: usuarios!.length,

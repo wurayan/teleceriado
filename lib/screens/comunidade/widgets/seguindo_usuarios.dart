@@ -60,7 +60,7 @@ class _SeguindoState extends State<SeguindoUsuarios> {
                       ),
                   )
                   : SizedBox(
-                      height: height * 0.15,
+                      height: height * 0.17,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: length(widget.seguindo),
