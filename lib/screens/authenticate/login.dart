@@ -141,12 +141,12 @@ class _LoginState extends State<Login> {
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(top: height * 0.35),
-                            child: const Center(
-                              child: GoogleSignInButton(),
-                            ),
-                          )
+Padding(
+  padding: EdgeInsets.only(top: height * 0.35),
+  child: const Center(
+    child: GoogleSignInButton(),
+  ),
+)
                         ],
                       ),
                     ),

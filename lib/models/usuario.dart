@@ -16,4 +16,13 @@ class Usuario extends ChangeNotifier {
   String toString() {
     return "UID: $uid\nUsername: $username";
   }
+
+  @override
+  bool operator == (Object other){
+    if(other.runtimeType != runtimeType) return false;
+    return other is Usuario && other.uid == uid && other.username == username;
+  }
+
+  @override
+  int get hashCode => Object.hash(uid, username);
 }

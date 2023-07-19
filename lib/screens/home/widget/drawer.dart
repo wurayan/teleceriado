@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:teleceriado/screens/comunidade/comunidade.dart';
 import 'package:teleceriado/screens/home/widget/drawer_header.dart';
-import '../../../models/error_handler.dart';
+import 'package:teleceriado/screens/home/widget/drawer_item.dart';
+import 'package:teleceriado/screens/profile/profile.dart';
 import '../../../models/version.dart';
 import '../../../services/auth.dart';
 
@@ -24,8 +25,8 @@ class HomeDrawer extends StatelessWidget {
             const DrawerHeaderInfo(),
             Padding(
               padding: EdgeInsets.only(top: height * 0.01),
-              child: InkWell(
-                onTap: () {
+              child: DrawerItem(
+                navigate: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -33,29 +34,21 @@ class HomeDrawer extends StatelessWidget {
                     ),
                   );
                 },
-                child: Container(
-                  width: double.infinity,
-                  height: height * 0.06,
-                  // color: Colors.grey[700],
-                  alignment: Alignment.centerLeft,
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: width * 0.02, right: width * 0.04),
-                        child: const Icon(Icons.view_carousel_rounded),
-                      ),
-                      const Text(
-                        "Comunidade",
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                icon: const Icon(Icons.view_carousel_rounded),
+                title: "Comunidade",
               ),
             ),
+            DrawerItem(
+                navigate: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ProfilePage(),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.account_circle),
+                title: "Perfil"),
             // TextButton(
             //     onPressed: () {
             //       Version version = Version();
