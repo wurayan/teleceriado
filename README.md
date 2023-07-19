@@ -93,6 +93,7 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Implementado Contador de Edições;
     - Implementação verificação de Primeiro Login;
     - Criação página de Profile;
+    - Implementação da lista de Edições no Profile do usuário;
 
 
 PROBLEMA: JA QUE VAMOS IMPLEMENTAR O MÉTODO DE SEGUIR COLEÇÕES, NÃO PODEMOS MAIS SALVAR O NOME DA COLEÇÃO COMO UID PQ ASSIM AO SALVAR DUAS COLEÇÕES COM NOMES IGUAIS DE USUARIOS DIFERENTES, NÃO VAMOS TER OCMO DIFERENCIA-LAS        

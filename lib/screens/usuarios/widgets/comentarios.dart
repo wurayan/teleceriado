@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:teleceriado/utils/color_checker.dart';
-
+import 'package:teleceriado/utils/utils.dart';
 import '../../../models/episodio.dart';
 import '../../../services/api_service.dart';
 
@@ -54,37 +53,14 @@ class _ComentarioCardState extends State<ComentarioCard> {
   final ApiService _api = ApiService();
   int? lightness;
 
-  lightnessCheck(Episodio episodio) async {
-    if (episodio.imagem != null) {
-      lightness = await isDark(
-        episodio.wasEdited == true
-            ? episodio.imagem!
-            : _api.getSeriePoster(episodio.imagem!),
-      );
-      if (mounted) setState(() {});
-    }
-  }
-
-  ColorFilter? colorFilter() {
-    if (lightness == null) return null;
-    if (lightness! <= 50) {
-      return const ColorFilter.mode(Colors.black26, BlendMode.darken);
-    }
-    if (lightness! > 50 && lightness! <= 80) {
-      return const ColorFilter.mode(Colors.black38, BlendMode.darken);
-    }
-    if (lightness! > 80 && lightness! <= 100) {
-      return const ColorFilter.mode(Colors.black45, BlendMode.darken);
-    }
-    if (lightness! > 100) {
-      return const ColorFilter.mode(Colors.black54, BlendMode.darken);
-    }
-    return null;
+  checkLight(Episodio episodio) async {
+    lightness = await lightnessCheck(episodio);
+    setState(() {});
   }
 
   @override
   void initState() {
-    lightnessCheck(widget.episodio);
+    checkLight(widget.episodio);
     super.initState();
   }
 
@@ -101,7 +77,8 @@ class _ComentarioCardState extends State<ComentarioCard> {
                       : _api.getSeriePoster(widget.episodio.imagem!),
                 ).image,
                 fit: BoxFit.cover,
-                colorFilter: colorFilter())
+                colorFilter: colorFilter(lightness!),
+              )
             : null,
         color: Colors.blueGrey[800],
       ),

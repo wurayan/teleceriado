@@ -1,5 +1,10 @@
 import 'dart:math';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:teleceriado/services/api_service.dart';
+
+import '../models/episodio.dart';
+import 'color_checker.dart';
 
 List<String> loadingFrases = [
   "Entrevistando os atores",
@@ -67,3 +72,30 @@ Future<bool> validateImage(String url) async {
     return false;
   }
 }
+
+  ColorFilter? colorFilter(int lightness) {
+    if (lightness <= 50) {
+      return const ColorFilter.mode(Colors.black26, BlendMode.darken);
+    }
+    if (lightness > 50 && lightness <= 80) {
+      return const ColorFilter.mode(Colors.black38, BlendMode.darken);
+    }
+    if (lightness > 80 && lightness <= 100) {
+      return const ColorFilter.mode(Colors.black45, BlendMode.darken);
+    }
+    if (lightness > 100) {
+      return const ColorFilter.mode(Colors.black54, BlendMode.darken);
+    }
+    return null;
+  }
+
+Future<int?> lightnessCheck(Episodio episodio) async {
+    ApiService api = ApiService();
+    if(episodio.imagem==null) return null;
+      int lightness = await isDark(
+        episodio.wasEdited == true
+            ? episodio.imagem!
+            : api.getSeriePoster(episodio.imagem!),
+      );
+      return lightness;
+  }

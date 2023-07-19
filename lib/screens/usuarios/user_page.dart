@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:teleceriado/components/loading.dart';
-import 'package:teleceriado/screens/components/custom_appbar.dart';
+import 'package:teleceriado/components/custom_appbar.dart';
 import 'package:teleceriado/screens/usuarios/widgets/colecoes_screen.dart';
 import 'package:teleceriado/screens/usuarios/widgets/comentarios.dart';
 import 'package:teleceriado/screens/usuarios/widgets/user_screen.dart';

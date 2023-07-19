@@ -25,10 +25,10 @@ class ProfileHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           SizedBox(
-            height: height*0.07,
+            height: height*0.02,
           ),
           Container(
-            height: height * 0.1,
+            height: height * 0.15,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(
@@ -58,7 +58,7 @@ class ProfileHeader extends StatelessWidget {
               overflow: TextOverflow.clip,
               textAlign: TextAlign.center,
             ),
-          )
+          ),
         ],
       ),
     );
