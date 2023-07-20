@@ -34,7 +34,13 @@ class _ProfileComentariosState extends State<ProfileComentarios> with AutomaticK
     super.build(context);
     final double height = MediaQuery.of(context).size.height;
     return episodios == null
-        ? const Loading()
+        ? const Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Loading(),
+            Expanded(child: SizedBox())
+          ],
+        )
         : episodios!.isEmpty
             ? Center(
                 child: RichText(

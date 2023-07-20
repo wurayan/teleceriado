@@ -26,13 +26,14 @@ class _SeguidoresCounterState extends State<SeguidoresCounter> {
     setState(() {});
   }
 
-  updateUser(context) {
+  updateUser(context) async {
+    await Future.delayed(const Duration(seconds: 1));
     if (profile != null &&
         profile?.seguidoresQtde !=
-            Provider.of<Usuario>(context).seguidoresQtde) {
-      Provider.of<Usuario>(context).seguidores = profile?.seguidores;
-      Provider.of<Usuario>(context).seguidoresQtde = profile?.seguidoresQtde;
-      Provider.of<Usuario>(context).editados = profile?.editados;
+            Provider.of<Usuario>(context, listen: false).seguidoresQtde) {
+      Provider.of<Usuario>(context, listen: false).seguidores = profile?.seguidores;
+      Provider.of<Usuario>(context, listen: false).seguidoresQtde = profile?.seguidoresQtde;
+      Provider.of<Usuario>(context, listen: false).editados = profile?.editados;
       setState(() {});
     }
   }

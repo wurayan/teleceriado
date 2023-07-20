@@ -38,6 +38,12 @@ class _HomeState extends State<Home> {
     provider.uid = usuario.uid;
     provider.username = usuario.username;
     provider.avatar = usuario.avatar;
+    provider.bio = usuario.bio;
+    provider.assistindoAgora = usuario.assistindoAgora;
+    provider.seguidores = usuario.seguidores;
+    provider.editados = usuario.editados;
+    provider.seguidoresQtde = usuario.seguidoresQtde;
+    provider.serieFavorita = usuario.serieFavorita;
     setState(() {});
   }
 
@@ -52,6 +58,7 @@ class _HomeState extends State<Home> {
     if (usuario != null) {
       saveUserdata(context, usuario!);
     }
+    print("rebuild da home");
     return Scaffold(
       appBar: AppBar(
         title: const Text('Teleceriado'),

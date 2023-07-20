@@ -21,13 +21,15 @@ class FirebaseUsers {
       avatar: resultMap["avatar"],
       bio: resultMap["bio"],
       seguidoresQtde: resultMap["seguidoresQtde"],
-      seguidores: List<String>.from(resultMap["seguidores"] ??<String>[]),
-      editados: resultMap["editadosQtde"]
+      seguidores: List<String>.from(resultMap["seguidores"] ?? <String>[]),
+      editados: resultMap["editadosQtde"],
+      assistindoAgora: resultMap["assistindoAgora"],
+      serieFavorita: resultMap["serieFavorita"],
     );
   }
 
   updateUserdata({String? username, String? avatar}) async {
-    if(username==null&&avatar==null) return;
+    if (username == null && avatar == null) return;
 
     String? userUid = await prefs.getUserId();
     assert(userUid != null);
@@ -37,14 +39,27 @@ class FirebaseUsers {
     username != null ? map["username"] = username : null;
     avatar != null ? map["avatar"] = avatar : null;
 
-    var path = db
-    .collection("/usuarios")
-    .doc("/$userUid");
+    var path = db.collection("/usuarios").doc("/$userUid");
 
-    path.update(map)
-    .onError((error, stackTrace) {
+    path.update(map).onError((error, stackTrace) {
       SnackbarGlobal.show(error.toString());
       throw Exception(error);
     });
+  }
+
+  saveFavorita(int serieId) async {
+    String? userUid = await prefs.getUserId();
+    db
+        .collection("/usuarios")
+        .doc("/$userUid")
+        .update({"serieFavorita": serieId});
+  }
+
+  saveAssistindoAgora(int serieId) async {
+    String? userUid = await prefs.getUserId();
+    db
+        .collection("/usuarios")
+        .doc("/$userUid")
+        .update({"assistindoAgora": serieId});
   }
 }

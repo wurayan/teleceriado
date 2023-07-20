@@ -22,20 +22,13 @@ class _WrapperState extends State<Wrapper> {
     Provider.of<Version>(context, listen: false).localVersion = packageInfo.version;
   }
 
-
-  @override
-  void initState() {
-    _misc.checkVersion();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     final usuario = Provider.of<Usuario?>(context);
     if (usuario == null) {
       return const Auth();
     } else {
-      print(usuario.toString());
+      _misc.checkVersion();
       getPackage(context);
       //TODO aqui podemos colocar a verificão de firstTime e redirecionar para uma tela de personalização de usuário
       return const Home();

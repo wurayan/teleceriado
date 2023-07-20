@@ -5,7 +5,6 @@ import 'package:teleceriado/screens/collections/widget/seguir_colecao.dart';
 import 'package:teleceriado/screens/usuarios/user_page.dart';
 import '../../../models/collection.dart';
 import '../../../models/usuario.dart';
-import '../../../services/user_dao/firebase_export.dart';
 
 class Header extends StatelessWidget {
   final Collection collection;
@@ -78,7 +77,9 @@ class Header extends StatelessWidget {
                   //   },
                   //   child: Text("A")
                   // ),
-                  ColecaoSeguidores(colecao: collection,)
+                  ColecaoSeguidores(
+                    colecao: collection,
+                  )
                 ],
               ),
             ),
@@ -193,14 +194,16 @@ List<Widget> ownerData(Usuario? dono, context) {
     ),
     GestureDetector(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => UserPage(usuario: dono),
-        ));
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => UserPage(usuario: dono),
+          ),
+        );
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 5),
         child: Text(
-          dono.username?.substring(0,15) ?? dono.uid!.substring(0, 10),
+          dono.username?.substring(0, 15) ?? dono.uid!.substring(0, 10),
           style: const TextStyle(fontWeight: FontWeight.w300),
         ),
       ),

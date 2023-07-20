@@ -9,8 +9,10 @@ class Usuario extends ChangeNotifier {
   int? seguidoresQtde;
   List<String>? seguidores;
   int? editados;
+  int? serieFavorita;
+  int? assistindoAgora;
 
-  Usuario({this.uid, this.username, this.firstTime, this.avatar, this.bio, this.seguidoresQtde, this.seguidores, this.editados});
+  Usuario({this.uid, this.username, this.firstTime, this.avatar, this.bio, this.seguidoresQtde, this.seguidores, this.editados, this.serieFavorita, this.assistindoAgora});
 
   @override
   String toString() {

@@ -115,12 +115,11 @@ class _PopularList extends StatelessWidget {
                 fit: BoxFit.cover,
                 progressIndicatorBuilder: (context, url, progress) {
                   return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Flexible(flex: 2, child: SizedBox()),
                       Text(serie.nome!,
                           style: const TextStyle(fontWeight: FontWeight.w500),
                           textAlign: TextAlign.center),
-                      const Flexible(flex: 1, child: SizedBox()),
                     ],
                   );
                 },
