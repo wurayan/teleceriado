@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:teleceriado/models/update_seguindo.dart';
 import 'package:teleceriado/screens/profile/widget/about_you_button.dart';
 
 import '../../../models/serie.dart';
@@ -89,5 +90,6 @@ class _AboutYouState extends State<AboutYou> {
     Serie header = await api.getSerie(serie.id!, 1);
       if(header.backdrop==null||header.backdrop!.isEmpty) return;
       Provider.of<Usuario>(context, listen: false).header = api.getSeriePoster(header.backdrop!);
+      Provider.of<UpdateSeguindo>(context, listen: false).headerChanged = true;
   }
 }

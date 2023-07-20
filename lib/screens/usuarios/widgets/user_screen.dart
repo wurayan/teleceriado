@@ -37,7 +37,7 @@ class UserScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: width * 0.02, right: width * 0.05),
             child: Text(
-              "Contribuições: ${usuario.editados??0}",
+              "Comentários: ${usuario.editados??0}",
               style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 14),
             ),
           ),
