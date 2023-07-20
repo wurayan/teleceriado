@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/components/loading_frases.dart';
-import 'package:teleceriado/screens/serie/serie_details.dart';
+import 'package:teleceriado/screens/serie/serie_page.dart';
 import 'package:teleceriado/services/api_service.dart';
 import '../models/serie.dart';
 
@@ -95,7 +95,7 @@ class _PopularList extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ShowDetails(serie: value),
+                        builder: (context) => SeriePage(serie: value),
                       ),
                     );
                   },

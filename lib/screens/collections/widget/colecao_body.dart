@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../models/serie.dart';
 import '../../../services/api_service.dart';
-import '../../serie/serie_details.dart';
+import '../../serie/serie_page.dart';
 
 class Body extends StatelessWidget {
   final List<Serie> series;
@@ -30,7 +30,7 @@ class Body extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ShowDetails(serie: value),
+                        builder: (context) => SeriePage(serie: value),
                       ),
                     );
                   });

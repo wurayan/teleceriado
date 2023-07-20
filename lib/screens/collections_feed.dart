@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/components/loading_frases.dart';
 import 'package:teleceriado/screens/collections/collection_details.dart';
-import 'package:teleceriado/screens/serie/serie_details.dart';
+import 'package:teleceriado/screens/serie/serie_page.dart';
 import 'package:teleceriado/services/user_dao/firebase_collections.dart';
 import '../models/collection.dart';
 import '../models/serie.dart';
@@ -166,7 +166,7 @@ class _CollectionItem extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ShowDetails(serie: value),
+                  builder: (context) => SeriePage(serie: value),
                 ),
               );
             });

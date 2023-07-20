@@ -35,39 +35,42 @@ class _SelectTemporadaState extends State<SelectTemporada> {
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
-    return SizedBox(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(left: width * 0.03, bottom: height * 0.01),
-            child: Container(
-              height: height * 0.045,
-              width: width * 0.3,
-              decoration: BoxDecoration(
-                color: Colors.grey[400]!,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: DropdownButton<int>(
-                value: temporada,
-                items: lista(widget.qtdeTemporadas),
-                onChanged: (int? newItem) {
-                  temporada = newItem!;
-                  widget.update(temporada);
-                  setState(() {});
-                },
-                isExpanded: true,
-                padding: const EdgeInsets.only(left: 10),
-                dropdownColor: Colors.grey[400],
-                style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600),
+    return Padding(
+      padding: EdgeInsets.only(top: height*0.01),
+      child: SizedBox(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: width * 0.03, bottom: height * 0.01),
+              child: Container(
+                height: height * 0.045,
+                width: width * 0.3,
+                decoration: BoxDecoration(
+                  color: Colors.grey[400]!,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: DropdownButton<int>(
+                  value: temporada,
+                  items: lista(widget.qtdeTemporadas),
+                  onChanged: (int? newItem) {
+                    temporada = newItem!;
+                    widget.update(temporada);
+                    setState(() {});
+                  },
+                  isExpanded: true,
+                  padding: const EdgeInsets.only(left: 10),
+                  dropdownColor: Colors.grey[400],
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600),
+                ),
               ),
             ),
-          ),
-          widget.child
-        ],
+            widget.child
+          ],
+        ),
       ),
     );
   }

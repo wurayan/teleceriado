@@ -87,10 +87,8 @@ class ApiService {
         headers: {"Authorization": "Bearer $token"});
     Map body = json.decode(response.body);
     List<dynamic> resultados = body['episodes'];
-    response = await  client.get(
-      getUri("tv/$idSerie?language=pt-BR"),
-      headers: header
-    );
+    response =
+        await client.get(getUri("tv/$idSerie?language=pt-BR"), headers: header);
     Map map = json.decode(response.body);
     String serie = map["name"];
     return episodiosToList(resultados, serie);
@@ -100,22 +98,25 @@ class ApiService {
     Serie serie = Serie();
     serie.id = resultado['id'];
     serie.backdrop = resultado['backdrop_path'];
-    serie.generos = resultado['genres'];
+    serie.generos = getData(resultado["genres"]);
     serie.nome = resultado['name'];
     serie.episodiosqtde = resultado['number_of_episodes'];
     serie.temporadasqtde = resultado['number_of_seasons'];
-    serie.pais = resultado['origin_country'];
     serie.descricao = resultado['overview'];
     serie.poster = resultado['poster_path'];
     serie.status = resultado['status'];
-    // serie.isFavorite = isFavorite;
-    Map temporada = resultado['season/$value'];
-    serie.temporadas =
-        getTemporada(resultado['seasons'], temporada['episodes']);
+    serie.temporadas = getTemporada(resultado['seasons']);
+    serie.release = resultado["first_air_date"];
+    serie.link = resultado["homepage"];
+    serie.situacao = resultado["in_production"];
+    serie.emissoras = getData(resultado["networks"]);
+    serie.produtoras = getData(resultado["production_companies"]);
+    List<dynamic> originCountry = resultado["origin_country"];
+    serie.pais = originCountry.map((e) => e.toString()).toList();
     return serie;
   }
 
-  List<Temporada> getTemporada(List<dynamic> value, List<dynamic> episodios) {
+  List<Temporada> getTemporada(List<dynamic> value) {
     List<Temporada> temporadas = [];
     for (Map temporadaDetails in value) {
       Temporada temporada = Temporada();
@@ -127,6 +128,14 @@ class ApiService {
       // temporada.episodios = getEpisodios(episodios);
     }
     return temporadas;
+  }
+
+  List<String> getData(List<dynamic> value) {
+    List<String> lista = [];
+    for (Map map in value) {
+      lista.add(map["name"]);
+    }
+    return lista;
   }
 
   List<Episodio> episodiosToList(List<dynamic> value, String serie) {

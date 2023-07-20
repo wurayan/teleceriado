@@ -1,106 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:teleceriado/components/loading.dart';
-import 'package:teleceriado/models/episodio.dart';
-import 'package:teleceriado/screens/serie/episodios/wrapper.dart';
-import 'package:teleceriado/screens/serie/widgets/options_dialog.dart';
-import 'package:teleceriado/screens/serie/widgets/serie_header.dart';
 import 'package:teleceriado/screens/serie/widgets/temporada_select.dart';
-import 'package:teleceriado/services/api_service.dart';
-import '../../models/serie.dart';
-import '../../services/user_dao/firebase_export.dart';
 
-class ShowDetails extends StatefulWidget {
-  final Serie serie;
-  const ShowDetails({super.key, required this.serie});
-
-  @override
-  State<ShowDetails> createState() => _ShowDetailsState();
-}
-
-class _ShowDetailsState extends State<ShowDetails> {
-  final FirebaseSeries _series = FirebaseSeries();
-
-  late Serie _serie;
-  bool backdropEdited = false;
-  int temporada = 1;
-
-  getEdited(Serie serie) async {
-    Map? map = await _series.getEditedSerie(serie.id!);
-    if (map == null) return;
-    // if (map != null) {
-    map["descricao"] != null ? serie.descricao = map["descricao"] : null;
-    map["backdrop"] != null ? serie.backdrop = map["backdrop"] : null;
-    // if (map["descricao"] != null && map["backdrop"] != null) {
-    //   serie.descricao = map["descricao"];
-    //   serie.backdrop = map["backdrop"];
-    //   backdropEdited = true;
-    // } else if (map["backdrop"] != null) {
-    //   backdropEdited = true;
-    //   serie.backdrop = map["backdrop"];
-    // } else {
-    //   serie.descricao = map["descricao"];
-    // }
-    setState(() {});
-    // }
-  }
-
-  @override
-  void initState() {
-    _serie = widget.serie;
-    getEdited(_serie);
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    return SafeArea(
-      child: Scaffold(
-        body: Stack(
-          children: [
-            CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(
-                  child: SerieHeader(
-                    serie: _serie,
-                    backdropEdited: backdropEdited,
-                  ),
-                ),
-                ListBuilder(
-                  serie: _serie,
-                )
-              ],
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: width * 0.01),
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back_ios_rounded,
-                      size: 32,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(width * 0.02),
-                  child: OptionsButton(
-                    serie: _serie,
-                  ),
-                )
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
+import '../../../components/loading.dart';
+import '../../../models/episodio.dart';
+import '../../../models/serie.dart';
+import '../../../services/api_service.dart';
+import '../../../services/user_dao/firebase_export.dart';
+import '../episodios/wrapper.dart';
 
 class ListBuilder extends StatefulWidget {
   final Serie serie;
@@ -110,7 +16,7 @@ class ListBuilder extends StatefulWidget {
   State<ListBuilder> createState() => _ListBuilderState();
 }
 
-class _ListBuilderState extends State<ListBuilder> {
+class _ListBuilderState extends State<ListBuilder> with AutomaticKeepAliveClientMixin{
   List<Episodio> episodios = [];
   Map<int, Episodio>? editados;
   final ApiService _api = ApiService();
@@ -143,9 +49,13 @@ class _ListBuilderState extends State<ListBuilder> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return episodios.isEmpty
         ? const SliverToBoxAdapter(
-            child: Loading(),
+            child: Padding(
+              padding: EdgeInsets.only(top: 30),
+              child: Loading(),
+            ),
           )
         : SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {
@@ -160,6 +70,9 @@ class _ListBuilderState extends State<ListBuilder> {
             }, childCount: episodios.length),
           );
   }
+  
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class _EpisodioItem extends StatelessWidget {
