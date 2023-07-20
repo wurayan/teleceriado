@@ -30,15 +30,30 @@ class _BotaoSeguindoState extends State<BotaoSeguindo> {
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton(
-      onPressed: () {
+    return GestureDetector(
+      onTap: (){
         if (seguindo==null) return;
         _comunidade.seguirUsuario(widget.usuario, !seguindo!);
         seguindo = !seguindo!;
         Provider.of<UpdateSeguindo>(context, listen: false).update=true;
         setState(() {});
       },
-      child: Text(seguindo??false ? "SEGUINDO" : "SEGUIR"),
+      child: Text(seguindo??false ? "SEGUINDO" : "SEGUIR",
+      style: const TextStyle(
+        fontSize: 14,
+        height: 0.8
+      )),
     );
+    
+    // OutlinedButton(
+    //   onPressed: () {
+    //     if (seguindo==null) return;
+    //     _comunidade.seguirUsuario(widget.usuario, !seguindo!);
+    //     seguindo = !seguindo!;
+    //     Provider.of<UpdateSeguindo>(context, listen: false).update=true;
+    //     setState(() {});
+    //   },
+    //   child: Text(seguindo??false ? "SEGUINDO" : "SEGUIR"),
+    // );
   }
 }

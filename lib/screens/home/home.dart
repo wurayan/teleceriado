@@ -8,6 +8,9 @@ import 'package:teleceriado/screens/home/widget/search.dart';
 import 'package:teleceriado/screens/collections_feed.dart';
 import 'package:teleceriado/services/user_dao/firebase_export.dart';
 
+import '../../models/serie.dart';
+import '../../services/api_service.dart';
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -17,7 +20,9 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final FirebaseUsers _users = FirebaseUsers();
+  final ApiService _api = ApiService();
   Usuario? usuario;
+  bool first = true;
 
   List pages = [
     const TrendingFeed(),
@@ -33,7 +38,7 @@ class _HomeState extends State<Home> {
     setState(() {});
   }
 
-  saveUserdata(context, Usuario usuario) {
+  saveUserdata(context, Usuario usuario) async {
     Usuario provider = Provider.of<Usuario>(context);
     provider.uid = usuario.uid;
     provider.username = usuario.username;
@@ -44,6 +49,13 @@ class _HomeState extends State<Home> {
     provider.editados = usuario.editados;
     provider.seguidoresQtde = usuario.seguidoresQtde;
     provider.serieFavorita = usuario.serieFavorita;
+    if (provider.serieFavorita != null || provider.assistindoAgora != null) {
+      int id = provider.assistindoAgora ?? provider.serieFavorita!;
+      Serie serie = await _api.getSerie(id, 1);
+      if (serie.backdrop == null || serie.backdrop!.isEmpty) return;
+      provider.header = _api.getSeriePoster(serie.backdrop!);
+    }
+    first = false;
     setState(() {});
   }
 
@@ -55,10 +67,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    if (usuario != null) {
-      saveUserdata(context, usuario!);
-    }
-    print("rebuild da home");
+    if (first&&usuario!=null) saveUserdata(context, usuario!);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Teleceriado'),
@@ -73,12 +83,11 @@ class _HomeState extends State<Home> {
         selectedIconTheme: const IconThemeData(size: 30),
         items: [
           BottomNavigationBarItem(
-            icon: const Icon(Icons.home),
-            label: _currentPage == 0 ? 'Séries' : ""),
+              icon: const Icon(Icons.home),
+              label: _currentPage == 0 ? 'Séries' : ""),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.bookmark_rounded),
-            label: _currentPage == 1 ? 'Coleções' : ""
-          ),
+              icon: const Icon(Icons.bookmark_rounded),
+              label: _currentPage == 1 ? 'Coleções' : ""),
         ],
         selectedItemColor: Colors.white,
         currentIndex: _currentPage,

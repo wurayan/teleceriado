@@ -95,6 +95,7 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Criação página de Profile;
     - Implementação da lista de Edições no Profile do usuário;
     - Usuário pode definir séries em "Assistindo agora" e "Série Favorita" que serão transformadas em banner;
+    - Redesign Tela de Usuário para apresentar o banner da Série;
 
 
 PROBLEMA: JA QUE VAMOS IMPLEMENTAR O MÉTODO DE SEGUIR COLEÇÕES, NÃO PODEMOS MAIS SALVAR O NOME DA COLEÇÃO COMO UID PQ ASSIM AO SALVAR DUAS COLEÇÕES COM NOMES IGUAIS DE USUARIOS DIFERENTES, NÃO VAMOS TER OCMO DIFERENCIA-LAS        

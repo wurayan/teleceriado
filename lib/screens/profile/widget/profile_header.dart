@@ -1,34 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../../models/serie.dart';
 import '../../../models/usuario.dart';
-import '../../../services/api_service.dart';
 
-class ProfileHeader extends StatefulWidget {
-  final int? serieId;
-  const ProfileHeader({super.key, required this.serieId});
-
-  @override
-  State<ProfileHeader> createState() => _ProfileHeaderState();
-}
-
-class _ProfileHeaderState extends State<ProfileHeader> {
-  final ApiService _api = ApiService();
-  String? header;
-
-  getHeader(int? serieId) async {
-    if(serieId==null) return;
-    Serie serie = await _api.getSerie(serieId, 1);
-    header = serie.backdrop;
-    if (mounted) setState(() {});
-  }
-
-  @override
-  void initState() {
-    getHeader(widget.serieId);
-    super.initState();
-  }
+class ProfileHeader extends StatelessWidget {
+  const ProfileHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +13,10 @@ class _ProfileHeaderState extends State<ProfileHeader> {
       // height: height * 0.25,
       width: width,
       decoration: BoxDecoration(
-          
-          image: header != null
+          image: Provider.of<Usuario>(context).header != null
               ? DecorationImage(
                   image: Image.network(
-                    _api.getSeriePoster(header!),
+                    Provider.of<Usuario>(context, listen:false).header!,
                     errorBuilder: (context, error, stackTrace) =>
                         const Text("Erro ao carregar a imagem ;-;"),
                   ).image,
@@ -74,7 +48,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                 ),
                 image: DecorationImage(
                   image: Image.network(
-                    Provider.of<Usuario>(context).avatar ??
+                    Provider.of<Usuario>(context, listen:false).avatar ??
                         "https://picsum.photos/400/400",
                     errorBuilder: (context, error, stackTrace) {
                       return const Text("Erro ao localizar a imagem");
@@ -88,8 +62,8 @@ class _ProfileHeaderState extends State<ProfileHeader> {
               padding: EdgeInsets.only(
                   top: height * 0.01, left: width * 0.05, right: width * 0.05),
               child: Text(
-                Provider.of<Usuario>(context).username ??
-                    Provider.of<Usuario>(context).uid!,
+                Provider.of<Usuario>(context,listen:false).username ??
+                    Provider.of<Usuario>(context,listen:false).uid!,
                 style: const TextStyle(fontSize: 20),
                 maxLines: 2,
                 overflow: TextOverflow.clip,

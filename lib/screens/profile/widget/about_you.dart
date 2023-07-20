@@ -70,18 +70,24 @@ class _AboutYouState extends State<AboutYou> {
 
   chooseSerie(context, bool isFavorite) async {
     final FirebaseUsers users = FirebaseUsers();
+    final ApiService api = ApiService();
     Serie? serie = await showDialog(
       context: context,
       builder: (context) => const ChooseSerie(),
     );
     if (serie == null) return;
     if (isFavorite) {
-      Provider.of<Usuario>(context, listen: false).serieFavorita = serie.id!;
       await users.saveFavorita(serie.id!);
+      Provider.of<Usuario>(context, listen: false).serieFavorita = serie.id!;
+      
     } else {
-      Provider.of<Usuario>(context, listen: false).assistindoAgora = serie.id!;
       await users.saveAssistindoAgora(serie.id!);
+      Provider.of<Usuario>(context, listen: false).assistindoAgora = serie.id!;
+
     }
     getImages(Provider.of<Usuario>(context, listen: false));
+    Serie header = await api.getSerie(serie.id!, 1);
+      if(header.backdrop==null||header.backdrop!.isEmpty) return;
+      Provider.of<Usuario>(context, listen: false).header = api.getSeriePoster(header.backdrop!);
   }
 }

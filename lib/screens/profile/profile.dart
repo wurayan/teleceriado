@@ -15,7 +15,6 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
-    Usuario usuario = Provider.of<Usuario>(context);
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -26,8 +25,7 @@ class ProfilePage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ProfileHeader(
-                        serieId: usuario.assistindoAgora??usuario.serieFavorita,),
+                      const ProfileHeader(),
                       SeguidoresCounter(usuario: Provider.of<Usuario>(context)),
                       Padding(
                         padding: EdgeInsets.only(

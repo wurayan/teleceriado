@@ -7,7 +7,9 @@ import 'package:teleceriado/screens/usuarios/widgets/user_screen.dart';
 import 'package:teleceriado/services/user_dao/firebase_export.dart';
 import '../../models/collection.dart';
 import '../../models/episodio.dart';
+import '../../models/serie.dart';
 import '../../models/usuario.dart';
+import '../../services/api_service.dart';
 
 class UserPage extends StatefulWidget {
   final Usuario usuario;
@@ -21,6 +23,7 @@ class _UserPageState extends State<UserPage> {
   final FirebaseCollections _collection = FirebaseCollections();
   final FirebaseEpisodios _episodios = FirebaseEpisodios();
   final FirebaseUsers _users = FirebaseUsers();
+  final ApiService _api = ApiService();
   int _currentPage = 1;
   // List<BottomNavigationBarItem>? bottomNavigationBarItens;
   List pages = [];
@@ -45,6 +48,11 @@ class _UserPageState extends State<UserPage> {
     List<Collection> colecoes =
         await _collection.getAllCollections(user: widget.usuario.uid);
     Usuario usuario = await _users.getUserdata(userId: widget.usuario.uid!);
+    if(usuario.assistindoAgora!=null||usuario.serieFavorita!=null){
+      int id =usuario.assistindoAgora??usuario.serieFavorita!;
+      Serie serie = await _api.getSerie(id, 1);
+      usuario.header = serie.backdrop!=null&&serie.backdrop!.isNotEmpty ? _api.getSeriePoster(serie.backdrop!) : null;
+    }
     pages = [
       ColecoesScreen(
         colecoes: colecoes,

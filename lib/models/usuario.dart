@@ -11,8 +11,9 @@ class Usuario extends ChangeNotifier {
   int? editados;
   int? serieFavorita;
   int? assistindoAgora;
+  String? header; 
 
-  Usuario({this.uid, this.username, this.firstTime, this.avatar, this.bio, this.seguidoresQtde, this.seguidores, this.editados, this.serieFavorita, this.assistindoAgora});
+  Usuario({this.uid, this.username, this.firstTime, this.avatar, this.bio, this.seguidoresQtde, this.seguidores, this.editados, this.serieFavorita, this.assistindoAgora, this.header});
 
   @override
   String toString() {

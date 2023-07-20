@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../../models/serie.dart';
 import '../../../models/usuario.dart';
-import '../../../services/api_service.dart';
 import 'change_userdata.dart';
 
 class DrawerHeaderInfo extends StatefulWidget {
@@ -14,34 +11,20 @@ class DrawerHeaderInfo extends StatefulWidget {
 }
 
 class _DrawerHeaderInfoState extends State<DrawerHeaderInfo> {
-  final ApiService _api = ApiService();
-  String? header;
-  bool first = true;
-
-  getHeader(context) async {
-    int? id = Provider.of<Usuario>(context).assistindoAgora ??
-        Provider.of<Usuario>(context).serieFavorita;
-    if (id == null) return;
-    Serie serie = await _api.getSerie(id, 1);
-    header = serie.backdrop;
-    first = false;
-    if (mounted) setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    if(first) getHeader(context);
-    print("rebuild surtado");
+    print("AHSUHAUHSUAIKSU");
     return Stack(
       children: [
         Container(
           decoration: BoxDecoration(
-              image: header != null
+              image: Provider.of<Usuario>(context).header != null
                   ? DecorationImage(
                       image: Image.network(
-                        _api.getSeriePoster(header!),
+                        Provider.of<Usuario>(context).header!,
                         errorBuilder: (context, error, stackTrace) =>
                             const Text("Erro ao localizar a imagem ;-;"),
                       ).image,
