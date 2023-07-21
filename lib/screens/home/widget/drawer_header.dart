@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:pixel_snap/material.dart';
 import 'package:provider/provider.dart';
 import '../../../models/usuario.dart';
 import 'change_userdata.dart';
@@ -11,12 +11,10 @@ class DrawerHeaderInfo extends StatefulWidget {
 }
 
 class _DrawerHeaderInfoState extends State<DrawerHeaderInfo> {
-
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    print("AHSUHAUHSUAIKSU");
     return Stack(
       children: [
         Container(
@@ -31,7 +29,7 @@ class _DrawerHeaderInfoState extends State<DrawerHeaderInfo> {
                       fit: BoxFit.cover,
                     )
                   : null,
-                  color: Colors.white30),
+              color: Colors.white30),
           child: Container(
             width: double.infinity,
             height: height * 0.17,
@@ -47,7 +45,6 @@ class _DrawerHeaderInfoState extends State<DrawerHeaderInfo> {
                     Colors.transparent,
                     Theme.of(context).scaffoldBackgroundColor
                   ]),
-              
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -74,13 +71,14 @@ class _DrawerHeaderInfoState extends State<DrawerHeaderInfo> {
                 Padding(
                   padding: EdgeInsets.only(top: height * 0.01),
                   child: Text(
-                      Provider.of<Usuario>(context).username ??
-                          Provider.of<Usuario>(context).uid ??
-                          "erro",
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.w500)),
+                    Provider.of<Usuario>(context).username ??
+                        Provider.of<Usuario>(context).uid ??
+                        "erro",
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
                 ),
               ],
             ),

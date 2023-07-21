@@ -49,6 +49,7 @@ class ProfilePage extends StatelessWidget {
                           ),
                         ),
                       ),
+                      
                       AboutYou(
                         usuario: Provider.of<Usuario>(context),
                       ),

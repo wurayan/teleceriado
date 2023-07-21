@@ -18,7 +18,7 @@ class ProfileHeader extends StatelessWidget {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     return Consumer<UpdateSeguindo>(
-      builder: (context, value, child) {
+      builder: (newcontext, value, child) {
         change(context, value);
         return Container(
           width: width,

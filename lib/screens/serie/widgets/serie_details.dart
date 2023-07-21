@@ -79,8 +79,26 @@ class SerieDetails extends StatelessWidget {
                 ),
               ),
             ),
-            Text("Emissoras: ${serie.emissoras!.join(", ")}"),
-            Text("Produtoras: ${serie.produtoras!.join(", ")}")
+            const Text("Emissoras: "),
+            Padding(
+              padding: EdgeInsets.only(left: width * 0.02),
+              child: Text(
+                serie.emissoras!.join(", "),
+                style: const TextStyle(fontWeight: FontWeight.w300),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            const Text("Produtoras: "),
+            Padding(
+              padding: EdgeInsets.only(left: width * 0.02),
+              child: Text(
+                serie.produtoras!.join(", "),
+                style: const TextStyle(fontWeight: FontWeight.w300),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ],
         ),
       ),
