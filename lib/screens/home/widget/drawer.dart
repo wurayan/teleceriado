@@ -1,11 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pixel_snap/material.dart';
 import 'package:provider/provider.dart';
 import 'package:teleceriado/screens/comunidade/comunidade.dart';
 import 'package:teleceriado/screens/home/widget/drawer_header.dart';
 import 'package:teleceriado/screens/home/widget/drawer_item.dart';
 import 'package:teleceriado/screens/profile/profile.dart';
+import '../../../models/serie.dart';
+import '../../../models/usuario.dart';
 import '../../../models/version.dart';
+import '../../../services/api_service.dart';
 import '../../../services/auth.dart';
+import '../../../services/user_dao/firebase_user.dart';
 
 class HomeDrawer extends StatelessWidget {
   HomeDrawer({super.key});
@@ -49,15 +54,32 @@ class HomeDrawer extends StatelessWidget {
                 },
                 icon: const Icon(Icons.account_circle),
                 title: "Perfil"),
-            // TextButton(
-            //     onPressed: () {
-            //       Version version = Version();
-            //       version.localVersion = "3.0.0";
-            //       version.newVersion = "3.0.1";
-            //       version.versionLink = "google.com";
-            //       ErrorHandler.versionOutdated(version);
-            //     },
-            //     child: const Text("ARRIVA CHICO CARLITO"),),
+            TextButton(
+                onPressed: () async {
+                  final FirebaseUsers users = FirebaseUsers();
+                  Usuario usuario = await users.getUserdata();
+                  final ApiService api = ApiService();
+                  Usuario provider = Provider.of<Usuario>(context, listen: false);
+                  provider.uid = usuario.uid;
+                  provider.username = usuario.username;
+                  provider.avatar = usuario.avatar;
+                  provider.bio = usuario.bio;
+                  provider.assistindoAgora = usuario.assistindoAgora;
+                  provider.seguidores = usuario.seguidores;
+                  provider.editados = usuario.editados;
+                  provider.seguidoresQtde = usuario.seguidoresQtde;
+                  provider.serieFavorita = usuario.serieFavorita;
+                  if (provider.serieFavorita != null ||
+                      provider.assistindoAgora != null) {
+                    int id =
+                        provider.assistindoAgora ?? provider.serieFavorita!;
+                    Serie serie = await api.getSerie(id, 1);
+                    if (serie.backdrop == null || serie.backdrop!.isEmpty)
+                      return;
+                    provider.header = api.getSeriePoster(serie.backdrop!);
+                  }
+                },
+                child: const Text("I SEE DEAD POEOLPE")),
             const Expanded(child: SizedBox(width: null, height: null)),
             TextButton(
               onPressed: () async {

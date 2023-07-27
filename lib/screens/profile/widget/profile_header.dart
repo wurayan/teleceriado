@@ -52,11 +52,13 @@ class ProfileHeader extends StatelessWidget {
                 ),
                 Container(
                   height: height * 0.15,
+                  width: height*0.15,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
                       width: 2,
                       color: Colors.grey[600]!,
+                      strokeAlign: BorderSide.strokeAlignOutside
                     ),
                     image: DecorationImage(
                       image: Image.network(

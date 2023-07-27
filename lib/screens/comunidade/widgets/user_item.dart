@@ -29,7 +29,7 @@ class UsuarioItem extends StatelessWidget {
               width: width * 0.2,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(width: 1, color: Colors.grey[200]!),
+                border: Border.all(width: 1, color: Colors.grey[200]!,strokeAlign: BorderSide.strokeAlignOutside),
               ),
               clipBehavior: Clip.hardEdge,
               child: usuario.avatar != null

@@ -1,6 +1,9 @@
 import 'package:pixel_snap/material.dart';
 import 'package:provider/provider.dart';
+import 'package:teleceriado/services/user_dao/firebase_export.dart';
+import '../../../models/serie.dart';
 import '../../../models/usuario.dart';
+import '../../../services/api_service.dart';
 import 'change_userdata.dart';
 
 class DrawerHeaderInfo extends StatefulWidget {
@@ -11,6 +14,8 @@ class DrawerHeaderInfo extends StatefulWidget {
 }
 
 class _DrawerHeaderInfoState extends State<DrawerHeaderInfo> {
+
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -27,6 +32,7 @@ class _DrawerHeaderInfoState extends State<DrawerHeaderInfo> {
                             const Text("Erro ao localizar a imagem ;-;"),
                       ).image,
                       fit: BoxFit.cover,
+                      
                     )
                   : null,
               color: Colors.white30),
@@ -55,7 +61,7 @@ class _DrawerHeaderInfoState extends State<DrawerHeaderInfo> {
                   clipBehavior: Clip.hardEdge,
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(width: 1, color: Colors.grey[300]!)),
+                      border: Border.all(width: 1, color: Colors.grey[300]!, strokeAlign: BorderSide.strokeAlignOutside)),
                   child: Provider.of<Usuario>(context).avatar != null
                       ? Image.network(
                           Provider.of<Usuario>(context).avatar!,

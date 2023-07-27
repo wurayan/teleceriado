@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../models/snackbar.dart';
 import '../../models/usuario.dart';
 import '../prefs.dart';
@@ -6,9 +7,10 @@ import '../prefs.dart';
 class FirebaseUsers {
   final Prefs prefs = Prefs();
   final FirebaseFirestore db = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<Usuario> getUserdata({String? userId}) async {
-    String? userUid = userId ?? await prefs.getUserId();
+    String? userUid = userId ?? _auth.currentUser!.uid;
     DocumentSnapshot<Map<String, dynamic>> result = await db
         .collection("/usuarios")
         .doc("/$userUid")
@@ -31,8 +33,7 @@ class FirebaseUsers {
   updateUserdata({String? username, String? avatar}) async {
     if (username == null && avatar == null) return;
 
-    String? userUid = await prefs.getUserId();
-    assert(userUid != null);
+    String? userUid = _auth.currentUser!.uid;
 
     Map<String, dynamic> map = {};
 
@@ -48,7 +49,7 @@ class FirebaseUsers {
   }
 
   saveFavorita(int serieId) async {
-    String? userUid = await prefs.getUserId();
+    String? userUid = _auth.currentUser!.uid;
     db
         .collection("/usuarios")
         .doc("/$userUid")
@@ -56,7 +57,7 @@ class FirebaseUsers {
   }
 
   saveAssistindoAgora(int serieId) async {
-    String? userUid = await prefs.getUserId();
+    String? userUid = _auth.currentUser!.uid;
     db
         .collection("/usuarios")
         .doc("/$userUid")

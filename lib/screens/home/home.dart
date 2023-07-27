@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
 
   getUserdata() async {
     usuario = await _users.getUserdata();
-    setState(() {});
+    if(mounted)setState(() {});
   }
 
   saveUserdata(context, Usuario usuario) async {

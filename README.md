@@ -98,6 +98,11 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Redesign Tela de Usuário para apresentar o banner da Série;
     - Implementação da aba de detalhes da Série;
 
+## Versão 3.0.2
+    CORREÇÕES:      
+    - Imagem e borda de containers em forma de circulo conflitavam, com a imagem cobrindo pedaçoes da borda;
+    - Falta de limite em width fazia a imagem tentar preencher a tela inteira horizontalmente na tela de Profile;
+
 
 PROBLEMA: JA QUE VAMOS IMPLEMENTAR O MÉTODO DE SEGUIR COLEÇÕES, NÃO PODEMOS MAIS SALVAR O NOME DA COLEÇÃO COMO UID PQ ASSIM AO SALVAR DUAS COLEÇÕES COM NOMES IGUAIS DE USUARIOS DIFERENTES, NÃO VAMOS TER OCMO DIFERENCIA-LAS        
 

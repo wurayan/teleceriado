@@ -96,8 +96,11 @@ class AuthService {
         _prefs.saveUserId(usuario!.uid!);
         DateTime? creation = _auth.currentUser?.metadata.creationTime;
         DateTime? lastSignin = _auth.currentUser?.metadata.lastSignInTime;
-        if (creation!=null && creation.difference(lastSignin!) > const Duration(minutes: 1)) {
-          _collection.firstTime();
+        // print(creation);
+        // print(lastSignin);
+        // print(!(creation!.difference(lastSignin!) > const Duration(minutes: 1)));
+        if (creation!=null && !(creation.difference(lastSignin!) > const Duration(minutes: 1))) {
+          await _collection.firstTime();
         }
         usuario.firstTime = true;
         return usuario;
@@ -120,6 +123,7 @@ class AuthService {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: senha);
       User user = result.user!;
+      
       Usuario? usuario = _usuarioFromFirebase(user);
       await _prefs.saveUserId(usuario!.uid!);
       _collection.firstTime();

@@ -89,6 +89,7 @@ class _UserHeaderState extends State<UserHeader>
                   border: Border.all(
                     color: Colors.white,
                     width: 2,
+                    strokeAlign: BorderSide.strokeAlignOutside
                   ),
                   shape: BoxShape.circle,
                 ),

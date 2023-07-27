@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:teleceriado/models/error_handler.dart';
 import 'package:teleceriado/services/user_dao/firebase_export.dart';
 import '../../models/collection.dart';
@@ -10,11 +11,11 @@ class FirebaseCollections {
   final Prefs prefs = Prefs();
   final FirebaseSeries _series = FirebaseSeries();
   final FirebaseFirestore db = FirebaseFirestore.instance;
-
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   //GET COLLECTIONS
   Future<List<Collection>> getAllCollections({String? user}) async {
     List<Collection> resultado = [];
-    String? userUid = user ?? await prefs.getUserId();
+    String? userUid = user ?? _auth.currentUser!.uid;
     DocumentSnapshot<Map<String, dynamic>> result = await db
         .collection("/usuarios")
         .doc("/$userUid")
@@ -34,7 +35,7 @@ class FirebaseCollections {
 
   Future<Collection> getCollectionInfo(String collectionId,
       {String? userId}) async {
-    String? userUid = userId ?? await prefs.getUserId();
+    String? userUid = userId ?? _auth.currentUser!.uid;
     var result = await db
         .collection("/usuarios")
         .doc("/$userUid")
@@ -55,8 +56,7 @@ class FirebaseCollections {
   }
 
   createCollection(Collection collection) async {
-    String? userUid = await prefs.getUserId();
-    assert(userUid != null);
+    String? userUid = _auth.currentUser!.uid;
     var path = db.collection("/usuarios").doc("/$userUid");
     path.set({
       "colecoes": FieldValue.arrayUnion(["${collection.nome}"])
@@ -70,12 +70,15 @@ class FirebaseCollections {
   }
 
   firstTime() async {
-    String? userUid = await prefs.getUserId();
-    assert(userUid != null);
+    User user = _auth.currentUser!;
+    String? userUid = user.uid;
     var path = db.collection("/usuarios").doc("/$userUid");
+    print(user.displayName);
+    print(user.photoURL);
     path.set({
       "colecoes": FieldValue.arrayUnion(["Favoritos"]),
-      "username": userUid,
+      "username": user.displayName,
+      "avatar": user.photoURL,
       "editadosQtde" : 0,
       "seguidoresQtde" : 0,
     }, SetOptions(merge: true));
@@ -87,7 +90,7 @@ class FirebaseCollections {
   }
 
   Future<bool> saveInCollection(String collectionId, Serie serie) async {
-    String? userUid = await prefs.getUserId();
+    String? userUid = _auth.currentUser!.uid;
     Map<String, dynamic> serieMap = {
       "Nome": "${serie.nome}",
       "Poster": "${serie.poster}",
@@ -105,7 +108,7 @@ class FirebaseCollections {
   }
 
   Future<bool> removeInCollection(String collectionId, Serie serie) async {
-    String? userUid = await prefs.getUserId();
+    String? userUid = _auth.currentUser!.uid;
     db.
     collection("/usuarios")
     .doc("/$userUid")
