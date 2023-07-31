@@ -18,7 +18,8 @@ ThemeData theme = ThemeData(
           ))),
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(
-      textStyle: const TextStyle(fontSize: 16),
+      textStyle: const TextStyle(fontSize: 16, color: Colors.white),
+      foregroundColor: Colors.white
     ),
   ),
   snackBarTheme: const SnackBarThemeData(

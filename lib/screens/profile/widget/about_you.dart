@@ -86,6 +86,7 @@ class _AboutYouState extends State<AboutYou> {
       Provider.of<Usuario>(context, listen: false).assistindoAgora = serie.id!;
 
     }
+
     getImages(Provider.of<Usuario>(context, listen: false));
     Serie header = await api.getSerie(serie.id!, 1);
       if(header.backdrop==null||header.backdrop!.isEmpty) return;

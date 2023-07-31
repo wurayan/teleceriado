@@ -68,7 +68,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     if (first&&usuario!=null) saveUserdata(context, usuario!);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Teleceriado'),

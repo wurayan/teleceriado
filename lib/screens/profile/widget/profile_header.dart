@@ -1,32 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:teleceriado/models/update_seguindo.dart';
 import '../../../models/usuario.dart';
 
 class ProfileHeader extends StatelessWidget {
-  const ProfileHeader({super.key});
-
-  change(context, UpdateSeguindo value) async{
-    if (value.headerChanged==true) {
-      await Future.delayed(const Duration(seconds: 5));
-      if(context.mounted) Provider.of<UpdateSeguindo>(context, listen: false).headerChanged = false;
-    }
-  }
+  final Usuario usuario;
+  const ProfileHeader({super.key, required this.usuario});
 
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
-    return Consumer<UpdateSeguindo>(
-      builder: (newcontext, value, child) {
-        change(context, value);
-        return Container(
+    return Container(
           width: width,
           decoration: BoxDecoration(
-              image: Provider.of<Usuario>(context).header != null
+              image: usuario.header!= null
                   ? DecorationImage(
                       image: Image.network(
-                        Provider.of<Usuario>(context, listen: false).header!,
+                        usuario.header!,
                         errorBuilder: (context, error, stackTrace) =>
                             const Text("Erro ao carregar a imagem ;-;"),
                       ).image,
@@ -52,17 +41,16 @@ class ProfileHeader extends StatelessWidget {
                 ),
                 Container(
                   height: height * 0.15,
-                  width: height*0.15,
+                  width: height * 0.15,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
-                      width: 2,
-                      color: Colors.grey[600]!,
-                      strokeAlign: BorderSide.strokeAlignOutside
-                    ),
+                        width: 2,
+                        color: Colors.grey[600]!,
+                        strokeAlign: BorderSide.strokeAlignOutside),
                     image: DecorationImage(
                       image: Image.network(
-                        Provider.of<Usuario>(context, listen: false).avatar ??
+                        usuario.avatar ??
                             "https://picsum.photos/400/400",
                         errorBuilder: (context, error, stackTrace) {
                           return const Text("Erro ao localizar a imagem");
@@ -78,8 +66,8 @@ class ProfileHeader extends StatelessWidget {
                       left: width * 0.05,
                       right: width * 0.05),
                   child: Text(
-                    Provider.of<Usuario>(context, listen: false).username ??
-                        Provider.of<Usuario>(context, listen: false).uid!,
+                    usuario.username ??
+                        usuario.uid!,
                     style: const TextStyle(fontSize: 20),
                     maxLines: 2,
                     overflow: TextOverflow.clip,
@@ -90,7 +78,6 @@ class ProfileHeader extends StatelessWidget {
             ),
           ),
         );
-      },
-    );
   }
 }
+

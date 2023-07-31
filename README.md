@@ -103,6 +103,10 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Imagem e borda de containers em forma de circulo conflitavam, com a imagem cobrindo pedaçoes da borda;
     - Falta de limite em width fazia a imagem tentar preencher a tela inteira horizontalmente na tela de Profile;
 
+    IMPLEMENTAÇÕES:     
+    - Definição de Avatar e Nome de Usuário automaticamente ao fazer cadastro utilizando conta Google;
+    - Implementado edição do perfil de Usuário.
+    - Implementado armazenamento de arquivos no Firebase Storage;
 
 PROBLEMA: JA QUE VAMOS IMPLEMENTAR O MÉTODO DE SEGUIR COLEÇÕES, NÃO PODEMOS MAIS SALVAR O NOME DA COLEÇÃO COMO UID PQ ASSIM AO SALVAR DUAS COLEÇÕES COM NOMES IGUAIS DE USUARIOS DIFERENTES, NÃO VAMOS TER OCMO DIFERENCIA-LAS        
 
@@ -110,4 +114,4 @@ PROBLEMA: JA QUE VAMOS IMPLEMENTAR O MÉTODO DE SEGUIR COLEÇÕES, NÃO PODEMOS 
 ## Ideias Futuras  
     - Reduzir o tempo de demora para se carregar as imagens com o network;
     - Existe uma opção de display name no usuário do firebase, entáo nao precisamos salvar nos docs, só precisamos aprender como altera-la
-    
+    - Aprender a usar cachedNetwork

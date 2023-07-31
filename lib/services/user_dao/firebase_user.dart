@@ -30,22 +30,25 @@ class FirebaseUsers {
     );
   }
 
-  updateUserdata({String? username, String? avatar}) async {
-    if (username == null && avatar == null) return;
+  updateUsername(String newUsername) {
+    String userUid = _auth.currentUser!.uid;
+     db.collection("/usuarios").doc("/$userUid").update({
+      "username" : newUsername
+    }).onError((error, stackTrace) => throw Exception(error));
+  }
 
-    String? userUid = _auth.currentUser!.uid;
+  updateDescricao(String newDescricao) {
+    String userUid = _auth.currentUser!.uid;
+    db.collection("/usuarios").doc("/$userUid").update({
+      "descricao": newDescricao
+    }).onError((error, stackTrace) => throw Exception(error));
+  }
 
-    Map<String, dynamic> map = {};
-
-    username != null ? map["username"] = username : null;
-    avatar != null ? map["avatar"] = avatar : null;
-
-    var path = db.collection("/usuarios").doc("/$userUid");
-
-    path.update(map).onError((error, stackTrace) {
-      SnackbarGlobal.show(error.toString());
-      throw Exception(error);
-    });
+  updateAvatar(String url){
+    String userUid = _auth.currentUser!.uid;
+    db.collection("/usuarios").doc("/$userUid").update({
+      "avatar": url
+    }).onError((error, stackTrace) => throw Exception(error));
   }
 
   saveFavorita(int serieId) async {
