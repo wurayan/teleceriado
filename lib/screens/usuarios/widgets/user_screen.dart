@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:teleceriado/screens/usuarios/widgets/user_header.dart';
+import '../../../models/badge.dart';
 import '../../../models/usuario.dart';
 
 class UserScreen extends StatelessWidget {
@@ -15,7 +16,6 @@ class UserScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           UserHeader(usuario: usuario),
-          
           Padding(
             padding: EdgeInsets.only(top: height*0.01),
             child: SizedBox(
@@ -34,6 +34,20 @@ class UserScreen extends StatelessWidget {
               ),
             ),
           ),
+          SizedBox(
+            height: height*0.06,
+            width: width,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: usuario.badges?.length ?? 0,
+              itemBuilder: (context, index) {
+                if(usuario.badges==null) return null;
+                UserBadge badge = usuario.badges![index];
+                return _BadgeItem(badge: badge);
+
+              }, 
+              ),
+          ),
           Padding(
             padding: EdgeInsets.only(left: width * 0.02, right: width * 0.05),
             child: Text(
@@ -42,6 +56,29 @@ class UserScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _BadgeItem extends StatelessWidget {
+  final UserBadge badge;
+  const _BadgeItem({required this.badge});
+
+  @override
+  Widget build(BuildContext context) {
+    final double height = MediaQuery.of(context).size.height; 
+    return Padding(
+      padding: const EdgeInsets.only(left: 10),
+      child: SizedBox(
+        height: height*0.06,
+        width: height*0.06,
+        child: Image.network(
+          badge.link!,
+          fit: BoxFit.contain,
+          alignment: Alignment.center,
+          errorBuilder: (context, error, stackTrace) => const Text("Erro"),
+        ),
       ),
     );
   }

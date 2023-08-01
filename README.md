@@ -107,6 +107,7 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Definição de Avatar e Nome de Usuário automaticamente ao fazer cadastro utilizando conta Google;
     - Implementado edição do perfil de Usuário.
     - Implementado armazenamento de arquivos no Firebase Storage;
+    - Apresentação dos Badges dos usuários no perfil;
 
 PROBLEMA: JA QUE VAMOS IMPLEMENTAR O MÉTODO DE SEGUIR COLEÇÕES, NÃO PODEMOS MAIS SALVAR O NOME DA COLEÇÃO COMO UID PQ ASSIM AO SALVAR DUAS COLEÇÕES COM NOMES IGUAIS DE USUARIOS DIFERENTES, NÃO VAMOS TER OCMO DIFERENCIA-LAS        
 

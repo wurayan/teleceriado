@@ -8,6 +8,7 @@ import 'package:teleceriado/screens/profile/widget/seguidores.dart';
 import 'package:teleceriado/services/user_dao/firebase_export.dart';
 
 import '../../components/custom_appbar.dart';
+import '../../models/badge.dart';
 import '../../models/usuario.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -24,6 +25,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future getUsuarioData() async {
     usuario = await _usuarios.getUserdata();
+    List<UserBadge> badges = await _usuarios.getBadges();
+    usuario!.badges = badges;
     if (mounted) setState(() {});
   }
 
@@ -37,6 +40,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   fullUpdate(context) async {
     usuario = await _usuarios.getUserdata();
+    List<UserBadge> badges = await _usuarios.getBadges();
+    usuario!.badges = badges;
     Provider.of<Usuario>(context, listen: false).update(usuario!);
     if (mounted) setState(() {});
   }
@@ -84,6 +89,24 @@ class _ProfilePageState extends State<ProfilePage> {
                             style: const TextStyle(fontSize: 18),
                             textAlign: TextAlign.center,
                             overflow: TextOverflow.clip,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: height*0.01),
+                        child: SizedBox(
+                          height: height * 0.06,
+                          width: width,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: usuario?.badges?.length ?? 0,
+                            itemBuilder: (context, index) {
+                              if (usuario?.badges == null ||
+                                  usuario!.badges!.isEmpty) return null;
+                              UserBadge badge =
+                                  usuario?.badges?[index] ?? UserBadge();
+                              return _BadgeItem(badge: badge);
+                            },
                           ),
                         ),
                       ),
@@ -141,8 +164,31 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ],
               ),
-            )
+            ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _BadgeItem extends StatelessWidget {
+  final UserBadge badge;
+  const _BadgeItem({required this.badge});
+
+  @override
+  Widget build(BuildContext context) {
+    final double height = MediaQuery.of(context).size.height;
+    return Padding(
+      padding: const EdgeInsets.only(left: 10),
+      child: SizedBox(
+        height: height * 0.06,
+        width: height * 0.06,
+        child: Image.network(
+          badge.link!,
+          fit: BoxFit.contain,
+          alignment: Alignment.center,
+          errorBuilder: (context, error, stackTrace) => const Text("Erro"),
         ),
       ),
     );

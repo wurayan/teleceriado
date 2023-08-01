@@ -5,6 +5,7 @@ import 'package:teleceriado/screens/usuarios/widgets/colecoes_screen.dart';
 import 'package:teleceriado/screens/usuarios/widgets/comentarios.dart';
 import 'package:teleceriado/screens/usuarios/widgets/user_screen.dart';
 import 'package:teleceriado/services/user_dao/firebase_export.dart';
+import '../../models/badge.dart';
 import '../../models/collection.dart';
 import '../../models/episodio.dart';
 import '../../models/serie.dart';
@@ -43,11 +44,14 @@ class _UserPageState extends State<UserPage> {
   }
 
   getData() async {
+    String userId = widget.usuario.uid!;
     List<Episodio> episodios =
-        await _episodios.getAllEditedEpisodios(widget.usuario.uid!);
+        await _episodios.getAllEditedEpisodios(userId);
     List<Collection> colecoes =
-        await _collection.getAllCollections(user: widget.usuario.uid);
-    Usuario usuario = await _users.getUserdata(userId: widget.usuario.uid!);
+        await _collection.getAllCollections(user: userId);
+    Usuario usuario = await _users.getUserdata(userId: userId);
+    List<UserBadge> badges = await _users.getBadges(userId: userId);
+    usuario.badges = badges;
     if(usuario.assistindoAgora!=null||usuario.serieFavorita!=null){
       int id =usuario.assistindoAgora??usuario.serieFavorita!;
       Serie serie = await _api.getSerie(id, 1);

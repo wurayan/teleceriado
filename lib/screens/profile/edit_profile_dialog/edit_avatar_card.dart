@@ -6,8 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:teleceriado/models/update_seguindo.dart';
 import 'package:teleceriado/services/user_dao/firebase_archives.dart';
 
-import '../../../models/usuario.dart';
-
 class EditAvatarCard extends StatefulWidget {
   const EditAvatarCard({super.key});
 
@@ -21,12 +19,11 @@ class _EditAvatarCardState extends State<EditAvatarCard> {
   final ImagePicker _picker = ImagePicker();
 
 
-  //TODO ARRUMAR AQUI COMO ATUALIZAR A PAGINA PQ NAO PODEMOS USAR O CONTEXT, JÁ QUE ELE PEGA O CONTEXTO DO BOTTOM MODAL SHEET QUE É DESCARTADO ANTES DE BUSCARMOS A IMAGEM;
   imagemFromGaleria() async {
     final avatar = await _picker.pickImage(source: ImageSource.gallery);
     if (avatar == null) return;
     _avatar = File(avatar.path);
-    String url = await _storage.uploadFile(_avatar!);
+    await _storage.uploadFile(_avatar!);
     if (mounted) setState(() {});
   }
 
@@ -34,7 +31,7 @@ class _EditAvatarCardState extends State<EditAvatarCard> {
     final avatar = await _picker.pickImage(source: ImageSource.camera);
     if (avatar == null) return;
     _avatar = File(avatar.path);
-    String url = await _storage.uploadFile(_avatar!);
+    await _storage.uploadFile(_avatar!);
     // Provider.of<Usuario>(oldContext, listen: false).avatar = url;
     Provider.of<UpdateSeguindo>(oldContext, listen: false).headerChanged = true;
     // UpdateSeguindo provider = Provider.of<UpdateSeguindo>(oldContext);
@@ -52,7 +49,7 @@ class _EditAvatarCardState extends State<EditAvatarCard> {
         _showPicker(context);
       },
       child: Padding(
-        padding:  const EdgeInsets.all(4),
+        padding: const EdgeInsets.all(4),
         child: Container(
           decoration: BoxDecoration(
             image: _avatar != null

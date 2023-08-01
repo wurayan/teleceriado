@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:teleceriado/models/badge.dart';
 
 class Usuario extends ChangeNotifier {
   String? uid;
@@ -12,6 +13,7 @@ class Usuario extends ChangeNotifier {
   int? serieFavorita;
   int? assistindoAgora;
   String? header;
+  List<UserBadge>? badges;
 
   // String? get uid => _uid;
   // String? get username => _username;
@@ -47,7 +49,8 @@ class Usuario extends ChangeNotifier {
       this.editados,
       this.serieFavorita,
       this.assistindoAgora,
-      this.header});
+      this.header,
+      this.badges});
 
   @override
   String toString() {
@@ -75,6 +78,7 @@ class Usuario extends ChangeNotifier {
     serieFavorita = other.serieFavorita;
     assistindoAgora = other.assistindoAgora;
     header = other.header;
+    badges = other.badges;
     notifyListeners();
   }
 }

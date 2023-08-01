@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../models/snackbar.dart';
+import '../../models/badge.dart';
 import '../../models/usuario.dart';
 import '../prefs.dart';
 
@@ -40,7 +40,7 @@ class FirebaseUsers {
   updateDescricao(String newDescricao) {
     String userUid = _auth.currentUser!.uid;
     db.collection("/usuarios").doc("/$userUid").update({
-      "descricao": newDescricao
+      "bio": newDescricao
     }).onError((error, stackTrace) => throw Exception(error));
   }
 
@@ -65,5 +65,28 @@ class FirebaseUsers {
         .collection("/usuarios")
         .doc("/$userUid")
         .update({"assistindoAgora": serieId});
+  }
+
+  Future<List<UserBadge>> getBadges({String? userId}) async {
+    String? userUid = userId ?? _auth.currentUser!.uid;
+    List<UserBadge> badges = [];
+    var res = await db
+    .collection("/usuarios")
+    .doc("/$userUid")
+    .collection("/badges")
+    .get();
+
+    for (var doc in res.docs) {
+      Map data = doc.data();
+      badges.add(
+        UserBadge(
+          nome: data["nome"],
+          link: data["link"],
+          descricao: data["descricao"],
+        )
+      );
+    }
+
+    return badges;
   }
 }
