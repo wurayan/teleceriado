@@ -32,23 +32,26 @@ class FirebaseUsers {
 
   updateUsername(String newUsername) {
     String userUid = _auth.currentUser!.uid;
-     db.collection("/usuarios").doc("/$userUid").update({
-      "username" : newUsername
-    }).onError((error, stackTrace) => throw Exception(error));
+    db
+        .collection("/usuarios")
+        .doc("/$userUid")
+        .update({"username": newUsername}).onError(
+            (error, stackTrace) => throw Exception(error));
   }
 
   updateDescricao(String newDescricao) {
     String userUid = _auth.currentUser!.uid;
-    db.collection("/usuarios").doc("/$userUid").update({
-      "bio": newDescricao
-    }).onError((error, stackTrace) => throw Exception(error));
+    db
+        .collection("/usuarios")
+        .doc("/$userUid")
+        .update({"bio": newDescricao}).onError(
+            (error, stackTrace) => throw Exception(error));
   }
 
-  updateAvatar(String url){
+  updateAvatar(String url) {
     String userUid = _auth.currentUser!.uid;
-    db.collection("/usuarios").doc("/$userUid").update({
-      "avatar": url
-    }).onError((error, stackTrace) => throw Exception(error));
+    db.collection("/usuarios").doc("/$userUid").update({"avatar": url}).onError(
+        (error, stackTrace) => throw Exception(error));
   }
 
   saveFavorita(int serieId) async {
@@ -70,21 +73,18 @@ class FirebaseUsers {
   Future<List<UserBadge>> getBadges({String? userId}) async {
     String? userUid = userId ?? _auth.currentUser!.uid;
     List<UserBadge> badges = [];
-    var res = await db
-    .collection("/usuarios")
-    .doc("/$userUid")
-    .collection("/badges")
-    .get();
+    var res = await db.collection("/usuarios").doc("/$userUid").get();
+    Map data = res.data()!;
+    List<String> badgeIds = List<String>.from(data["badges"] as List);
 
-    for (var doc in res.docs) {
-      Map data = doc.data();
-      badges.add(
-        UserBadge(
-          nome: data["nome"],
-          link: data["link"],
-          descricao: data["descricao"],
-        )
-      );
+    for (String id in badgeIds) {
+      res = await db.collection("/badges").doc("/$id").get();
+      data = res.data()!;
+      badges.add(UserBadge(
+        nome: data["nome"],
+        link: data["link"],
+        descricao: data["descricao"],
+      ));
     }
 
     return badges;

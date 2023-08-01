@@ -4,6 +4,7 @@ import 'package:teleceriado/screens/comunidade/comunidade.dart';
 import 'package:teleceriado/screens/home/widget/drawer_header.dart';
 import 'package:teleceriado/screens/home/widget/drawer_item.dart';
 import 'package:teleceriado/screens/profile/profile.dart';
+import 'package:teleceriado/services/user_dao/firebase_export.dart';
 import '../../../models/version.dart';
 import '../../../services/auth.dart';
 
@@ -49,6 +50,9 @@ class HomeDrawer extends StatelessWidget {
                 },
                 icon: const Icon(Icons.account_circle),
                 title: "Perfil"),
+
+
+
             const Expanded(child: SizedBox(width: null, height: null)),
             TextButton(
               onPressed: () async {
