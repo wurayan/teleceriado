@@ -37,7 +37,7 @@ class _EpisodioWrapperState extends State<EpisodioWrapper> {
       child: SingleChildScrollView(
         child: SizedBox(
           width: width*0.9,
-          height: isEditing ? height*0.6 : height*0.4,
+          height: isEditing ? height*0.55 : height*0.4,
           child: isEditing
       ? EditEpisodio(episodio: widget.episodio, reload: edit)
       : EpisodioDetails(episodio: widget.episodio, reload: edit),

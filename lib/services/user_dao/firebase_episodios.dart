@@ -10,7 +10,6 @@ class FirebaseEpisodios {
   final ApiService _api = ApiService();
 
   editEpisodio(Episodio episodio) async {
-    print(episodio);
     String? userUid = await prefs.getUserId();
     Map<String, dynamic> editado = episodioToMap(episodio);
     var path = db.doc("/usuarios/$userUid/editados/${episodio.serieId}");
@@ -101,7 +100,6 @@ class FirebaseEpisodios {
 
   Map<String, dynamic> episodioToMap(Episodio episodio) {
     Map<String, dynamic> map = {};
-    if (episodio.imagem != null) map["imagem"] = episodio.imagem;
     if (episodio.descricao != null) map["descricao"] = episodio.descricao;
     if (episodio.nome != null) map["nome"] = episodio.nome;
     return map;
