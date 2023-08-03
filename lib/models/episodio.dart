@@ -32,4 +32,35 @@ class Episodio extends ChangeNotifier {
   set descricao(String? value) => _descricao = value;
   set imagem(String? value) => _imagem = value;
   set wasEdited(bool? value) => _wasEdited = value;
+
+  @override
+  String toString(){
+    return "$id\n$serieId$numero\n$nome\n$serie"; 
+  }
+
+  copyWith({
+  int? newId,
+  int? newSerieId,
+  int? newNumero,
+  int? newTemporada,
+  String? newNome,
+  String? newSerie,
+  String? newDescricao,
+  String? newImagem,
+  bool? newWasEdited,
+  }){
+    Episodio res = Episodio();
+    res.id =  newId ?? id;
+    res.serieId =newSerieId ?? serieId;  
+    res.numero =newNumero ?? numero;  
+    res.temporada =newTemporada ?? temporada;  
+    res.nome =  newNome ?? nome;
+    res.serie =  newSerie ?? serie;
+    res.descricao =  newDescricao ?? descricao;
+    res.imagem =  newImagem ?? imagem;
+    res.wasEdited = newWasEdited ?? wasEdited;
+    return res;
+  }
+
+
 }

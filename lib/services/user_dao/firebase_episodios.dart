@@ -10,18 +10,10 @@ class FirebaseEpisodios {
   final ApiService _api = ApiService();
 
   editEpisodio(Episodio episodio) async {
+    print(episodio);
     String? userUid = await prefs.getUserId();
-    Map<String, dynamic> editado = {};
-    episodio.imagem != null ? editado["imagem"] = episodio.imagem : null;
-    episodio.descricao != null
-        ? editado["descricao"] = episodio.descricao
-        : null;
-    episodio.nome != null ? editado["nome"] = episodio.nome : null;
-    var path = db
-        .collection("/usuarios")
-        .doc("/$userUid")
-        .collection("/editados")
-        .doc("/${episodio.serieId}");
+    Map<String, dynamic> editado = episodioToMap(episodio);
+    var path = db.doc("/usuarios/$userUid/editados/${episodio.serieId}");
     var temporada = await path.get();
     Map? map = temporada.data();
     if (map?["temporadas"] == null || map?["temporadas"] < episodio.temporada) {
@@ -30,19 +22,25 @@ class FirebaseEpisodios {
         SetOptions(merge: true),
       );
     }
-    await path
+    var fullPath = path
         .collection("/${episodio.temporada}")
-        .doc("/${episodio.numero}")
+        .doc("/${episodio.numero}"); 
+    await fullPath
         .set(
           editado,
           SetOptions(merge: true),
         )
         .then((value) {
-      db
-          .collection("/usuarios")
-          .doc("/$userUid")
+      db.doc("/usuarios/$userUid")
           .update({"editadosQtde": FieldValue.increment(1)});
+      db.collection("/comentarios").add({
+        "episodio": episodio.id,
+        "publicado": DateTime.now(),
+        "path": fullPath,
+        "usuario": userUid
+      });
     });
+
   }
 
   Future<Map<int, Episodio>?> getEditedEpisodio(int serieId, int temporada,
@@ -99,5 +97,13 @@ class FirebaseEpisodios {
       }
     }
     return resultado;
+  }
+
+  Map<String, dynamic> episodioToMap(Episodio episodio) {
+    Map<String, dynamic> map = {};
+    if (episodio.imagem != null) map["imagem"] = episodio.imagem;
+    if (episodio.descricao != null) map["descricao"] = episodio.descricao;
+    if (episodio.nome != null) map["nome"] = episodio.nome;
+    return map;
   }
 }

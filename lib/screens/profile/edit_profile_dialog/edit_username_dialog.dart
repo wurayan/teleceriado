@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:teleceriado/models/update_seguindo.dart';
 import 'package:teleceriado/services/user_dao/firebase_export.dart';
 
 import '../../../models/usuario.dart';

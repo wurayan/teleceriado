@@ -109,10 +109,23 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Implementado armazenamento de arquivos no Firebase Storage;
     - Apresentação dos Badges dos usuários no perfil;
 
+## Versão 3.0.3
+    CORREÇÕES:      
+    - Método de salvar edições em episódios eram muito confuso e mal feito, ainda não está perfeito, mas melhorou;
+
+    IMPLEMENTAÇÕES:      
+    - Criação da nova tabela que permite salvar todos comentários dos usuários com Timestamp para criarmos o feed;
+
+
 PROBLEMA: JA QUE VAMOS IMPLEMENTAR O MÉTODO DE SEGUIR COLEÇÕES, NÃO PODEMOS MAIS SALVAR O NOME DA COLEÇÃO COMO UID PQ ASSIM AO SALVAR DUAS COLEÇÕES COM NOMES IGUAIS DE USUARIOS DIFERENTES, NÃO VAMOS TER OCMO DIFERENCIA-LAS        
 
 
 ## Ideias Futuras  
     - Reduzir o tempo de demora para se carregar as imagens com o network;
-    - Existe uma opção de display name no usuário do firebase, entáo nao precisamos salvar nos docs, só precisamos aprender como altera-la
-    - Aprender a usar cachedNetwork
+    - Entendemos como captura os dados do usuario usando o firebaseAuth para obter display image, usernmae etc, vamos usar estes parametros para salvar os dados dos usuários, ou seja, alterar os métodos e salvar no auth invés do cloud firestore;
+    - Aprender a usar cachedNetwork;
+    - Sistema de likes e mais curtidos;
+    - Logger de erros;
+    - Últimos comentários?
+    - Icon e SplashScreen
+    

@@ -55,17 +55,18 @@ class EditEpisodio extends StatelessWidget {
               ),
               alignment: Alignment.bottomLeft,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: width*0.05),
+                padding: EdgeInsets.symmetric(horizontal: width * 0.05),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    
-                    const Text("Nome do Episódio:", style: TextStyle(fontSize: 14)),
+                    const Text("Nome do Episódio:",
+                        style: TextStyle(fontSize: 14)),
                     TextFormField(
                       controller: _nomeController,
                       keyboardType: TextInputType.text,
-                      onTapOutside: (event) => FocusManager.instance.primaryFocus!.unfocus(),
+                      onTapOutside: (event) =>
+                          FocusManager.instance.primaryFocus!.unfocus(),
                     )
                   ],
                 ),
@@ -131,34 +132,10 @@ class EditEpisodio extends StatelessWidget {
                       height: height * 0.05,
                       child: ElevatedButton(
                         onPressed: () async {
-                          //TODO PARANDO PARA PENSAR, SE EU VOU SALVAR OS DOIS PARAMETROS DEPOIS DE QUALQUER MODO, EU NÃO PRECISO VERIFICAR NADA ALEM DA VALIDADE DO LINK
                           if (_imagemController.text.isNotEmpty ||
-                              _descricaoController.text.isNotEmpty || _nomeController.text.isNotEmpty) {
-                            Episodio newEpisodio = Episodio();
-                            newEpisodio.serie = episodio.serie;
-                            newEpisodio.serieId = episodio.serieId;
-                            newEpisodio.temporada = episodio.temporada;
-                            newEpisodio.numero = episodio.numero;
-                            bool isValid =
-                                await validateImage(_imagemController.text);
-                            newEpisodio.nome = _nomeController.text.isNotEmpty ? _nomeController.text : null;
-                            newEpisodio.descricao =
-                                _descricaoController.text.isNotEmpty
-                                    ? _descricaoController.text
-                                    : null;
-                            newEpisodio.imagem =
-                                isValid ? _imagemController.text : null;
-                            //Se NÃO for valido e a descrição estiver vazia
-                            if (!isValid && _descricaoController.text.isEmpty && _nomeController.text.isEmpty) {
-                              SnackbarGlobal.show("Link Inválido!!");
-                            } else {
-                              episodio.descricao =
-                                  newEpisodio.descricao ?? episodio.descricao;
-                              episodio.imagem =
-                                  newEpisodio.imagem ?? episodio.imagem;
-                              episodio.nome = newEpisodio.nome ?? episodio.nome;
-                              _episodios.editEpisodio(newEpisodio);
-                            }
+                              _descricaoController.text.isNotEmpty ||
+                              _nomeController.text.isNotEmpty) {
+                            _salvar();
                           }
                           reload();
                         },
@@ -173,5 +150,25 @@ class EditEpisodio extends StatelessWidget {
         )
       ],
     );
+  }
+
+  _salvar() async {
+    bool isValid = await validateImage(_imagemController.text);
+    String? nome =
+        _nomeController.text.isNotEmpty ? _nomeController.text : null;
+    String? descricao =
+        _descricaoController.text.isNotEmpty ? _descricaoController.text : null;
+    String? imagem = isValid ? _imagemController.text : null;
+    if (!isValid && descricao == null && nome == null) {
+      SnackbarGlobal.show("Link Inválido!!");
+    } else {
+      episodio.descricao = descricao ?? episodio.descricao;
+      episodio.nome = nome ?? episodio.nome;
+      episodio.imagem = imagem ?? episodio.imagem;
+      //Nós estamos fazendo isso pq precisamos que o episodio original ocntinue funcionando mesmo com imagem nula e tambem precisamos passar uma instancia de episodio com null caso imagem invalida
+      Episodio newEp = episodio;
+      newEp.imagem = imagem;
+      _episodios.editEpisodio(newEp);
+    }
   }
 }

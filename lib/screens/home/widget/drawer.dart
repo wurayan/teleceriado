@@ -51,7 +51,13 @@ class HomeDrawer extends StatelessWidget {
                 icon: const Icon(Icons.account_circle),
                 title: "Perfil"),
 
-
+TextButton(
+  onPressed: (){
+    final FirebaseUsers user = FirebaseUsers();
+    user.teste();
+  },
+  child: Text("test#es"),
+),
 
             const Expanded(child: SizedBox(width: null, height: null)),
             TextButton(
