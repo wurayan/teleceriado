@@ -96,7 +96,7 @@ class _ResultGrid extends StatelessWidget {
                     )
                   : Container(
                       alignment: Alignment.center,
-                      padding: EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

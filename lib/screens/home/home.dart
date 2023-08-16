@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:teleceriado/models/usuario.dart';
 import 'package:teleceriado/screens/comentarios_feed.dart/comentarios_feed.dart';
-import 'package:teleceriado/screens/trending_feed.dart';
+import 'package:teleceriado/screens/trending_feed/trending_feed.dart';
 import 'package:teleceriado/screens/home/widget/drawer.dart';
-import 'package:teleceriado/screens/home/widget/search.dart';
+import 'package:teleceriado/screens/trending_feed/widget/search.dart';
 import 'package:teleceriado/services/user_dao/firebase_export.dart';
 
 import '../../models/serie.dart';
@@ -17,7 +17,7 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin{
   final FirebaseUsers _users = FirebaseUsers();
   final ApiService _api = ApiService();
   Usuario? usuario;
@@ -68,6 +68,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     if (first && usuario != null) saveUserdata(context, usuario!);
     return Scaffold(
       appBar: AppBar(
@@ -101,4 +102,7 @@ class _HomeState extends State<Home> {
       body: pages[_currentPage],
     );
   }
+  
+  @override
+  bool get wantKeepAlive => true;
 }

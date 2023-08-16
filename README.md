@@ -127,6 +127,7 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
 
     IMPLEMENTAÇÕES:  
     - Posteres que não conseguem encontrar imagem agora apresentam o nome da série junto com o texto de imagem não encontrada;
+    - Uso do AutomaticKeepAliveMixin para reduzir o tempo de demora do loading do App
 
 
 PROBLEMA: JA QUE VAMOS IMPLEMENTAR O MÉTODO DE SEGUIR COLEÇÕES, NÃO PODEMOS MAIS SALVAR O NOME DA COLEÇÃO COMO UID PQ ASSIM AO SALVAR DUAS COLEÇÕES COM NOMES IGUAIS DE USUARIOS DIFERENTES, NÃO VAMOS TER OCMO DIFERENCIA-LAS        

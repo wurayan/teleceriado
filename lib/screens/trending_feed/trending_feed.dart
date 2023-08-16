@@ -4,7 +4,7 @@ import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/components/loading_frases.dart';
 import 'package:teleceriado/screens/serie/serie_page.dart';
 import 'package:teleceriado/services/api_service.dart';
-import '../models/serie.dart';
+import '../../models/serie.dart';
 
 class TrendingFeed extends StatefulWidget {
   const TrendingFeed({super.key});
