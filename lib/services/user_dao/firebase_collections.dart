@@ -81,7 +81,7 @@ class FirebaseCollections {
       "avatar": user.photoURL,
       "editadosQtde" : 0,
       "seguidoresQtde" : 0,
-      "badges" : FieldValue.arrayUnion([])
+      // "badges" : FieldValue.arrayUnion([])
     }, SetOptions(merge: true));
     path.collection("/Favoritos").doc("/doc").set({
       "nome": "Favoritos",

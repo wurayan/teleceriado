@@ -112,6 +112,7 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
 ## Versão 3.0.3
     CORREÇÕES:      
     - Método de salvar edições em episódios eram muito confuso e mal feito, ainda não está perfeito, mas melhorou;
+    - Retorno de lista vazia quando perfil não tem badges, anteriormente ele tentava criar badges com lista vazia;
 
     IMPLEMENTAÇÕES:      
     - Criação da nova tabela que permite salvar todos comentários dos usuários com Timestamp para criarmos o feed;

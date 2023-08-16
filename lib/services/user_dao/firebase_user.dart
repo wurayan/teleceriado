@@ -75,8 +75,8 @@ class FirebaseUsers {
     List<UserBadge> badges = [];
     var res = await db.collection("/usuarios").doc("/$userUid").get();
     Map data = res.data()!;
+    if(data["badges"] == null || data["badges"].isEmpty)return[];
     List<String> badgeIds = List<String>.from(data["badges"] as List);
-
     for (String id in badgeIds) {
       res = await db.collection("/badges").doc("/$id").get();
       data = res.data()!;

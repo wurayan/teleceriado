@@ -79,7 +79,6 @@ class _ComentarioItem extends StatelessWidget {
     return GestureDetector(
       onTap: (){
         if(episodio.criadorId==null) return;
-        print(episodio.criadorId);
         Navigator.push(context, 
         MaterialPageRoute(builder: (context) => UserPage(usuarioId: episodio.criadorId!),),);
       },
