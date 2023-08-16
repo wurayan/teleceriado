@@ -87,10 +87,9 @@ class _UserHeaderState extends State<UserHeader>
                         )
                       : null,
                   border: Border.all(
-                    color: Colors.white,
-                    width: 2,
-                    strokeAlign: BorderSide.strokeAlignOutside
-                  ),
+                      color: Colors.white,
+                      width: 2,
+                      strokeAlign: BorderSide.strokeAlignOutside),
                   shape: BoxShape.circle,
                 ),
               ),
@@ -100,11 +99,14 @@ class _UserHeaderState extends State<UserHeader>
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      usuario.username ?? usuario.uid ?? "Erro",
-                      style: const TextStyle(fontSize: 24),
-                      maxLines: 2,
-                      overflow: TextOverflow.clip,
+                    SizedBox(
+                      width: width * 0.75,
+                      child: Text(
+                        usuario.username ?? usuario.uid ?? "Erro",
+                        style: const TextStyle(fontSize: 24),
+                        maxLines: 2,
+                        overflow: TextOverflow.clip,
+                      ),
                     ),
                     Row(
                       children: [
@@ -118,10 +120,9 @@ class _UserHeaderState extends State<UserHeader>
                         ),
                         Container(
                           color: Colors.teal,
-                          width: width*0.3,
+                          width: width * 0.3,
                         ),
                         BotaoSeguindo(usuario: usuario)
-                        
                       ],
                     )
                   ],
