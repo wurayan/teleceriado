@@ -118,6 +118,7 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Redesign do Dialog de edição de episódios, por hora não é mais possível adicionar link de imagem;
     - Criação da tela de Feed;
     - Tela de coleções do usuário agora é acessada através da Drawer;
+    - Itens de Comentários redirecionam ao perfil do criador;
 
 
 PROBLEMA: JA QUE VAMOS IMPLEMENTAR O MÉTODO DE SEGUIR COLEÇÕES, NÃO PODEMOS MAIS SALVAR O NOME DA COLEÇÃO COMO UID PQ ASSIM AO SALVAR DUAS COLEÇÕES COM NOMES IGUAIS DE USUARIOS DIFERENTES, NÃO VAMOS TER OCMO DIFERENCIA-LAS        

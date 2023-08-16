@@ -165,8 +165,9 @@ List<Widget> ownerData(Usuario? dono, context) {
   data = [
     GestureDetector(
       onTap: () {
+        if(dono.uid==null)return;
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => UserPage(usuario: dono),
+          builder: (context) => UserPage(usuarioId: dono.uid!),
         ));
       },
       child: dono.avatar != null
@@ -194,9 +195,10 @@ List<Widget> ownerData(Usuario? dono, context) {
     ),
     GestureDetector(
       onTap: () {
+        if(dono.uid==null)return;
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => UserPage(usuario: dono),
+            builder: (context) => UserPage(usuarioId: dono.uid!),
           ),
         );
       },

@@ -14,10 +14,13 @@ class UsuarioItem extends StatelessWidget {
     final double width = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: () {
+        if (usuario.uid == null) return;
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (BuildContext context) => UserPage(usuario: usuario,)));
+                builder: (BuildContext context) => UserPage(
+                      usuarioId: usuario.uid!,
+                    )));
       },
       child: SizedBox(
         height: height * 0.15,
@@ -29,7 +32,10 @@ class UsuarioItem extends StatelessWidget {
               width: width * 0.2,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(width: 1, color: Colors.grey[200]!,strokeAlign: BorderSide.strokeAlignOutside),
+                border: Border.all(
+                    width: 1,
+                    color: Colors.grey[200]!,
+                    strokeAlign: BorderSide.strokeAlignOutside),
               ),
               clipBehavior: Clip.hardEdge,
               child: usuario.avatar != null

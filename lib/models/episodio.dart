@@ -11,6 +11,7 @@ class Episodio {
   String? _descricao;
   String? _imagem;
   String? _criador;
+  String? _criadorId;
   bool? _wasEdited;
 
   int? get id => _id;
@@ -22,6 +23,7 @@ class Episodio {
   String? get descricao => _descricao;
   String? get imagem => _imagem;
   String? get criador => _criador;
+  String? get criadorId => _criadorId;
   bool? get wasEdited => _wasEdited;
 
   set id(int? value) => _id = value;
@@ -33,6 +35,7 @@ class Episodio {
   set descricao(String? value) => _descricao = value;
   set imagem(String? value) => _imagem = value;
   set criador(String? value) => _criador = value;
+  set criadorId(String? value) => _criadorId = value;
   set wasEdited(bool? value) => _wasEdited = value;
 
   @override

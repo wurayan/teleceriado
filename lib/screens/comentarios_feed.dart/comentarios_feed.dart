@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/components/loading_frases.dart';
+import 'package:teleceriado/screens/usuarios/user_page.dart';
 import 'package:teleceriado/services/api_service.dart';
 import 'package:teleceriado/services/user_dao/firebase_export.dart';
 
@@ -75,71 +76,79 @@ class _ComentarioItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25), color: Colors.grey[900]),
-      clipBehavior: Clip.hardEdge,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: height * 0.15,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              image: episodio.imagem != null
-                  ? DecorationImage(
-                      image: Image.network(
-                        _api.getSeriePoster(episodio.imagem!),
-                        errorBuilder: (context, error, stackTrace) =>
-                            const Text("Imagem não encontrada"),
-                      ).image,
-                      fit: BoxFit.cover,
-                    )
-                  : null,
-            ),
-            child: Container(
+    return GestureDetector(
+      onTap: (){
+        if(episodio.criadorId==null) return;
+        print(episodio.criadorId);
+        Navigator.push(context, 
+        MaterialPageRoute(builder: (context) => UserPage(usuarioId: episodio.criadorId!),),);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25), color: Colors.grey[900]),
+        clipBehavior: Clip.hardEdge,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: height * 0.15,
+              width: double.infinity,
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Colors.transparent, Colors.grey[900]!],
+                image: episodio.imagem != null
+                    ? DecorationImage(
+                        image: Image.network(
+                          _api.getSeriePoster(episodio.imagem!),
+                          errorBuilder: (context, error, stackTrace) =>
+                              const Text("Imagem não encontrada"),
+                        ).image,
+                        fit: BoxFit.cover,
+                      )
+                    : null,
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.transparent, Colors.grey[900]!],
+                  ),
+                ),
+                alignment: Alignment.bottomLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 5),
+                  child: Text(
+                    "${episodio.numero}. ${episodio.nome}",
+                    style: const TextStyle(letterSpacing: 0.5),
+                  ),
                 ),
               ),
-              alignment: Alignment.bottomLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 5),
-                child: Text(
-                  "${episodio.numero}. ${episodio.nome}",
-                  style: const TextStyle(letterSpacing: 0.5),
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 5),
+              child: Text(
+                "${episodio.serie}",
+                style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w200,
+                    letterSpacing: 0.5),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 5),
-            child: Text(
-              "${episodio.serie}",
-              style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w200,
-                  letterSpacing: 0.5),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 2),
+              child: Text(
+                "  \"${episodio.descricao}\"",
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 2),
-            child: Text(
-              "  \"${episodio.descricao}\"",
+            Padding(
+              padding: const EdgeInsets.only(left: 5, bottom: 20),
+              child: Text(
+                "Criado por ${episodio.criador}",
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 5, bottom: 20),
-            child: Text(
-              "Criado por ${episodio.criador}",
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

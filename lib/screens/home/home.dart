@@ -30,7 +30,7 @@ class _HomeState extends State<Home> {
     // const CollectionsFeed(),
   ];
 
-  List icons = [const Search(), null];
+  List icons = [null, const Search() ];
 
   int _currentPage = 0;
 

@@ -13,8 +13,8 @@ import '../../models/usuario.dart';
 import '../../services/api_service.dart';
 
 class UserPage extends StatefulWidget {
-  final Usuario usuario;
-  const UserPage({super.key, required this.usuario});
+  final String usuarioId;
+  const UserPage({super.key, required this.usuarioId});
 
   @override
   State<UserPage> createState() => _UserPageState();
@@ -44,7 +44,7 @@ class _UserPageState extends State<UserPage> {
   }
 
   getData() async {
-    String userId = widget.usuario.uid!;
+    String userId = widget.usuarioId;
     List<Episodio> episodios =
         await _episodios.getAllEditedEpisodios(userId);
     List<Collection> colecoes =

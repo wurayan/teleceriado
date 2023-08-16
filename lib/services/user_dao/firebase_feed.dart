@@ -27,7 +27,7 @@ class FirebaseFeed {
       Map data = doc.data();
       Usuario usuario = await _users.getUserdata(userId: data["usuario"]);
       Episodio episodio = Episodio().copyWith(
-        newNumero: int.parse(data["numero"]),
+        newNumero: data["numero"],
         newSerieId: data["serie"],
         newTemporada: data["temporada"],
       );
@@ -38,6 +38,7 @@ class FirebaseFeed {
       episodio.descricao = ep?["descricao"] ?? episodio.descricao;
       episodio.nome = ep?["nome"] ?? episodio.nome;
       episodio.criador = usuario.username ?? usuario.uid!;
+      episodio.criadorId = data["usuario"];
       episodios.add(episodio);
     }
     return episodios;
