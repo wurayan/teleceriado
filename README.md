@@ -121,6 +121,13 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Tela de coleções do usuário agora é acessada através da Drawer;
     - Itens de Comentários redirecionam ao perfil do criador;
 
+## Versão 3.1.0
+    CORREÇÕES:  
+    - Tamanho de nome de usuário na tela perfil foi limitado pois estava vazando da tela;
+
+    IMPLEMENTAÇÕES:  
+    - Posteres que não conseguem encontrar imagem agora apresentam o nome da série junto com o texto de imagem não encontrada;
+
 
 PROBLEMA: JA QUE VAMOS IMPLEMENTAR O MÉTODO DE SEGUIR COLEÇÕES, NÃO PODEMOS MAIS SALVAR O NOME DA COLEÇÃO COMO UID PQ ASSIM AO SALVAR DUAS COLEÇÕES COM NOMES IGUAIS DE USUARIOS DIFERENTES, NÃO VAMOS TER OCMO DIFERENCIA-LAS        
 
@@ -131,7 +138,5 @@ PROBLEMA: JA QUE VAMOS IMPLEMENTAR O MÉTODO DE SEGUIR COLEÇÕES, NÃO PODEMOS 
     - Aprender a usar cachedNetwork;
     - Sistema de likes e mais curtidos;
     - Logger de erros;
-    - Últimos comentários?
     - Icon e SplashScreen
-    - Criar o feed com a tabela nova;
     

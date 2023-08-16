@@ -20,7 +20,7 @@ class _TrendingFeedState extends State<TrendingFeed>
 
   getTrending() async {
     seriesPopulares = await _api.getTrending();
-    if(mounted)setState(() {});
+    if (mounted) setState(() {});
   }
 
   @override
@@ -89,48 +89,51 @@ class _PopularList extends StatelessWidget {
           decoration: BoxDecoration(
               border: Border.all(width: 0.5, color: Colors.blueGrey.shade700)),
           child: InkWell(
-              onTap: () {
-                _api.getSerie(serie.id!, 1).then(
-                  (value) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SeriePage(serie: value),
-                      ),
-                    );
-                  },
-                );
-              },
-              child: CachedNetworkImage(
-                imageUrl: _api.getSeriePoster(serie.poster!),
-                errorWidget: (context, url, error) {
-                  return const Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Text(
-                      "Não foi possível carregar a imagem ;-;",
-                      textAlign: TextAlign.center,
+            onTap: () {
+              _api.getSerie(serie.id!, 1).then(
+                (value) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SeriePage(serie: value),
                     ),
                   );
                 },
-                fit: BoxFit.cover,
-                progressIndicatorBuilder: (context, url, progress) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+              );
+            },
+            child: CachedNetworkImage(
+              imageUrl: _api.getSeriePoster(serie.poster!),
+              errorWidget: (context, url, error) {
+                return SizedBox(
+                  child: Column(
                     children: [
-                      Text(serie.nome!,
-                          style: const TextStyle(fontWeight: FontWeight.w500),
-                          textAlign: TextAlign.center),
+                      Text(
+                        serie.nome ?? "",
+                        textAlign: TextAlign.center,
+                      ),
+                      const Text(
+                        "Não foi possível carregar a imagem ;-;",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w300),
+                      ),
                     ],
-                  );
-                },
-              )
-              // Image.network(
-              //   _api.getSeriePoster(items[index].poster!),
-              //   fit: BoxFit.cover,
-              //   width: width * 0.65,
-              //   height: width,
-              // ),
-              ),
+                  ),
+                );
+              },
+              fit: BoxFit.cover,
+              progressIndicatorBuilder: (context, url, progress) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(serie.nome!,
+                        style: const TextStyle(fontWeight: FontWeight.w500),
+                        textAlign: TextAlign.center),
+                  ],
+                );
+              },
+            ),
+          ),
         );
       }, childCount: items.length),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

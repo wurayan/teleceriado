@@ -29,38 +29,35 @@ class _SearchFeedState extends State<SearchFeed> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(
-        title: TextFormField(
-          controller: _searchController,
-          decoration: InputDecoration(
-            hintText: 'Pesquisar...',
-            enabledBorder: _underline,
-            focusedBorder: _underline,
+        appBar: AppBar(
+          title: TextFormField(
+            controller: _searchController,
+            decoration: InputDecoration(
+              hintText: 'Pesquisar...',
+              enabledBorder: _underline,
+              focusedBorder: _underline,
+            ),
+            onTapOutside: (event) =>
+                FocusManager.instance.primaryFocus!.unfocus(),
+            onChanged: (value) => reloadPage(value),
           ),
-          onTapOutside: (event) =>
-              FocusManager.instance.primaryFocus!.unfocus(),
-              onChanged: (value) => reloadPage(value),
         ),
-      ),
-      body: CustomScrollView(
-        slivers: [
-          serie == null || serie!.isEmpty
-          ? SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.only(top: height*0.4),
-              child: const Center(
-                child: Text('Não encontramos nada...'),
-              ),
-            ),
-          )
-          : _ResultGrid(
-              resultado: serie!,
-            ),
-        ],
-      ) 
-      
-      
-    );
+        body: CustomScrollView(
+          slivers: [
+            serie == null || serie!.isEmpty
+                ? SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: height * 0.4),
+                      child: const Center(
+                        child: Text('Não encontramos nada...'),
+                      ),
+                    ),
+                  )
+                : _ResultGrid(
+                    resultado: serie!,
+                  ),
+          ],
+        ));
   }
 }
 
@@ -90,17 +87,33 @@ class _ResultGrid extends StatelessWidget {
                   );
                 });
               },
-              child: serie.poster != null ?  
-              Image.network(
-                _api.getSeriePoster(serie.poster!),
-                fit: BoxFit.cover,
-                width: width * 0.65,
-                height: width,
-              )
-              : Container(
-                alignment: Alignment.center,
-                child: const Text("Imagem não Encontrada", textAlign: TextAlign.center,),
-              ),
+              child: serie.poster != null
+                  ? Image.network(
+                      _api.getSeriePoster(serie.poster!),
+                      fit: BoxFit.cover,
+                      width: width * 0.65,
+                      height: width,
+                    )
+                  : Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            serie.nome ?? "",
+                            textAlign: TextAlign.center,
+                          ),
+                          const Text(
+                            "Imagem não Encontrada",
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w200),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
             ),
           );
         }, childCount: resultado.length),
