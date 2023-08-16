@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:teleceriado/components/loading.dart';
 import 'package:teleceriado/components/loading_frases.dart';
 import 'package:teleceriado/screens/collections/collection_details.dart';
+import 'package:teleceriado/screens/collections/widget/new_collection.dart';
 import 'package:teleceriado/screens/serie/serie_page.dart';
 import 'package:teleceriado/services/user_dao/firebase_collections.dart';
-import '../models/collection.dart';
-import '../models/serie.dart';
-import '../services/api_service.dart';
+import '../../models/collection.dart';
+import '../../models/serie.dart';
+import '../../services/api_service.dart';
 
 class CollectionsFeed extends StatefulWidget {
   const CollectionsFeed({super.key});
@@ -19,7 +20,6 @@ class _CollectionsFeedState extends State<CollectionsFeed>
     with AutomaticKeepAliveClientMixin {
   final FirebaseCollections _collections = FirebaseCollections();
   List<Collection>? colecoes;
-
 
   getCollections() async {
     colecoes = await _collections.getAllCollections();
@@ -35,35 +35,41 @@ class _CollectionsFeedState extends State<CollectionsFeed>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return CustomScrollView(
-      slivers: [
-        colecoes == null
-            ? SliverToBoxAdapter(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height * 0.4),
-                      child: const Loading(),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: LoadingFrases(loading: colecoes == null))
-                  ],
-                ),
-              )
-            : colecoes!.isNotEmpty
-                ? _CollectionList(
-                    collectionList: colecoes!,
-                  )
-                : const SliverToBoxAdapter(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 200),
-                      child: Text("Algo deu errado"),
-                    ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Minhas Coleções"),
+        actions: const [NewCollection()],
+      ),
+      body: CustomScrollView(
+        slivers: [
+          colecoes == null
+              ? SliverToBoxAdapter(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.4),
+                        child: const Loading(),
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: LoadingFrases(loading: colecoes == null))
+                    ],
                   ),
-      ],
+                )
+              : colecoes!.isNotEmpty
+                  ? _CollectionList(
+                      collectionList: colecoes!,
+                    )
+                  : const SliverToBoxAdapter(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 200),
+                        child: Text("Algo deu errado"),
+                      ),
+                    ),
+        ],
+      ),
     );
   }
 
@@ -137,7 +143,7 @@ class _CollectionList extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       itemCount: series.length,
                       itemBuilder: (context, index) {
-                        return  _CollectionItem(serie: series[index]);
+                        return _CollectionItem(serie: series[index]);
                       },
                     ),
                   )

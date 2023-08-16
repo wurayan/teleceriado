@@ -117,6 +117,7 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Criação da nova tabela que permite salvar todos comentários dos usuários com Timestamp para criarmos o feed;
     - Redesign do Dialog de edição de episódios, por hora não é mais possível adicionar link de imagem;
     - Criação da tela de Feed;
+    - Tela de coleções do usuário agora é acessada através da Drawer;
 
 
 PROBLEMA: JA QUE VAMOS IMPLEMENTAR O MÉTODO DE SEGUIR COLEÇÕES, NÃO PODEMOS MAIS SALVAR O NOME DA COLEÇÃO COMO UID PQ ASSIM AO SALVAR DUAS COLEÇÕES COM NOMES IGUAIS DE USUARIOS DIFERENTES, NÃO VAMOS TER OCMO DIFERENCIA-LAS        

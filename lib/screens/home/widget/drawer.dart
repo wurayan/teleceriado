@@ -1,13 +1,10 @@
 import 'package:pixel_snap/material.dart';
 import 'package:provider/provider.dart';
-import 'package:teleceriado/models/episodio.dart';
-import 'package:teleceriado/screens/comentarios_feed.dart/comentarios_feed.dart';
+import 'package:teleceriado/screens/collections/collections_feed.dart';
 import 'package:teleceriado/screens/comunidade/comunidade.dart';
 import 'package:teleceriado/screens/home/widget/drawer_header.dart';
 import 'package:teleceriado/screens/home/widget/drawer_item.dart';
 import 'package:teleceriado/screens/profile/profile.dart';
-import 'package:teleceriado/services/api_service.dart';
-import 'package:teleceriado/services/user_dao/firebase_export.dart';
 import '../../../models/version.dart';
 import '../../../services/auth.dart';
 
@@ -53,16 +50,12 @@ class HomeDrawer extends StatelessWidget {
                 },
                 icon: const Icon(Icons.account_circle),
                 title: "Perfil"),
-
-TextButton(
-  onPressed: ()async{
-    Navigator.push(context, MaterialPageRoute(
-      builder: (context) => ComentariosFeed(),
-    ));
-  },
-  child: Text("test#es"),
-),
-
+            DrawerItem(
+              navigate: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const CollectionsFeed(),),);
+              }, 
+              icon: const Icon(Icons.bookmark), 
+              title: "Minhas coleções"),
             const Expanded(child: SizedBox(width: null, height: null)),
             TextButton(
               onPressed: () async {
