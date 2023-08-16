@@ -1,8 +1,7 @@
 // ignore_for_file: unnecessary_getters_setters
 
-import 'package:flutter/material.dart';
 
-class Episodio extends ChangeNotifier {
+class Episodio {
   int? _id;
   int? _serieId;
   int? _numero;
@@ -11,6 +10,7 @@ class Episodio extends ChangeNotifier {
   String? _serie;
   String? _descricao;
   String? _imagem;
+  String? _criador;
   bool? _wasEdited;
 
   int? get id => _id;
@@ -21,6 +21,7 @@ class Episodio extends ChangeNotifier {
   String? get serie => _serie;
   String? get descricao => _descricao;
   String? get imagem => _imagem;
+  String? get criador => _criador;
   bool? get wasEdited => _wasEdited;
 
   set id(int? value) => _id = value;
@@ -31,6 +32,7 @@ class Episodio extends ChangeNotifier {
   set serie (String? value)  => _serie = value;
   set descricao(String? value) => _descricao = value;
   set imagem(String? value) => _imagem = value;
+  set criador(String? value) => _criador = value;
   set wasEdited(bool? value) => _wasEdited = value;
 
   @override
@@ -47,6 +49,7 @@ class Episodio extends ChangeNotifier {
   String? newSerie,
   String? newDescricao,
   String? newImagem,
+  String? newCriador,
   bool? newWasEdited,
   }){
     Episodio res = Episodio();
@@ -59,6 +62,7 @@ class Episodio extends ChangeNotifier {
     res.descricao =  newDescricao ?? descricao;
     res.imagem =  newImagem ?? imagem;
     res.wasEdited = newWasEdited ?? wasEdited;
+    res.criador = newCriador ?? criador;
     return res;
   }
 

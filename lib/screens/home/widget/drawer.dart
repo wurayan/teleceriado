@@ -1,9 +1,12 @@
 import 'package:pixel_snap/material.dart';
 import 'package:provider/provider.dart';
+import 'package:teleceriado/models/episodio.dart';
+import 'package:teleceriado/screens/comentarios_feed.dart/comentarios_feed.dart';
 import 'package:teleceriado/screens/comunidade/comunidade.dart';
 import 'package:teleceriado/screens/home/widget/drawer_header.dart';
 import 'package:teleceriado/screens/home/widget/drawer_item.dart';
 import 'package:teleceriado/screens/profile/profile.dart';
+import 'package:teleceriado/services/api_service.dart';
 import 'package:teleceriado/services/user_dao/firebase_export.dart';
 import '../../../models/version.dart';
 import '../../../services/auth.dart';
@@ -52,9 +55,10 @@ class HomeDrawer extends StatelessWidget {
                 title: "Perfil"),
 
 TextButton(
-  onPressed: (){
-    final FirebaseUsers user = FirebaseUsers();
-    user.teste();
+  onPressed: ()async{
+    Navigator.push(context, MaterialPageRoute(
+      builder: (context) => ComentariosFeed(),
+    ));
   },
   child: Text("test#es"),
 ),

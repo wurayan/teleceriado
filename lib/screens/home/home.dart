@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:teleceriado/models/usuario.dart';
+import 'package:teleceriado/screens/comentarios_feed.dart/comentarios_feed.dart';
 import 'package:teleceriado/screens/trending_feed.dart';
 import 'package:teleceriado/screens/home/widget/drawer.dart';
-import 'package:teleceriado/screens/home/widget/new_collection.dart';
 import 'package:teleceriado/screens/home/widget/search.dart';
-import 'package:teleceriado/screens/collections_feed.dart';
 import 'package:teleceriado/services/user_dao/firebase_export.dart';
 
 import '../../models/serie.dart';
@@ -25,17 +24,19 @@ class _HomeState extends State<Home> {
   bool first = true;
 
   List pages = [
+    const ComentariosFeed(),
     const TrendingFeed(),
-    const CollectionsFeed(),
+
+    // const CollectionsFeed(),
   ];
 
-  List icons = [const Search(), const NewCollection()];
+  List icons = [const Search(), null];
 
   int _currentPage = 0;
 
   getUserdata() async {
     usuario = await _users.getUserdata();
-    if(mounted)setState(() {});
+    if (mounted) setState(() {});
   }
 
   saveUserdata(context, Usuario usuario) async {
@@ -67,7 +68,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    if (first&&usuario!=null) saveUserdata(context, usuario!);
+    if (first && usuario != null) saveUserdata(context, usuario!);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Teleceriado'),
@@ -82,11 +83,11 @@ class _HomeState extends State<Home> {
         selectedIconTheme: const IconThemeData(size: 30),
         items: [
           BottomNavigationBarItem(
-              icon: const Icon(Icons.home),
-              label: _currentPage == 0 ? 'Séries' : ""),
+              icon: const Icon(Icons.mode_comment),
+              label: _currentPage == 0 ? 'Comentários' : ""),
           BottomNavigationBarItem(
-              icon: const Icon(Icons.bookmark_rounded),
-              label: _currentPage == 1 ? 'Coleções' : ""),
+              icon: const Icon(Icons.home),
+              label: _currentPage == 1 ? 'Séries' : ""),
         ],
         selectedItemColor: Colors.white,
         currentIndex: _currentPage,

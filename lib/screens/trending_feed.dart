@@ -20,7 +20,7 @@ class _TrendingFeedState extends State<TrendingFeed>
 
   getTrending() async {
     seriesPopulares = await _api.getTrending();
-    setState(() {});
+    if(mounted)setState(() {});
   }
 
   @override

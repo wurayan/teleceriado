@@ -32,12 +32,17 @@ class FirebaseEpisodios {
         .then((value) {
       db.doc("/usuarios/$userUid")
           .update({"editadosQtde": FieldValue.increment(1)});
-      db.collection("/comentarios").add({
+      db.collection("/comentarios").
+      doc("/${episodio.id}$userUid").
+      set({
         "episodio": episodio.id,
         "publicado": DateTime.now(),
         "path": fullPath,
-        "usuario": userUid
-      });
+        "usuario": userUid,
+        "serie": episodio.serieId,
+        "temporada": episodio.temporada,
+        "numero": episodio.numero
+      }, SetOptions(merge: true));
     });
 
   }

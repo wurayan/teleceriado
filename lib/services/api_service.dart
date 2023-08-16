@@ -94,6 +94,17 @@ class ApiService {
     return episodiosToList(resultados, serie);
   }
 
+  getOnlyEpisodio(Episodio episodio) async {
+    http.Response response = await client.get(
+      getUri("tv/${episodio.serieId}/season/${episodio.temporada}/episode/${episodio.numero}?language=pt-BR"),
+      headers: header
+    );
+    Serie serie = await getSerie(episodio.serieId!, episodio.temporada!);
+    // tv/114472/season/1/episode/1?language=pt-BR
+    Map body = json.decode(response.body);
+    return episodiosToList([body], serie.nome!).first;
+  }
+
   Serie toSerie(Map resultado, int value) {
     Serie serie = Serie();
     serie.id = resultado['id'];
