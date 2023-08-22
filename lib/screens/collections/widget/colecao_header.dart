@@ -41,7 +41,10 @@ class Header extends StatelessWidget {
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [Colors.transparent, Colors.blueGrey[900]!],
+                    colors: [
+                      Colors.transparent,
+                      Theme.of(context).scaffoldBackgroundColor,
+                    ],
                   ),
                 ),
                 child: Align(
@@ -165,7 +168,7 @@ List<Widget> ownerData(Usuario? dono, context) {
   data = [
     GestureDetector(
       onTap: () {
-        if(dono.uid==null)return;
+        if (dono.uid == null) return;
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => UserPage(usuarioId: dono.uid!),
         ));
@@ -195,7 +198,7 @@ List<Widget> ownerData(Usuario? dono, context) {
     ),
     GestureDetector(
       onTap: () {
-        if(dono.uid==null)return;
+        if (dono.uid == null) return;
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => UserPage(usuarioId: dono.uid!),

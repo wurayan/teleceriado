@@ -30,17 +30,15 @@ class _EpisodioWrapperState extends State<EpisodioWrapper> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(25)
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       clipBehavior: Clip.hardEdge,
       child: SingleChildScrollView(
         child: SizedBox(
-          width: width*0.9,
-          height: isEditing ? height*0.55 : height*0.4,
+          width: width * 0.9,
+          height: isEditing ? height * 0.55 : height * 0.45,
           child: isEditing
-      ? EditEpisodio(episodio: widget.episodio, reload: edit)
-      : EpisodioDetails(episodio: widget.episodio, reload: edit),
+              ? EditEpisodio(episodio: widget.episodio, reload: edit)
+              : EpisodioDetails(episodio: widget.episodio, reload: edit),
         ),
       ),
     );

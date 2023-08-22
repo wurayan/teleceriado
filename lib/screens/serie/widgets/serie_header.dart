@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:pixel_snap/material.dart';
 import 'package:teleceriado/screens/serie/widgets/action_buttons.dart';
 import 'package:teleceriado/screens/serie/widgets/options_bar.dart';
 import 'package:teleceriado/services/api_service.dart';
@@ -7,9 +7,13 @@ import '../../../models/serie.dart';
 
 class SerieHeader extends StatelessWidget {
   final Serie serie;
-  final bool backdropEdited; 
+  final bool backdropEdited;
   final Function function;
-  SerieHeader({super.key, required this.serie, required this.backdropEdited, required this.function});
+  SerieHeader(
+      {super.key,
+      required this.serie,
+      required this.backdropEdited,
+      required this.function});
   final ApiService _api = ApiService();
 
   @override
@@ -27,8 +31,8 @@ class SerieHeader extends StatelessWidget {
           clipBehavior: Clip.hardEdge,
           child: Image.network(
             backdropEdited
-            ? serie.backdrop!
-            : _api.getSeriePoster(serie.backdrop!),
+                ? serie.backdrop!
+                : _api.getSeriePoster(serie.backdrop!),
             fit: BoxFit.cover,
             alignment: Alignment.topCenter,
           ),
@@ -41,10 +45,15 @@ class SerieHeader extends StatelessWidget {
               width: width,
               alignment: Alignment.bottomLeft,
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Colors.transparent, Colors.grey.shade900])),
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.transparent,
+                    Theme.of(context).scaffoldBackgroundColor,
+                  ],
+                ),
+              ),
               child: Padding(
                 padding:
                     EdgeInsets.only(left: width * 0.05, right: width * 0.05),
@@ -53,13 +62,13 @@ class SerieHeader extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     SizedBox(
-                      width: width*0.9,
+                      width: width * 0.9,
                       child: Text(
                         serie.nome!,
                         style: const TextStyle(
                             fontSize: 24, fontWeight: FontWeight.w600),
-                            maxLines: 2,
-                            overflow: TextOverflow.clip,
+                        maxLines: 2,
+                        overflow: TextOverflow.clip,
                       ),
                     ),
                   ],
@@ -81,8 +90,8 @@ class SerieHeader extends StatelessWidget {
               height: 2,
             ),
             SizedBox(
-              height: height*0.05,
-              width: width*0.99,
+              height: height * 0.05,
+              width: width * 0.99,
               child: OptionsBar(function: function),
             )
           ],

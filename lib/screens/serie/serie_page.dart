@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:teleceriado/screens/serie/widgets/list_view_episodios.dart';
 import 'package:teleceriado/screens/serie/widgets/options_dialog.dart';
 import 'package:teleceriado/screens/serie/widgets/serie_details.dart';
 import 'package:teleceriado/screens/serie/widgets/serie_header.dart';
 import '../../models/serie.dart';
 import '../../services/user_dao/firebase_export.dart';
+import 'package:pixel_snap/material.dart';
 
 class SeriePage extends StatefulWidget {
   final Serie serie;
@@ -31,9 +31,7 @@ class _SeriePageState extends State<SeriePage> {
 
   changeView(bool value) {
     showDetails = value;
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   @override
@@ -60,10 +58,10 @@ class _SeriePageState extends State<SeriePage> {
                   ),
                 ),
                 showDetails
-                ? SerieDetails(serie: _serie)
-                : ListBuilder(
-                  serie: _serie,
-                )
+                    ? SerieDetails(serie: _serie)
+                    : ListBuilder(
+                        serie: _serie,
+                      )
               ],
             ),
 
@@ -98,5 +96,3 @@ class _SeriePageState extends State<SeriePage> {
     );
   }
 }
-
-

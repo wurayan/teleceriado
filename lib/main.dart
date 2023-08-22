@@ -16,20 +16,18 @@ import 'models/usuario.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => Serie()),
-        // ChangeNotifierProvider(create: (context)=> Episodio()),
-        ChangeNotifierProvider(create: (context)=> Temporada()),
-        ChangeNotifierProvider(create: (context) => Collection()),
-        ChangeNotifierProvider(create: (context) => Usuario()),
-        ChangeNotifierProvider(create: (context) => Version()),
-        ChangeNotifierProvider(create: (context) => UpdateSeguindo())
-      ],
-      child: const MainApp(),
-    )
-  );
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => Serie()),
+      // ChangeNotifierProvider(create: (context)=> Episodio()),
+      ChangeNotifierProvider(create: (context) => Temporada()),
+      ChangeNotifierProvider(create: (context) => Collection()),
+      ChangeNotifierProvider(create: (context) => Usuario()),
+      ChangeNotifierProvider(create: (context) => Version()),
+      ChangeNotifierProvider(create: (context) => UpdateSeguindo())
+    ],
+    child: const MainApp(),
+  ));
 }
 
 class MainApp extends StatelessWidget {
@@ -37,21 +35,19 @@ class MainApp extends StatelessWidget {
   // final AuthService auth = AuthService();
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<Usuario?>.value
-      (
-      initialData: null,
-      value: AuthService().onAuthStateChanged,
-      builder: (context, snapshot) {
-        return MaterialApp(
-          navigatorKey: ErrorHandler.key,
-          scaffoldMessengerKey: SnackbarGlobal.key,
-          title: 'Teleceriado',
-          darkTheme: theme, 
-          // ThemeData(brightness: Brightness.dark),
-          themeMode: ThemeMode.dark,
-          home: const Wrapper()
-        );
-      }
-    );
+    return StreamProvider<Usuario?>.value(
+        initialData: null,
+        value: AuthService().onAuthStateChanged,
+        builder: (context, snapshot) {
+          return MaterialApp(
+              navigatorKey: ErrorHandler.key,
+              scaffoldMessengerKey: SnackbarGlobal.key,
+              debugShowCheckedModeBanner: false,
+              title: 'Teleceriado',
+              darkTheme: theme,
+              // ThemeData(brightness: Brightness.dark),
+              themeMode: ThemeMode.dark,
+              home: const Wrapper());
+        });
   }
 }

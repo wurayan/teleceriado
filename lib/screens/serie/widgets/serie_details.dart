@@ -99,6 +99,9 @@ class SerieDetails extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
+            SizedBox(
+              height: height * 0.05,
+            )
           ],
         ),
       ),

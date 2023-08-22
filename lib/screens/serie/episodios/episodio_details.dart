@@ -39,10 +39,15 @@ class EpisodioDetails extends StatelessWidget {
               width: double.infinity,
               height: height * 0.2,
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Colors.transparent, Colors.blueGrey[900]!])),
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.transparent,
+                    Theme.of(context).dialogBackgroundColor,
+                  ],
+                ),
+              ),
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: InkWell(
@@ -53,7 +58,7 @@ class EpisodioDetails extends StatelessWidget {
                     padding: EdgeInsets.only(left: width * 0.02),
                     child: RichText(
                       text: TextSpan(
-                        text: "${episodio.numero}. ${episodio.nome}",
+                        text: "${episodio.numero}. ${episodio.nome} ",
                         style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.w500),
                         children: const [
@@ -89,7 +94,7 @@ class EpisodioDetails extends StatelessWidget {
                 ],
               ),
               overflow: TextOverflow.ellipsis,
-              maxLines: 6,
+              maxLines: 7,
             ),
           ),
         ),

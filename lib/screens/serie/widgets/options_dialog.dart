@@ -23,7 +23,9 @@ class _OptionsButtonState extends State<OptionsButton> {
         });
         showDialog(
             context: context,
-            builder: (context) => OptionsDialog(serie: widget.serie,)).then((value) {
+            builder: (context) => OptionsDialog(
+                  serie: widget.serie,
+                )).then((value) {
           setState(() {
             isTapped = !isTapped;
           });
@@ -63,33 +65,42 @@ class OptionsDialog extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(top: height * 0.01, right: width * 0.02),
               child: Container(
-                width: width * 0.33,
+                width: width * 0.4,
                 // height: height*0.2,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.white54),
                 child: Column(
                   children: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        showDialog(
-                          context: context,
-                          builder: (context) => EditSerie(isDescription: false, serie: serie,),
-                        );
-                        },
-                        child: const Text('Editar imagem',
-                            style: TextStyle(color: Colors.black))),
-                    const Divider(
-                      height: 3,
-                      color: Colors.black,
-                    ),
+                    // TextButton(
+                    //   onPressed: () {
+                    //     Navigator.pop(context);
+                    //     showDialog(
+                    //       context: context,
+                    //       builder: (context) => EditSerie(
+                    //         isDescription: false,
+                    //         serie: serie,
+                    //       ),
+                    //     );
+                    //   },
+                    //   child: const Text(
+                    //     'Editar imagem',
+                    //     style: TextStyle(color: Colors.black),
+                    //   ),
+                    // ),
+                    // const Divider(
+                    //   height: 3,
+                    //   color: Colors.black,
+                    // ),
                     TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                         showDialog(
                           context: context,
-                          builder: (context) => EditSerie(isDescription: true, serie: serie,),
+                          builder: (context) => EditSerie(
+                            isDescription: true,
+                            serie: serie,
+                          ),
                         );
                       },
                       child: const Text(

@@ -8,13 +8,14 @@ class Search extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const SearchFeed()));
-        },
-        icon: const Icon(
-          Icons.search_rounded,
-          size: 35,
-        ));
+      onPressed: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const SearchFeed()));
+      },
+      icon: const Icon(
+        Icons.search_rounded,
+        size: 35,
+      ),
+    );
   }
 }

@@ -18,12 +18,12 @@ class CollectionList extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return Dialog(
       backgroundColor: const Color.fromARGB(200, 89, 94, 112),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: SizedBox(
         height: height * 0.5,
         width: width * 0.7,
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: height * 0.02),
+          padding: EdgeInsets.symmetric(vertical: height * 0.01),
           child: ListView.builder(
             itemCount: collectionList.length + 1,
             itemBuilder: (context, index) {
@@ -102,34 +102,32 @@ class _CollectionItem extends StatelessWidget {
           alignment: Alignment.center,
           height: height * 0.075,
           decoration: BoxDecoration(
-            image: DecorationImage(
-              image: Image.network(
-                colecao.imagem!,
-                errorBuilder: (context, error, stackTrace) {
-                  return const Text("Erro ao carregar a imagem");
-                },
-              ).image,
-              fit: BoxFit.cover,
-            )
-          ),
+              image: DecorationImage(
+            image: Image.network(
+              colecao.imagem!,
+              errorBuilder: (context, error, stackTrace) {
+                return const Text("Erro ao carregar a imagem");
+              },
+            ).image,
+            fit: BoxFit.cover,
+          )),
           child: Container(
             width: double.infinity,
             height: double.infinity,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                stops: [
-                  0,
-                  0.4,
-                  0.6
-                ],
-                colors: [
-                  Colors.transparent,
-                  Color.fromARGB(200, 33, 33, 33),
-                  Color.fromARGB(225, 45, 45, 45)
-                ]
-              ),
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  stops: [
+                    0,
+                    0.4,
+                    0.6
+                  ],
+                  colors: [
+                    Colors.transparent,
+                    Color.fromARGB(200, 33, 33, 33),
+                    Color.fromARGB(225, 45, 45, 45)
+                  ]),
             ),
             alignment: Alignment.center,
             child: Text(

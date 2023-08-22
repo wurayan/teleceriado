@@ -14,14 +14,15 @@ class FirebaseFeed {
 
   Future<List<Episodio>> getFeed() async {
     List<Episodio> episodios = [];
-    
-    var res = await db.collection("/comentarios").orderBy("publicado", descending: true).get();
+    var res = await db
+        .collection("/comentarios")
+        .orderBy("publicado", descending: true)
+        .get();
     episodios.addAll(await toList(res));
     return episodios;
-
   }
 
-  Future<List<Episodio>> toList(QuerySnapshot<Map<String, dynamic>> res) async  {
+  Future<List<Episodio>> toList(QuerySnapshot<Map<String, dynamic>> res) async {
     List<Episodio> episodios = [];
     for (var doc in res.docs) {
       Map data = doc.data();
@@ -42,5 +43,5 @@ class FirebaseFeed {
       episodios.add(episodio);
     }
     return episodios;
-  } 
+  }
 }

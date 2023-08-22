@@ -16,7 +16,8 @@ class ListBuilder extends StatefulWidget {
   State<ListBuilder> createState() => _ListBuilderState();
 }
 
-class _ListBuilderState extends State<ListBuilder> with AutomaticKeepAliveClientMixin{
+class _ListBuilderState extends State<ListBuilder>
+    with AutomaticKeepAliveClientMixin {
   List<Episodio> episodios = [];
   Map<int, Episodio>? editados;
   final ApiService _api = ApiService();
@@ -36,9 +37,7 @@ class _ListBuilderState extends State<ListBuilder> with AutomaticKeepAliveClient
         ep.wasEdited = true;
       }
     });
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   @override
@@ -70,7 +69,7 @@ class _ListBuilderState extends State<ListBuilder> with AutomaticKeepAliveClient
             }, childCount: episodios.length),
           );
   }
-  
+
   @override
   bool get wantKeepAlive => true;
 }
@@ -146,7 +145,7 @@ class _EpisodioItem extends StatelessWidget {
                       height: height * 0.07,
                       child: Text(
                         episodio.descricao!,
-                        overflow: TextOverflow.clip,
+                        overflow: TextOverflow.ellipsis,
                         maxLines: 3,
                       ),
                     ),
