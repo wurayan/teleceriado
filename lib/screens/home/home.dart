@@ -17,7 +17,7 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin{
+class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   final FirebaseUsers _users = FirebaseUsers();
   final ApiService _api = ApiService();
   Usuario? usuario;
@@ -30,7 +30,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin{
     // const CollectionsFeed(),
   ];
 
-  List icons = [null, const Search() ];
+  List icons = [null, const Search()];
 
   int _currentPage = 0;
 
@@ -80,29 +80,49 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin{
         ],
         centerTitle: true,
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        selectedIconTheme: const IconThemeData(size: 30),
-        items: [
-          BottomNavigationBarItem(
-              icon: const Icon(Icons.mode_comment),
-              label: _currentPage == 0 ? 'Comentários' : ""),
-          BottomNavigationBarItem(
-              icon: const Icon(Icons.home),
-              label: _currentPage == 1 ? 'Séries' : ""),
-        ],
-        selectedItemColor: Colors.white,
-        currentIndex: _currentPage,
-        onTap: (index) {
-          setState(() {
-            _currentPage = index;
-          });
-        },
+      bottomNavigationBar: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.08,
+        child: BottomNavigationBar(
+          // selectedIconTheme: const IconThemeData(size: 30),
+          // unselectedIconTheme: const IconThemeData(size: 30),
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.mode_comment_outlined,
+                  size: 27,
+                ),
+                activeIcon: Icon(
+                  Icons.mode_comment,
+                  size: 27,
+                ),
+                label: ""),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home_outlined,
+                  size: 30,
+                ),
+                activeIcon: Icon(
+                  Icons.home,
+                  size: 30,
+                ),
+                label: ""),
+          ],
+          selectedItemColor: Colors.white,
+          currentIndex: _currentPage,
+          onTap: (index) {
+            setState(() {
+              _currentPage = index;
+            });
+          },
+        ),
       ),
       drawer: HomeDrawer(),
       body: pages[_currentPage],
     );
   }
-  
+
   @override
   bool get wantKeepAlive => true;
 }
