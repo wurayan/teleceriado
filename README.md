@@ -135,7 +135,6 @@ PROBLEMA: JA QUE VAMOS IMPLEMENTAR O MÉTODO DE SEGUIR COLEÇÕES, NÃO PODEMOS 
 
 
 ## Ideias Futuras  
-    - Reduzir o tempo de demora para se carregar as imagens com o network;
     - Entendemos como captura os dados do usuario usando o firebaseAuth para obter display image, usernmae etc, vamos usar estes parametros para salvar os dados dos usuários, ou seja, alterar os métodos e salvar no auth invés do cloud firestore;
     - Aprender a usar cachedNetwork;
     - Sistema de likes e mais curtidos;

@@ -12,48 +12,55 @@ class UsuarioItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
-    return InkWell(
-      onTap: () {
-        if (usuario.uid == null) return;
-        Navigator.push(
+    return Padding(
+      padding: const EdgeInsets.only(top: 2),
+      child: InkWell(
+        onTap: () {
+          if (usuario.uid == null) return;
+          Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (BuildContext context) => UserPage(
-                      usuarioId: usuario.uid!,
-                    )));
-      },
-      child: SizedBox(
-        height: height * 0.15,
-        width: width * 0.27,
-        child: Column(
-          children: [
-            Container(
-              height: height * 0.1,
-              width: width * 0.2,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                    width: 1,
-                    color: Colors.grey[200]!,
-                    strokeAlign: BorderSide.strokeAlignOutside),
+              builder: (BuildContext context) => UserPage(
+                usuarioId: usuario.uid!,
               ),
-              clipBehavior: Clip.hardEdge,
-              child: usuario.avatar != null
-                  ? Image.network(
-                      usuario.avatar!,
-                      fit: BoxFit.cover,
-                    )
-                  : const Center(child: EmojiGenerator(generate: true)),
             ),
-            Padding(
-              padding: EdgeInsets.only(top: height * 0.005),
-              child: Text(
-                usuario.username ?? usuario.uid!,
-                maxLines: 2,
-                overflow: TextOverflow.clip,
+          );
+        },
+        child: SizedBox(
+          height: height * 0.15,
+          width: width * 0.27,
+          child: Column(
+            children: [
+              Container(
+                height: height * 0.1,
+                width: width * 0.2,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                      width: 1,
+                      color: Colors.grey[200]!,
+                      strokeAlign: BorderSide.strokeAlignOutside),
+                ),
+                clipBehavior: Clip.hardEdge,
+                child: usuario.avatar != null
+                    ? Image.network(
+                        usuario.avatar!,
+                        fit: BoxFit.cover,
+                      )
+                    : const Center(
+                        child: EmojiGenerator(generate: true),
+                      ),
               ),
-            )
-          ],
+              Padding(
+                padding: EdgeInsets.only(top: height * 0.005),
+                child: Text(
+                  usuario.username ?? usuario.uid!,
+                  maxLines: 2,
+                  overflow: TextOverflow.clip,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
