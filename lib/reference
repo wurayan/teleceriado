@@ -1,26 +1,66 @@
-//Profile HEADER
-DecorationImage(
-  image: Image.network(
-    Provider.of<Usuario>(context).header!,
-    errorBuilder: (context, error, stackTrace) =>
-        const Text("Erro ao localizar a imagem ;-;"),
-  ).image,
-  fit: BoxFit.cover,
-)
+import 'package:flutter/material.dart';
+import 'package:teleceriado/models/episodio.dart';
+import 'package:teleceriado/services/api_service.dart';
+import 'package:teleceriado/services/user_dao/firebase_episodios.dart';
 
-//USER HEADER
-DecorationImage(
-  image: Image.network(
-    usuario.avatar!,
-    errorBuilder: (context, error, stackTrace) =>
-        const Text("Imagem não encontrada ;-;"),
-  ).image,
-  fit: BoxFit.cover,
-)
+class EditEpisodio extends StatefulWidget {
+  final Episodio episodio;
+  final VoidCallback reload;
+  EditEpisodio({super.key, required this.episodio, required this.reload});
 
-//DRAWER HEADER
-Image.network(
-  Provider.of<Usuario>(context).avatar!,
-  fit: BoxFit.cover,
-)
+  @override
+  State<EditEpisodio> createState() => _EditEpisodioState();
+}
 
+class _EditEpisodioState extends State<EditEpisodio> {
+  final FirebaseEpisodios _episodios = FirebaseEpisodios();
+
+  final ApiService _api = ApiService();
+
+  final TextEditingController _nomeController = TextEditingController();
+
+  final TextEditingController _descricaoController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Container(
+        //   width: double.infinity,
+        //   height: height*0.2,
+        //   decoration: BoxDecoration(),
+        // )
+        TextFormField(
+          controller: _nomeController,
+          onTapOutside: (event) =>
+              FocusManager.instance.primaryFocus!.unfocus(),
+        ),
+        Text("Sua Descrição:"),
+        SizedBox(
+          height: height * 0.17,
+          width: width * 0.8,
+          child: TextFormField(
+            controller: _descricaoController,
+            keyboardType: TextInputType.multiline,
+            expands: true,
+            minLines: null,
+            maxLines: null,
+          ),
+        ),
+        // TextFormField(
+        //   controller: _descricaoController,
+        // ),
+        ElevatedButton(
+          onPressed: () {
+            print(_nomeController.text);
+            print(_descricaoController.text);
+          },
+          child: const Text("hahhahah"),
+        ),
+      ],
+    );
+  }
+}

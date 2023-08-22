@@ -4,15 +4,22 @@ import '../../../models/episodio.dart';
 import '../../../services/api_service.dart';
 import '../../../services/user_dao/firebase_export.dart';
 
-class EditEpisodio extends StatelessWidget {
+class EditEpisodio extends StatefulWidget {
   final Episodio episodio;
   final VoidCallback reload;
-  EditEpisodio({super.key, required this.episodio, required this.reload});
+  const EditEpisodio({super.key, required this.episodio, required this.reload});
 
+  @override
+  State<EditEpisodio> createState() => _EditEpisodioState();
+}
+
+class _EditEpisodioState extends State<EditEpisodio> {
   final FirebaseEpisodios _episodios = FirebaseEpisodios();
+
   final ApiService _api = ApiService();
 
   final TextEditingController _descricaoController = TextEditingController();
+
   final TextEditingController _nomeController = TextEditingController();
 
   @override
@@ -26,12 +33,12 @@ class EditEpisodio extends StatelessWidget {
           width: double.infinity,
           height: height * 0.2,
           decoration: BoxDecoration(
-              image: episodio.imagem != null
+              image: widget.episodio.imagem != null
                   ? DecorationImage(
                       image: Image.network(
-                        episodio.wasEdited == true
-                            ? episodio.imagem!
-                            : _api.getSeriePoster(episodio.imagem!),
+                        widget.episodio.wasEdited == true
+                            ? widget.episodio.imagem!
+                            : _api.getSeriePoster(widget.episodio.imagem!),
                       ).image,
                       fit: BoxFit.cover,
                       alignment: Alignment.topCenter,
@@ -71,32 +78,35 @@ class EditEpisodio extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(width*0.05, height*0.01, width*0.05,0
-            ),
+          padding:
+              EdgeInsets.fromLTRB(width * 0.05, height * 0.01, width * 0.05, 0),
           child: const Text(
             "Sua descrição:",
             style: TextStyle(fontSize: 14),
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: width*0.05),
+          padding: EdgeInsets.symmetric(horizontal: width * 0.05),
           child: SizedBox(
-              height: height * 0.17,
-              width: width * 0.8,
-              child: TextFormField(
-                controller: _descricaoController,
-                keyboardType: TextInputType.multiline,
-                onTapOutside: (event) =>
-                    FocusManager.instance.primaryFocus!.unfocus(),
-                expands: true,
-                minLines: null,
-                maxLines: null,
-                maxLength: 144,
-                decoration: episodioDescricaoFormfield,
-              ),),
+            height: height * 0.17,
+            width: width * 0.8,
+            child: TextFormField(
+              controller: _descricaoController,
+              keyboardType: TextInputType.multiline,
+              onTapOutside: (event) =>
+                  FocusManager.instance.primaryFocus!.unfocus(),
+              onChanged: (value) => print(value),
+              expands: true,
+              minLines: null,
+              maxLines: null,
+              maxLength: 144,
+              decoration: episodioDescricaoFormfield,
+            ),
+          ),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(width*0.05, height * 0.05, width*0.05, 0),
+          padding:
+              EdgeInsets.fromLTRB(width * 0.05, height * 0.05, width * 0.05, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -105,7 +115,7 @@ class EditEpisodio extends StatelessWidget {
                 height: height * 0.05,
                 child: ElevatedButton(
                   onPressed: () {
-                    reload();
+                    widget.reload();
                   },
                   child: const Text("Cancelar"),
                 ),
@@ -115,13 +125,13 @@ class EditEpisodio extends StatelessWidget {
                 height: height * 0.05,
                 child: ElevatedButton(
                   onPressed: () async {
-                    if (
-                        // _imagemController.text.isNotEmpty ||
-                        _descricaoController.text.isNotEmpty ||
-                            _nomeController.text.isNotEmpty) {
+                    print(_descricaoController.text);
+                    print(_nomeController.text);
+                    if (_descricaoController.text.isNotEmpty ||
+                        _nomeController.text.isNotEmpty) {
                       _salvar();
                     }
-                    reload();
+                    widget.reload();
                   },
                   child: const Text("Salvar"),
                 ),
@@ -129,17 +139,6 @@ class EditEpisodio extends StatelessWidget {
             ],
           ),
         ),
-        // Padding(
-        //   padding: EdgeInsets.symmetric(
-        //       horizontal: width * 0.05, vertical: height * 0.02),
-        //   child: Column(
-        //     mainAxisSize: MainAxisSize.min,
-        //     crossAxisAlignment: CrossAxisAlignment.start,
-        //     children: [
-
-        //     ],
-        //   ),
-        // )
       ],
     );
   }
@@ -154,11 +153,11 @@ class EditEpisodio extends StatelessWidget {
     // if (!isValid && descricao == null && nome == null) {
     // SnackbarGlobal.show("Link Inválido!!");
     // } else {
-    episodio.descricao = descricao ?? episodio.descricao;
-    episodio.nome = nome ?? episodio.nome;
+    widget.episodio.descricao = descricao ?? widget.episodio.descricao;
+    widget.episodio.nome = nome ?? widget.episodio.nome;
     // episodio.imagem = imagem ?? episodio.imagem;
     //Nós estamos fazendo isso pq precisamos que o episodio original ocntinue funcionando mesmo com imagem nula e tambem precisamos passar uma instancia de episodio com null caso imagem invalida
-    Episodio newEp = episodio;
+    Episodio newEp = widget.episodio;
     // newEp.imagem = imagem;
     _episodios.editEpisodio(newEp);
     // }

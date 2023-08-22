@@ -21,20 +21,18 @@ class FirebaseEpisodios {
         SetOptions(merge: true),
       );
     }
-    var fullPath = path
-        .collection("/${episodio.temporada}")
-        .doc("/${episodio.numero}"); 
+    var fullPath =
+        path.collection("/${episodio.temporada}").doc("/${episodio.numero}");
     await fullPath
         .set(
-          editado,
-          SetOptions(merge: true),
-        )
+      editado,
+      SetOptions(merge: true),
+    )
         .then((value) {
-      db.doc("/usuarios/$userUid")
+      db
+          .doc("/usuarios/$userUid")
           .update({"editadosQtde": FieldValue.increment(1)});
-      db.collection("/comentarios").
-      doc("/${episodio.id}$userUid").
-      set({
+      db.collection("/comentarios").doc("/${episodio.id}$userUid").set({
         "episodio": episodio.id,
         "publicado": DateTime.now(),
         "path": fullPath,
@@ -44,7 +42,6 @@ class FirebaseEpisodios {
         "numero": episodio.numero
       }, SetOptions(merge: true));
     });
-
   }
 
   Future<Map<int, Episodio>?> getEditedEpisodio(int serieId, int temporada,

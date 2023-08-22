@@ -124,6 +124,7 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
 ## Versão 3.1.0
     CORREÇÕES:  
     - Tamanho de nome de usuário na tela perfil foi limitado pois estava vazando da tela;
+    - Patch da edição de Episódios que não estava registrando os valores inseridos pelo usuário;
 
     IMPLEMENTAÇÕES:  
     - Posteres que não conseguem encontrar imagem agora apresentam o nome da série junto com o texto de imagem não encontrada;
