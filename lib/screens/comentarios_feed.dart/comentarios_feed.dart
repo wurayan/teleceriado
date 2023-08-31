@@ -51,6 +51,11 @@ class _ComentariosFeedState extends State<ComentariosFeed> {
               )
             : CustomScrollView(
                 slivers: [
+                  const SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: 5,
+                    ),
+                  ),
                   SliverMasonryGrid(
                     crossAxisSpacing: 3,
                     mainAxisSpacing: 5,
@@ -77,10 +82,14 @@ class _ComentarioItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     return GestureDetector(
-      onTap: (){
-        if(episodio.criadorId==null) return;
-        Navigator.push(context, 
-        MaterialPageRoute(builder: (context) => UserPage(usuarioId: episodio.criadorId!),),);
+      onTap: () {
+        if (episodio.criadorId == null) return;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => UserPage(usuarioId: episodio.criadorId!),
+          ),
+        );
       },
       child: Container(
         decoration: BoxDecoration(
@@ -142,7 +151,8 @@ class _ComentarioItem extends StatelessWidget {
               padding: const EdgeInsets.only(left: 5, bottom: 20),
               child: Text(
                 "Criado por ${episodio.criador}",
-                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
                 overflow: TextOverflow.ellipsis,
               ),
             ),

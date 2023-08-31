@@ -22,7 +22,7 @@ class EditUsernameDialog extends StatelessWidget {
       ),
       clipBehavior: Clip.hardEdge,
       child: SizedBox(
-        height: height * 0.21,
+        height: height * 0.23,
         child: Padding(
           padding: EdgeInsets.symmetric(
               vertical: height * 0.02, horizontal: width * 0.03),

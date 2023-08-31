@@ -14,7 +14,8 @@ class ProfileComentarios extends StatefulWidget {
   State<ProfileComentarios> createState() => _ProfileComentariosState();
 }
 
-class _ProfileComentariosState extends State<ProfileComentarios> with AutomaticKeepAliveClientMixin{
+class _ProfileComentariosState extends State<ProfileComentarios>
+    with AutomaticKeepAliveClientMixin {
   final FirebaseEpisodios _episodios = FirebaseEpisodios();
   List<Episodio>? episodios;
 
@@ -35,14 +36,12 @@ class _ProfileComentariosState extends State<ProfileComentarios> with AutomaticK
     final double height = MediaQuery.of(context).size.height;
     return episodios == null
         ? const Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Loading(),
-            Expanded(child: SizedBox())
-          ],
-        )
+            mainAxisSize: MainAxisSize.min,
+            children: [Loading(), Expanded(child: SizedBox())],
+          )
         : episodios!.isEmpty
-            ? Center(
+            ? Padding(
+                padding: EdgeInsets.only(top: height * 0.05),
                 child: RichText(
                   textAlign: TextAlign.center,
                   text: const TextSpan(
@@ -75,7 +74,7 @@ class _ProfileComentariosState extends State<ProfileComentarios> with AutomaticK
                 ),
               );
   }
-  
+
   @override
   bool get wantKeepAlive => true;
 }

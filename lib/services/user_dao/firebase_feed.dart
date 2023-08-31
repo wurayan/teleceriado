@@ -33,7 +33,14 @@ class FirebaseFeed {
         newTemporada: data["temporada"],
       );
       episodio = await _api.getOnlyEpisodio(episodio);
-      DocumentSnapshot<Map<String, dynamic>> res = await data["path"].get();
+      DocumentSnapshot<Map<String, dynamic>> res;
+      try {
+        res = await data["path"].get();
+      } catch (e) {
+        print(StackTrace.current);
+        throw Exception(e);
+      }
+
       // db.doc(data["path"]).get();
       Map? ep = res.data();
       episodio.descricao = ep?["descricao"] ?? episodio.descricao;
