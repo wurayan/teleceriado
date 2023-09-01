@@ -34,7 +34,7 @@ class SeguindoColecoes extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  ErrorHandler.show("ble","Ainda não faz nada");
+                  ErrorHandler.show("ble", "Ainda não faz nada");
                 },
                 child: const Text(
                   "MAIS",
@@ -57,11 +57,11 @@ class SeguindoColecoes extends StatelessWidget {
               : SizedBox(
                   height: height * 0.17,
                   child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: length(),
-                    itemBuilder: (context, index) =>
-                        ColecaoItem(colecao: colecoes[index]),
-                  ),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: length(),
+                      itemBuilder: (context, index) {
+                        return ColecaoItem(colecao: colecoes[index]);
+                      }),
                 )
         ],
       ),

@@ -29,7 +29,7 @@ class _ComunidadeState extends State<Comunidade>
     topUsers = await _comunidade.getUsuarios();
     seguindoUsuarios = await _comunidade.getUsuariosSeguindo();
     seguindoColecoes = await _comunidade.getColecoesSeguindo();
-    setState(() {});
+    if(mounted)setState(() {});
   }
 
   updateSeguindo(context) async {
@@ -47,7 +47,6 @@ class _ComunidadeState extends State<Comunidade>
 
   @override
   Widget build(BuildContext context) {
-    
     super.build(context);
     return Scaffold(
       appBar: AppBar(
@@ -65,8 +64,9 @@ class _ComunidadeState extends State<Comunidade>
                       child: const Loading(),
                     ),
                     Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: LoadingFrases(loading: topUsers.isEmpty),),
+                      padding: const EdgeInsets.only(top: 10),
+                      child: LoadingFrases(loading: topUsers.isEmpty),
+                    ),
                   ],
                 )
               : CustomScrollView(

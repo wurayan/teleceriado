@@ -208,7 +208,8 @@ List<Widget> ownerData(Usuario? dono, context) {
       child: Padding(
         padding: const EdgeInsets.only(left: 5),
         child: Text(
-          dono.username?.substring(0, 15) ?? dono.uid!.substring(0, 10),
+          dono.username ?? dono.uid!.substring(0, 10),
+          
           style: const TextStyle(fontWeight: FontWeight.w300),
         ),
       ),

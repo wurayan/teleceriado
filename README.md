@@ -131,6 +131,9 @@ Aplicativo de gerenciamento de episódios de séries que permite adicionar descr
     - Uso do AutomaticKeepAliveMixin para reduzir o tempo de demora do loading do App
     - Aterações menores no Design;
 
+## Versão 3.1.1  
+    CORREÇÕES:  
+    - Ao abrir uma playlist de outro usuário, as séries não eram exibidas.
 
 PROBLEMA: JA QUE VAMOS IMPLEMENTAR O MÉTODO DE SEGUIR COLEÇÕES, NÃO PODEMOS MAIS SALVAR O NOME DA COLEÇÃO COMO UID PQ ASSIM AO SALVAR DUAS COLEÇÕES COM NOMES IGUAIS DE USUARIOS DIFERENTES, NÃO VAMOS TER OCMO DIFERENCIA-LAS        
 

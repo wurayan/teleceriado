@@ -5,8 +5,7 @@ import '../../../models/collection.dart';
 
 class ColecoesScreen extends StatelessWidget {
   final List<Collection> colecoes;
-  const ColecoesScreen(
-      {super.key, required this.colecoes});
+  const ColecoesScreen({super.key, required this.colecoes});
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +40,7 @@ class _ColecaoItem extends StatelessWidget {
     final double width = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: () {
+        print(colecao.series);
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => CollectionDetails(
             colecao: colecao,

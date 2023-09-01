@@ -24,10 +24,11 @@ class FirebaseCollections {
     Map<String, dynamic> resultMap = result.data()!;
     List<String> listaColecoes =
         List<String>.from(resultMap["colecoes"] as List);
-    
+    print(listaColecoes);
     for (String colecaoNome in listaColecoes) {
-      Collection colecao = await getCollectionInfo(colecaoNome,userId: userUid);
-      colecao.series = await _series.getCollectionSeries(colecaoNome);
+      Collection colecao =
+          await getCollectionInfo(colecaoNome, userId: userUid);
+      colecao.series = await _series.getCollectionSeries(colecaoNome,userId: userUid);
       resultado.add(colecao);
     }
     return resultado;
@@ -79,8 +80,8 @@ class FirebaseCollections {
       "colecoes": FieldValue.arrayUnion(["Favoritos"]),
       "username": user.displayName,
       "avatar": user.photoURL,
-      "editadosQtde" : 0,
-      "seguidoresQtde" : 0,
+      "editadosQtde": 0,
+      "seguidoresQtde": 0,
       // "badges" : FieldValue.arrayUnion([])
     }, SetOptions(merge: true));
     path.collection("/Favoritos").doc("/doc").set({
@@ -110,26 +111,22 @@ class FirebaseCollections {
 
   Future<bool> removeInCollection(String collectionId, Serie serie) async {
     String? userUid = _auth.currentUser!.uid;
-    db.
-    collection("/usuarios")
-    .doc("/$userUid")
-    .collection("/$collectionId")
-    .doc("/doc")
-    .collection("/series")
-    .doc("/${serie.id}")
-    .delete()
-    .onError((error, stackTrace) {
-      ErrorHandler.show("Erro",error.toString());
-      throw Exception (error);
+    db
+        .collection("/usuarios")
+        .doc("/$userUid")
+        .collection("/$collectionId")
+        .doc("/doc")
+        .collection("/series")
+        .doc("/${serie.id}")
+        .delete()
+        .onError((error, stackTrace) {
+      ErrorHandler.show("Erro", error.toString());
+      throw Exception(error);
     });
     return true;
   }
 
   //GET SERIES
 
-
   //GET EPISODIOS
-  
-
-
 }

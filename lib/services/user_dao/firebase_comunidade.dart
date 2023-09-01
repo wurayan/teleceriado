@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:teleceriado/services/user_dao/firebase_export.dart';
 
 import '../../models/collection.dart';
 import '../../models/usuario.dart';
@@ -58,8 +59,13 @@ class FirebaseComunidade {
       colecao.nome = data["nome"];
       colecao.imagem = data["imagem"];
       colecao.dono = data["dono"];
+
+      FirebaseSeries col = FirebaseSeries();
+      colecao.series =
+          await col.getCollectionSeries(colecao.nome!, userId: colecao.dono!);
       collectionList.add(colecao);
     }
+
     return collectionList;
   }
 
@@ -148,6 +154,4 @@ class FirebaseComunidade {
         .map((item) => "${item.nome}${item.dono}")
         .contains("${colecao.nome}${colecao.dono}");
   }
-
-  
 }
