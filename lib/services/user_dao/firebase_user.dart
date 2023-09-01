@@ -89,16 +89,4 @@ class FirebaseUsers {
 
     return badges;
   }
-
-
-  teste() async {
-    var path = db.doc("/usuarios/R3ddG2pPrYMCtxpO8amyzWX8WVp2/editados/114472/1/1");
-    await path.set({
-      "te": DateTime.now()
-    });
-    print("-------------------");
-    var res = await path.get();
-    Map data = res.data()??{};
-    print(data["te"].toDate());
-  }
 }

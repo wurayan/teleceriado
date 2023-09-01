@@ -19,7 +19,6 @@ class UpdateSeguindo extends ChangeNotifier{
 
   @override
   void notifyListeners() {
-    print(StackTrace.current);
     super.notifyListeners();
   }
 

@@ -62,8 +62,6 @@ Future<bool> validateImage(String url) async {
     } else {
       Map headers = res.headers;
       String type = headers["content-type"];
-      print(type);
-      print(res.body);
       if (type == 'image/jpeg' || type == 'image/png' || type == 'image/gif') {
         return true;
       } else {

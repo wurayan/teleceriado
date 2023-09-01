@@ -35,7 +35,6 @@ class _ProfilePageState extends State<ProfilePage> {
     update = false;
     // Provider.of<UpdateSeguindo>(context).headerChanged = false;
     if (mounted) setState(() {});
-    print(Provider.of<Usuario>(context, listen: false).avatar);
   }
 
   fullUpdate(context) async {

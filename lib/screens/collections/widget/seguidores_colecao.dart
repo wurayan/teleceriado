@@ -40,7 +40,6 @@ class _CoelcaoleguidoresState extends State<ColecaoSeguidores> {
   Widget build(BuildContext context) {
     return Consumer<UpdateSeguindo>(
       builder: (context, value, child) {
-        print(value);
         if (value.update == true) update(context);
         return Text(
           "Seguidores: ${dados.seguidoresQtde ?? 0}",

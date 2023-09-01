@@ -23,9 +23,7 @@ class _AboutYouState extends State<AboutYou> {
   String? assistindoAgora;
 
   getImages(Usuario usuario) async {
-    if (usuario.serieFavorita == null && usuario.assistindoAgora == null)
-      return;
-
+    if(usuario.serieFavorita == null && usuario.assistindoAgora == null)return;
     Serie serie;
 
     if (usuario.serieFavorita != null) {

@@ -40,7 +40,6 @@ class _ColecaoItem extends StatelessWidget {
     final double width = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: () {
-        print(colecao.series);
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => CollectionDetails(
             colecao: colecao,

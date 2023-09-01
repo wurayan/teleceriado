@@ -95,7 +95,6 @@ class _EditEpisodioState extends State<EditEpisodio> {
               keyboardType: TextInputType.multiline,
               onTapOutside: (event) =>
                   FocusManager.instance.primaryFocus!.unfocus(),
-              onChanged: (value) => print(value),
               expands: true,
               minLines: null,
               maxLines: null,
@@ -125,8 +124,6 @@ class _EditEpisodioState extends State<EditEpisodio> {
                 height: height * 0.05,
                 child: ElevatedButton(
                   onPressed: () async {
-                    print(_descricaoController.text);
-                    print(_nomeController.text);
                     if (_descricaoController.text.isNotEmpty ||
                         _nomeController.text.isNotEmpty) {
                       _salvar();

@@ -24,7 +24,6 @@ class FirebaseCollections {
     Map<String, dynamic> resultMap = result.data()!;
     List<String> listaColecoes =
         List<String>.from(resultMap["colecoes"] as List);
-    print(listaColecoes);
     for (String colecaoNome in listaColecoes) {
       Collection colecao =
           await getCollectionInfo(colecaoNome, userId: userUid);
@@ -51,7 +50,6 @@ class FirebaseCollections {
       collection.imagem = resultMap["imagemUrl"];
       collection.dono = userUid;
       collection.seguidoresQtde = resultMap["seguidoresQtde"] ?? 0;
-      print(resultMap["seguidoresQtde"]);
     }
     return collection;
   }
@@ -74,8 +72,6 @@ class FirebaseCollections {
     User user = _auth.currentUser!;
     String? userUid = user.uid;
     var path = db.collection("/usuarios").doc("/$userUid");
-    print(user.displayName);
-    print(user.photoURL);
     path.set({
       "colecoes": FieldValue.arrayUnion(["Favoritos"]),
       "username": user.displayName,

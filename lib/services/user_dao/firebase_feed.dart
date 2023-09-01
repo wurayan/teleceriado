@@ -37,7 +37,6 @@ class FirebaseFeed {
       try {
         res = await data["path"].get();
       } catch (e) {
-        print(StackTrace.current);
         throw Exception(e);
       }
 
