@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:teleceriado/models/error_handler.dart';
 import 'package:teleceriado/models/usuario.dart';
 import 'package:teleceriado/screens/comunidade/widgets/user_item.dart';
+import 'package:teleceriado/screens/seguindo_usuarios/seguindo_usuarios_screen.dart';
 
 class SeguindoUsuarios extends StatefulWidget {
   final List<Usuario> seguindo;
@@ -12,9 +12,8 @@ class SeguindoUsuarios extends StatefulWidget {
 }
 
 class _SeguindoState extends State<SeguindoUsuarios> {
-
   int length(List<Usuario> seguindo) {
-    return seguindo.length<20?seguindo.length:20;
+    return seguindo.length < 20 ? seguindo.length : 20;
   }
 
   @override
@@ -39,7 +38,13 @@ class _SeguindoState extends State<SeguindoUsuarios> {
               ),
               TextButton(
                 onPressed: () {
-                  ErrorHandler.show("ble","Ainda não faz nada.");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          SeguindoUsuariosScreen(seguindo: widget.seguindo),
+                    ),
+                  );
                 },
                 child: const Text(
                   "MAIS",
@@ -50,25 +55,25 @@ class _SeguindoState extends State<SeguindoUsuarios> {
             ],
           ),
           widget.seguindo.isEmpty
-                  ? SizedBox(
-                    height: height*0.1,
-                    child: const Center(
-                        child: Text(
-                          "Você não segue ninguém ainda.\nQue tal começar por alguém da lista acima?",
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                  )
-                  : SizedBox(
-                      height: height * 0.17,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: length(widget.seguindo),
-                        itemBuilder: (context, index) {
-                          return UsuarioItem(usuario: widget.seguindo[index]);
-                        },
-                      ),
-                    )
+              ? SizedBox(
+                  height: height * 0.1,
+                  child: const Center(
+                    child: Text(
+                      "Você não segue ninguém ainda.\nQue tal começar por alguém da lista acima?",
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                )
+              : SizedBox(
+                  height: height * 0.17,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: length(widget.seguindo),
+                    itemBuilder: (context, index) {
+                      return UsuarioItem(usuario: widget.seguindo[index]);
+                    },
+                  ),
+                )
         ],
       ),
     );

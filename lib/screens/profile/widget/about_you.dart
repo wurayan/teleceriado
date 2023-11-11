@@ -34,7 +34,7 @@ class _AboutYouState extends State<AboutYou> {
       serie = await _api.getSerie(usuario.assistindoAgora!, 1);
       assistindoAgora = serie.backdrop;
     }
-    setState(() {});
+    if(mounted)setState(() {});
   }
 
   @override
